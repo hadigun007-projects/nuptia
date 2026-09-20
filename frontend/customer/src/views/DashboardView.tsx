@@ -11,6 +11,7 @@ interface DashboardViewProps {
   invitations: Invitation[];
   onNavigateToEditor: (id: string) => void;
   onCreateInvitation: (input: CreateInvitationInput) => void;
+  onCreateBlankInvitation: () => void;
   onDuplicateInvitation: (id: string) => void;
   onDeleteInvitation: (id: string) => void;
   onChangeStatus: (id: string, status: Status) => void;
@@ -21,6 +22,7 @@ export function DashboardView({
   invitations,
   onNavigateToEditor,
   onCreateInvitation,
+  onCreateBlankInvitation,
   onDuplicateInvitation,
   onDeleteInvitation,
   onChangeStatus,
@@ -79,7 +81,7 @@ export function DashboardView({
   return (
     <div className="min-h-screen bg-surface flex flex-col">
       {/* Top Navbar */}
-      <DashboardTopBar onOpenCreateModal={() => setIsCreateModalOpen(true)} />
+      <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} />
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
@@ -100,7 +102,7 @@ export function DashboardView({
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <button
-                onClick={() => setIsCreateModalOpen(true)}
+                onClick={onCreateBlankInvitation}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-95 transition-all duration-200"
               >
                 <Ic.Plus s={16} />
@@ -199,7 +201,7 @@ export function DashboardView({
                 setSearchQuery('');
                 setStatusFilter('Semua');
               }}
-              onCreateNew={() => setIsCreateModalOpen(true)}
+              onCreateNew={onCreateBlankInvitation}
             />
           )}
         </section>

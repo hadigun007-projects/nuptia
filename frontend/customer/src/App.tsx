@@ -12,6 +12,7 @@ export default function App() {
   const {
     invitations,
     createInvitation,
+    createBlankInvitation,
     duplicateInvitation,
     deleteInvitation,
     updateInvitationStatus,
@@ -20,11 +21,24 @@ export default function App() {
   // Listen to browser hash changes (support back/forward buttons)
   useEffect(() => {
     function handleHashChange() {
-      setCurrentHash(window.location.hash || '#/');
+      const hash = window.location.hash || '#/';
+      if (hash === '#/editor/new') {
+        const blank = createBlankInvitation();
+        window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
+        return;
+      }
+      setCurrentHash(hash);
     }
     window.addEventListener('hashchange', handleHashChange);
+    
+    // Check initial hash for /editor/new
+    if (window.location.hash === '#/editor/new') {
+      const blank = createBlankInvitation();
+      window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
+    }
+    
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [createBlankInvitation]);
 
   const showToast = useCallback((msg: string, type: Toast['type'] = 'success') => {
     const id = Math.random().toString(36).slice(2);
@@ -46,21 +60,30 @@ export default function App() {
     (input: CreateInvitationInput) => {
       const created = createInvitation(input);
       showToast(`Undangan "${created.title}" berhasil dibuat!`, 'success');
-      // Immediately navigate to the editor for the newly created invitation
       navigateTo(`#/editor/${created.id}`);
     },
     [createInvitation, navigateTo, showToast]
   );
 
-  // Parse current route
+  const handleCreateBlankInvitation = useCallback(() => {
+    const blank = createBlankInvitation();
+    showToast('Memulai pembuatan undangan baru...', 'info');
+    navigateTo(`#/editor/${blank.id}?isNew=true&mode=timeline`);
+  }, [createBlankInvitation, navigateTo, showToast]);
+
+  // Parse current route and query params
   const editorMatch = currentHash.match(/^#\/editor\/([^/?#]+)/);
   const activeEditorId = editorMatch ? editorMatch[1] : null;
+  const isNewInvitation = currentHash.includes('isNew=true');
+  const initialTimelineMode = currentHash.includes('mode=timeline') || isNewInvitation;
 
   return (
     <>
       {activeEditorId ? (
         <EditorView
           invitationId={activeEditorId}
+          isNew={isNewInvitation}
+          initialTimelineMode={initialTimelineMode}
           onBackToDashboard={() => navigateTo('#/')}
           showToast={showToast}
         />
@@ -69,6 +92,7 @@ export default function App() {
           invitations={invitations}
           onNavigateToEditor={(id) => navigateTo(`#/editor/${id}`)}
           onCreateInvitation={handleCreateInvitation}
+          onCreateBlankInvitation={handleCreateBlankInvitation}
           onDuplicateInvitation={duplicateInvitation}
           onDeleteInvitation={deleteInvitation}
           onChangeStatus={updateInvitationStatus}

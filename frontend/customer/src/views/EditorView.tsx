@@ -41,11 +41,19 @@ import { KirimTab } from '../components/editor/tabs/KirimTab';
 
 interface EditorViewProps {
   invitationId: string;
+  isNew?: boolean;
+  initialTimelineMode?: boolean;
   onBackToDashboard: () => void;
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
 }
 
-export function EditorView({ invitationId, onBackToDashboard, showToast }: EditorViewProps) {
+export function EditorView({
+  invitationId,
+  isNew = false,
+  initialTimelineMode = false,
+  onBackToDashboard,
+  showToast,
+}: EditorViewProps) {
   const { getInvitation, updateInvitation } = useInvitations();
   const invitation = getInvitation(invitationId);
 
@@ -75,6 +83,8 @@ export function EditorView({ invitationId, onBackToDashboard, showToast }: Edito
     <EditorViewInner
       key={invitation.id}
       invitation={invitation}
+      isNew={isNew}
+      initialTimelineMode={initialTimelineMode}
       onUpdate={(updates) => updateInvitation(invitation.id, updates)}
       onBackToDashboard={onBackToDashboard}
       showToast={showToast}
@@ -84,11 +94,15 @@ export function EditorView({ invitationId, onBackToDashboard, showToast }: Edito
 
 function EditorViewInner({
   invitation,
+  isNew = false,
+  initialTimelineMode = false,
   onUpdate,
   onBackToDashboard,
   showToast,
 }: {
   invitation: NonNullable<ReturnType<ReturnType<typeof useInvitations>['getInvitation']>>;
+  isNew?: boolean;
+  initialTimelineMode?: boolean;
   onUpdate: (updates: Partial<typeof invitation>) => void;
   onBackToDashboard: () => void;
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
