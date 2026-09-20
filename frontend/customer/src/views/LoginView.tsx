@@ -300,10 +300,11 @@ export function LoginView({ onSuccess, onBack }: LoginViewProps) {
   const isBusy = isSubmitting || authLoading;
 
   return (
-    <div className="min-h-screen flex" style={{ fontFamily: 'var(--font-body)' }}>
-      {/* ── LEFT: Branding panel (hidden on mobile) ─────────────────────── */}
-      <div
-        className="hidden lg:flex flex-col justify-between relative overflow-hidden lg:w-[52%] xl:w-[55%] p-12"
+    <div className="min-h-screen bg-surface-container-low/40 flex justify-center" style={{ fontFamily: 'var(--font-body)' }}>
+      <div className="w-full max-w-7xl min-h-screen bg-surface flex relative border-x border-outline-variant/20 shadow-none">
+        {/* ── LEFT: Branding panel (hidden on mobile) ─────────────────────── */}
+        <div
+          className="hidden lg:flex flex-col justify-between relative overflow-hidden lg:w-[50%] p-12"
         style={{
           background: 'linear-gradient(145deg, #6B0052 0%, #A3158A 45%, #C4178F 70%, #8B1070 100%)',
         }}
@@ -626,5 +627,6 @@ export function LoginView({ onSuccess, onBack }: LoginViewProps) {
         </p>
       </div>
     </div>
+  </div>
   );
 }

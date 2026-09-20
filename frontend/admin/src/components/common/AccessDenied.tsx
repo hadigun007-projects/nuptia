@@ -16,7 +16,7 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 select-none">
+    <div className="min-h-screen bg-surface-container-low/40 flex flex-col items-center justify-center p-6 select-none">
       <div className="w-full max-w-md bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/30 text-center animate-fade-in-up">
         {/* Brand Header */}
         <div className="flex items-center justify-center gap-2.5 mb-6">

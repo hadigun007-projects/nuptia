@@ -100,7 +100,7 @@ export function EditorTopBar({
   const statusMeta = STATUS_STYLES[status] || STATUS_STYLES.Draft;
 
   return (
-    <header className="sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2.5 sm:py-3 bg-surface-container-low/95 backdrop-blur-md border-b border-outline-variant/50">
+    <header className="sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2.5 sm:py-3 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30">
       {/* Back Button */}
       <button
         onClick={onBackToDashboard}

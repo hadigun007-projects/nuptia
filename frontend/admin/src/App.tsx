@@ -40,7 +40,7 @@ export default function App() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+      <div className="min-h-screen bg-surface-container-low/40 flex flex-col items-center justify-center gap-3">
         <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
         <p className="text-xs font-medium text-on-surface-variant">Memvalidasi sesi admin...</p>
       </div>

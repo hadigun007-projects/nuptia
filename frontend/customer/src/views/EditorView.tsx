@@ -293,8 +293,9 @@ function EditorViewInner({
   }, [event, theme, media, loveStory, guests, streaming, social, guestBook, settings, slug, invitation.templateId]);
 
   return (
-    <div className="flex flex-col h-screen bg-surface overflow-hidden">
-      {/* Top Navbar */}
+    <div className="h-screen bg-surface-container-low/40 flex justify-center overflow-hidden">
+      <div className="w-full max-w-7xl h-screen bg-surface flex flex-col relative border-x border-outline-variant/20 shadow-none overflow-hidden">
+        {/* Top Navbar */}
       <EditorTopBar
         title={invitation.title}
         status={status}
@@ -467,6 +468,7 @@ function EditorViewInner({
         activeTab={activeNormalizedTab}
         onSelectTab={setTab}
       />
+      </div>
     </div>
   );
 }
