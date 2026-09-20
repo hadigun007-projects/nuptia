@@ -20,6 +20,12 @@ type Config struct {
 	AllowedOrigins []string
 	JWTSecret      string
 	GoogleClientID string
+	// Email (SMTP)
+	SMTPHost    string
+	SMTPPort    string
+	SMTPUser    string
+	SMTPPass    string
+	AppBaseURL  string
 }
 
 func LoadConfig() (*Config, error) {
@@ -55,6 +61,11 @@ func LoadConfig() (*Config, error) {
 		AllowedOrigins: origins,
 		JWTSecret:      jwtSecret,
 		GoogleClientID: googleClientID,
+		SMTPHost:       getEnv("SMTP_HOST", "localhost"),
+		SMTPPort:       getEnv("SMTP_PORT", "1025"),
+		SMTPUser:       getEnv("SMTP_USER", ""),
+		SMTPPass:       getEnv("SMTP_PASS", ""),
+		AppBaseURL:     getEnv("APP_BASE_URL", "http://localhost:5174"),
 	}, nil
 }
 
