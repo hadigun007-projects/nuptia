@@ -580,7 +580,7 @@ function EditorViewInner({
                       }}
                       className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all cursor-pointer shadow-xs"
                     >
-                      <Ic.Link s={16} />
+                      <Ic.Copy s={16} />
                       <span>Salin Link Undangan</span>
                     </button>
                     <button
