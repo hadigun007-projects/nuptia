@@ -5,17 +5,28 @@ import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
 import { UsersView } from './views/UsersView';
 import { InvitationsView } from './views/InvitationsView';
-import { initialStats, initialUsers, initialInvitations } from './data/mockData';
-import { AdminRoute, AdminUser, AdminInvitation } from './types';
+import { TemplatesView } from './views/TemplatesView';
+import { PackagesView } from './views/PackagesView';
+import { SettingsView } from './views/SettingsView';
+import {
+  initialStats,
+  initialUsers,
+  initialInvitations,
+  initialTemplates,
+  initialPackages,
+} from './data/mockData';
+import { AdminRoute, AdminUser, AdminInvitation, AdminTemplate, PackageTier } from './types';
 
 export default function App() {
   const { user, isAdmin, loading, checkAuth, devSetAdmin, logout } = useAdminAuth();
   const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash || '#/');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Local state for users and invitations (syncs with backend in Task 9)
+  // State management (connected to API via hooks in Task 9)
   const [users, setUsers] = useState<AdminUser[]>(initialUsers);
   const [invitations, setInvitations] = useState<AdminInvitation[]>(initialInvitations);
+  const [templates, setTemplates] = useState<AdminTemplate[]>(initialTemplates);
+  const [packages, setPackages] = useState<PackageTier[]>(initialPackages);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -40,6 +51,18 @@ export default function App() {
   const handleToggleInvStatus = (invId: string, newStatus: 'Draft' | 'Published' | 'Live') => {
     setInvitations((prev) =>
       prev.map((inv) => (inv.id === invId ? { ...inv, status: newStatus } : inv))
+    );
+  };
+
+  const handleToggleTemplateActive = (templateId: string) => {
+    setTemplates((prev) =>
+      prev.map((t) => (t.id === templateId ? { ...t, isActive: !t.isActive } : t))
+    );
+  };
+
+  const handleTogglePackage = (pkgId: string) => {
+    setPackages((prev) =>
+      prev.map((p) => (p.id === pkgId ? { ...p, isActive: !p.isActive } : p))
     );
   };
 
@@ -111,12 +134,22 @@ export default function App() {
         />
       )}
 
-      {route !== 'dashboard' && route !== 'users' && route !== 'invitations' && (
-        <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30">
-          <h2 className="text-xl font-bold text-on-surface mb-2 capitalize">Menu {route}</h2>
-          <p className="text-sm text-on-surface-variant">Konten halaman {route} akan dimuat di sini.</p>
-        </div>
+      {route === 'templates' && (
+        <TemplatesView
+          templates={templates}
+          onToggleActive={handleToggleTemplateActive}
+          searchQuery={searchQuery}
+        />
       )}
+
+      {route === 'packages' && (
+        <PackagesView
+          packages={packages}
+          onTogglePackage={handleTogglePackage}
+        />
+      )}
+
+      {route === 'settings' && <SettingsView />}
     </AdminLayout>
   );
 }
