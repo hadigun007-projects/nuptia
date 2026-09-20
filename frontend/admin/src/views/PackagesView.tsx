@@ -11,7 +11,7 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ packages, onTogglePa
 
   return (
     <div className="space-y-6">
-      <div className="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-on-surface">Paket Layanan & Harga</h2>
         </div>
