@@ -50,9 +50,9 @@ dev: ## Jalankan semua aplikasi secara bersamaan
 	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
-	@sleep 0.5
+	@sleep 1
 	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), & API (port 5000)...$(RESET)"
-	@npx -y concurrently --kill-others-on-fail -n "HOME,CUSTOMER,API" -c "cyan.bold,magenta.bold,green.bold" \
+	@npx -y concurrently --kill-others-on-fail --raw -n "HOME,CUSTOMER,API" -c "cyan.bold,magenta.bold,green.bold" \
 		"npm --prefix frontend/home run dev" \
 		"npm --prefix frontend/customer run dev" \
 		"cd backend && go run cmd/api/main.go"
