@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from './hooks/useAdminAuth';
 import { AccessDenied } from './components/common/AccessDenied';
 import { AdminLayout } from './components/layout/AdminLayout';
+import { DashboardView } from './views/DashboardView';
+import { initialStats, initialUsers, initialInvitations } from './data/mockData';
 import { AdminRoute } from './types';
 
 export default function App() {
@@ -47,6 +49,10 @@ export default function App() {
     path === 'packages' ? 'packages' :
     path === 'settings' ? 'settings' : 'dashboard';
 
+  const navigateTo = (hash: string) => {
+    window.location.hash = hash;
+  };
+
   return (
     <AdminLayout
       currentRoute={route}
@@ -55,10 +61,19 @@ export default function App() {
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
     >
-      <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30">
-        <h2 className="text-xl font-bold text-on-surface mb-2 capitalize">Menu {route}</h2>
-        <p className="text-sm text-on-surface-variant">Konten halaman {route} akan dimuat di sini.</p>
-      </div>
+      {route === 'dashboard' ? (
+        <DashboardView
+          stats={initialStats}
+          recentUsers={initialUsers}
+          recentInvitations={initialInvitations}
+          onNavigate={navigateTo}
+        />
+      ) : (
+        <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30">
+          <h2 className="text-xl font-bold text-on-surface mb-2 capitalize">Menu {route}</h2>
+          <p className="text-sm text-on-surface-variant">Konten halaman {route} akan dimuat di sini.</p>
+        </div>
+      )}
     </AdminLayout>
   );
 }
