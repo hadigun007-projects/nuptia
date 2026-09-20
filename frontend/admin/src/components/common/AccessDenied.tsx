@@ -19,12 +19,17 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({
     <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 select-none">
       <div className="w-full max-w-md bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/30 text-center animate-fade-in-up">
         {/* Brand Header */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold text-lg tracking-tight">
-            N
+        <div className="flex items-center justify-center gap-2.5 mb-6">
+          <div className="w-9 h-9 rounded-2xl bg-primary flex items-center justify-center text-on-primary">
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
           </div>
-          <span className="font-extrabold text-xl tracking-tight text-on-surface">
-            nuptia<span className="text-primary font-normal text-xs ml-1.5 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-semibold">ADMIN</span>
+          <span className="font-extrabold text-xl tracking-tight text-on-surface font-display flex items-center gap-1.5">
+            Nuptia
+            <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container">
+              ADMIN
+            </span>
           </span>
         </div>
 

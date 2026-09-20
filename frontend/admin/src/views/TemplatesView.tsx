@@ -37,21 +37,6 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Banner / Summary */}
-      <div className="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-on-surface">Katalog Desain & Tema</h2>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-1">
-            Kelola ketersediaan tema undangan, label populer, dan tier akses pengguna.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="px-3.5 py-1.5 rounded-xl bg-primary-container text-on-primary-container text-xs font-bold">
-            {templates.filter((t) => t.isActive).length} Aktif dari {templates.length} Tema
-          </div>
-        </div>
-      </div>
-
       {/* Filter and Search Bar */}
       <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -61,11 +46,10 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
             <button
               key={c}
               onClick={() => setCategoryFilter(c)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
-                categoryFilter === c
-                  ? 'bg-primary text-on-primary'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${categoryFilter === c
+                ? 'bg-primary text-on-primary'
+                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                }`}
             >
               {c === 'all' ? 'Semua Kategori' : c}
             </button>
@@ -79,11 +63,10 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
             <button
               key={tr}
               onClick={() => setTierFilter(tr)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
-                tierFilter === tr
-                  ? 'bg-secondary text-on-secondary'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${tierFilter === tr
+                ? 'bg-secondary text-on-secondary'
+                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                }`}
             >
               {tr === 'all' ? 'Semua' : tr}
             </button>
@@ -116,11 +99,10 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
         {filtered.map((t) => (
           <div
             key={t.id}
-            className={`rounded-3xl bg-surface-container-lowest border transition-all overflow-hidden flex flex-col ${
-              t.isActive
-                ? 'border-outline-variant/30 hover:border-primary/50'
-                : 'border-outline-variant/20 opacity-70 bg-surface-container-low/40'
-            }`}
+            className={`rounded-3xl bg-surface-container-lowest border transition-all overflow-hidden flex flex-col ${t.isActive
+              ? 'border-outline-variant/30 hover:border-primary/50'
+              : 'border-outline-variant/20 opacity-70 bg-surface-container-low/40'
+              }`}
           >
             {/* Cover Image Container */}
             <div className="relative h-44 w-full overflow-hidden bg-surface-container">
@@ -134,11 +116,10 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
               {/* Status Badge */}
               <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                 <span
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                    t.tier === 'Premium'
-                      ? 'bg-primary text-on-primary'
-                      : 'bg-emerald-600 text-white'
-                  }`}
+                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${t.tier === 'Premium'
+                    ? 'bg-primary text-on-primary'
+                    : 'bg-emerald-600 text-white'
+                    }`}
                 >
                   {t.tier}
                 </span>
@@ -157,11 +138,10 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
               {/* Active / Inactive switch at top right */}
               <button
                 onClick={() => onToggleActive(t.id)}
-                className={`absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-bold backdrop-blur-md transition-colors ${
-                  t.isActive
-                    ? 'bg-emerald-500/90 text-white'
-                    : 'bg-stone-800/90 text-stone-200'
-                }`}
+                className={`absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-bold backdrop-blur-md transition-colors ${t.isActive
+                  ? 'bg-emerald-500/90 text-white'
+                  : 'bg-stone-800/90 text-stone-200'
+                  }`}
                 title={t.isActive ? 'Nonaktifkan tema' : 'Aktifkan tema'}
               >
                 {t.isActive ? '● Aktif' : '○ Nonaktif'}
@@ -196,9 +176,8 @@ export const TemplatesView: React.FC<TemplatesViewProps> = ({
 
                 <button
                   onClick={() => onToggleActive(t.id)}
-                  className={`text-[11px] font-semibold transition-colors ${
-                    t.isActive ? 'text-error hover:underline' : 'text-emerald-700 hover:underline'
-                  }`}
+                  className={`text-[11px] font-semibold transition-colors ${t.isActive ? 'text-error hover:underline' : 'text-emerald-700 hover:underline'
+                    }`}
                 >
                   {t.isActive ? 'Nonaktifkan' : 'Aktifkan'}
                 </button>

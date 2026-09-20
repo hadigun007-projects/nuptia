@@ -15,18 +15,15 @@ export const SettingsView: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-4xl">
-      <div className="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30">
+      <div className="p-6 border-outline-variant/30">
         <h2 className="text-xl font-bold text-on-surface">Pengaturan Sistem</h2>
-        <p className="text-xs sm:text-sm text-on-surface-variant mt-1">
-          Konfigurasi umum platform, sistem otentikasi, dan status operasional.
-        </p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* General Settings */}
-        <div className="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 space-y-4">
+        <div className="p-6 border-outline-variant/30 space-y-4">
           <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">Identitas Platform</h3>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-1.5">
@@ -54,9 +51,9 @@ export const SettingsView: React.FC = () => {
         </div>
 
         {/* Operational Controls */}
-        <div className="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 space-y-4">
+        <div className="p-6 border-outline-variant/30 space-y-4">
           <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">Kontrol Akses & Registrasi</h3>
-          
+
           <div className="space-y-3">
             <label className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low border border-outline-variant/20 cursor-pointer">
               <div>

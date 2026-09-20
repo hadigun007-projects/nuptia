@@ -14,9 +14,6 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ packages, onTogglePa
       <div className="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-on-surface">Paket Layanan & Harga</h2>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-1">
-            Konfigurasi tier paket langganan customer, limit fitur, dan biaya langganan.
-          </p>
         </div>
       </div>
 
@@ -24,11 +21,10 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ packages, onTogglePa
         {packages.map((pkg) => (
           <div
             key={pkg.id}
-            className={`rounded-3xl p-6 border transition-all flex flex-col justify-between ${
-              pkg.isPopular
-                ? 'bg-primary/5 border-primary/40 ring-1 ring-primary/20'
-                : 'bg-surface-container-lowest border-outline-variant/30'
-            }`}
+            className={`rounded-3xl p-6 border transition-all flex flex-col justify-between ${pkg.isPopular
+              ? 'bg-primary/5 border-primary/40 ring-1 ring-primary/20'
+              : 'bg-surface-container-lowest border-outline-variant/30'
+              }`}
           >
             <div>
               <div className="flex items-center justify-between">
@@ -36,9 +32,8 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ packages, onTogglePa
                   {pkg.isPopular ? '★ Paling Populer' : 'Paket Standar'}
                 </span>
                 <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                    pkg.isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-stone-200 text-stone-700'
-                  }`}
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${pkg.isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-stone-200 text-stone-700'
+                    }`}
                 >
                   {pkg.isActive ? 'Aktif' : 'Nonaktif'}
                 </span>
@@ -72,11 +67,10 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ packages, onTogglePa
 
               <button
                 onClick={() => onTogglePackage(pkg.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
-                  pkg.isActive
-                    ? 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                    : 'bg-primary text-on-primary'
-                }`}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${pkg.isActive
+                  ? 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                  : 'bg-primary text-on-primary'
+                  }`}
               >
                 {pkg.isActive ? 'Nonaktifkan' : 'Aktifkan'}
               </button>

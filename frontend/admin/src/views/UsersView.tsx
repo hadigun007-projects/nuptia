@@ -42,26 +42,6 @@ export const UsersView: React.FC<UsersViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Total Pengguna</p>
-          <p className="text-xl font-black text-on-surface mt-1">{stats.total}</p>
-        </div>
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Customer</p>
-          <p className="text-xl font-black text-primary mt-1">{stats.customers}</p>
-        </div>
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Administrator</p>
-          <p className="text-xl font-black text-tertiary mt-1">{stats.admins}</p>
-        </div>
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Ditangguhkan</p>
-          <p className="text-xl font-black text-error mt-1">{stats.suspended}</p>
-        </div>
-      </div>
-
       {/* Filter and Search Bar */}
       <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -71,11 +51,10 @@ export const UsersView: React.FC<UsersViewProps> = ({
             <button
               key={r}
               onClick={() => setRoleFilter(r)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${
-                roleFilter === r
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${roleFilter === r
                   ? 'bg-primary text-on-primary'
                   : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+                }`}
             >
               {r === 'all' ? 'Semua' : r}
             </button>
@@ -89,11 +68,10 @@ export const UsersView: React.FC<UsersViewProps> = ({
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${
-                statusFilter === s
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${statusFilter === s
                   ? 'bg-secondary text-on-secondary'
                   : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+                }`}
             >
               {s === 'all' ? 'Semua' : s === 'active' ? 'Aktif' : 'Suspended'}
             </button>
@@ -171,11 +149,10 @@ export const UsersView: React.FC<UsersViewProps> = ({
                     {/* Role Pill */}
                     <td className="py-3.5 px-4">
                       <span
-                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                          u.role === 'admin'
+                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${u.role === 'admin'
                             ? 'bg-primary-container text-on-primary-container'
                             : 'bg-surface-container text-on-surface-variant'
-                        }`}
+                          }`}
                       >
                         {u.role}
                       </span>
@@ -184,16 +161,14 @@ export const UsersView: React.FC<UsersViewProps> = ({
                     {/* Status Pill */}
                     <td className="py-3.5 px-4">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                          u.status === 'active'
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${u.status === 'active'
                             ? 'bg-emerald-100 text-emerald-800'
                             : 'bg-error/10 text-error'
-                        }`}
+                          }`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            u.status === 'active' ? 'bg-emerald-500' : 'bg-error'
-                          }`}
+                          className={`w-1.5 h-1.5 rounded-full ${u.status === 'active' ? 'bg-emerald-500' : 'bg-error'
+                            }`}
                         />
                         {u.status === 'active' ? 'Aktif' : 'Suspended'}
                       </span>
@@ -232,11 +207,10 @@ export const UsersView: React.FC<UsersViewProps> = ({
                               u.status === 'active' ? 'suspended' : 'active'
                             )
                           }
-                          className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${
-                            u.status === 'active'
+                          className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${u.status === 'active'
                               ? 'bg-error/10 text-error hover:bg-error/20'
                               : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                          }`}
+                            }`}
                           title="Tangguhkan atau Aktifkan Akun"
                         >
                           {u.status === 'active' ? 'Suspend' : 'Aktifkan'}
