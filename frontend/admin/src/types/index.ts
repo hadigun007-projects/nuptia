@@ -1,14 +1,23 @@
+export type UserRole = 'customer' | 'admin' | 'developer' | 'viewer';
+
 export interface AdminUser {
   id: string;
   name: string;
   email: string;
   avatarUrl?: string;
   authProvider: 'email' | 'google';
-  role: 'customer' | 'admin';
+  role: UserRole;
   status: 'active' | 'suspended';
   createdAt: string;
   lastLoginAt?: string;
   invitationCount?: number;
+}
+
+export interface CreateInternalUserPayload {
+  name: string;
+  email: string;
+  password: string;
+  role: 'admin' | 'developer' | 'viewer';
 }
 
 export interface MonthlyMetric {

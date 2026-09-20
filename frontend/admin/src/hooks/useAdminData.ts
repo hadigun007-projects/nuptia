@@ -5,6 +5,8 @@ import {
   AdminInvitation,
   AdminTemplate,
   PackageTier,
+  UserRole,
+  CreateInternalUserPayload,
 } from '../types';
 import {
   initialStats,
@@ -33,7 +35,7 @@ export function useAdminData() {
     }, 3000);
   }, []);
 
-  const getAuthHeader = () => {
+  const getAuthHeader = (): Record<string, string> => {
     const token = localStorage.getItem(TOKEN_KEY);
     return token ? { Authorization: `Bearer ${token}` } : {};
   };
@@ -108,7 +110,7 @@ export function useAdminData() {
 
   // Mutations
   const updateUserRole = useCallback(
-    async (userId: string, newRole: 'customer' | 'admin') => {
+    async (userId: string, newRole: UserRole) => {
       // Optimistic update
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
@@ -137,6 +139,84 @@ export function useAdminData() {
       showToast(`Role pengguna berhasil diubah menjadi ${newRole}`);
     },
     [showToast]
+  );
+
+  const createInternalUser = useCallback(
+    async (payload: CreateInternalUserPayload) => {
+      const tempId = `usr-${Date.now()}`;
+      const newUser: AdminUser = {
+        id: tempId,
+        name: payload.name,
+        email: payload.email,
+        authProvider: 'email',
+        role: payload.role,
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        invitationCount: 0,
+      };
+
+      // Optimistic update
+      setUsers((prev) => [newUser, ...prev]);
+
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (token && token !== 'dev-admin-token') {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/v1/admin/internal-users`, {
+            method: 'POST',
+            headers: {
+              ...getAuthHeader(),
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+          const json = await res.json();
+          if (!res.ok || !json.success) {
+            setUsers((prev) => prev.filter((u) => u.id !== tempId));
+            throw new Error(json.error || 'Gagal menambahkan user internal');
+          }
+          if (json.data?.id) {
+            setUsers((prev) =>
+              prev.map((u) => (u.id === tempId ? { ...u, id: json.data.id } : u))
+            );
+          }
+        } catch (err: any) {
+          showToast(`Gagal membuat user: ${err.message}`);
+          throw err;
+        }
+      }
+      showToast(`User internal ${payload.name} (${payload.role}) berhasil ditambahkan`);
+      return newUser;
+    },
+    [showToast]
+  );
+
+  const deleteUser = useCallback(
+    async (userId: string) => {
+      const targetUser = users.find((u) => u.id === userId);
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (token && token !== 'dev-admin-token') {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/v1/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: getAuthHeader(),
+          });
+          const json = await res.json();
+          if (!res.ok || !json.success) {
+            if (targetUser) {
+              setUsers((prev) => [targetUser, ...prev]);
+            }
+            throw new Error(json.error || 'Gagal menghapus user');
+          }
+        } catch (err: any) {
+          showToast(`Gagal menghapus user: ${err.message}`);
+          throw err;
+        }
+      }
+      showToast('Pengguna berhasil dihapus');
+    },
+    [users, showToast]
   );
 
   const updateUserStatus = useCallback(
@@ -244,6 +324,8 @@ export function useAdminData() {
     refreshData,
     updateUserRole,
     updateUserStatus,
+    createInternalUser,
+    deleteUser,
     toggleTemplateActive,
     toggleInvitationStatus,
     togglePackage,

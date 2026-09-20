@@ -88,7 +88,9 @@ export function useAdminAuth() {
     localStorage.setItem(USER_KEY, JSON.stringify(devAdmin));
   }, []);
 
-  const isAdmin = Boolean(user && user.role === 'admin');
+  const isAdmin = Boolean(
+    user && (user.role === 'admin' || user.role === 'developer' || user.role === 'viewer')
+  );
   const isAuthenticated = Boolean(user && token);
 
   return {
