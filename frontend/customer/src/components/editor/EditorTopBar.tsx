@@ -12,6 +12,7 @@ interface EditorTopBarProps {
   onTogglePreview: () => void;
   onSave: () => void;
   onChangeStatus: () => void;
+  onOpenGridModal?: () => void;
 }
 
 export function EditorTopBar({
@@ -23,6 +24,7 @@ export function EditorTopBar({
   onTogglePreview,
   onSave,
   onChangeStatus,
+  onOpenGridModal,
 }: EditorTopBarProps) {
   const statusMeta = STATUS_STYLES[status] || STATUS_STYLES.Draft;
 
@@ -54,6 +56,18 @@ export function EditorTopBar({
           </p>
         </div>
       </div>
+
+      {/* Quick Menu Launcher (Grid 3x5) */}
+      {onOpenGridModal && (
+        <button
+          onClick={onOpenGridModal}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-primary-container text-on-primary-container hover:bg-primary-container/80 transition-all shadow-2xs"
+          title="Buka Menu 3x5"
+        >
+          <Ic.Grid s={15} />
+          <span className="hidden md:inline">Menu (3x5)</span>
+        </button>
+      )}
 
       {/* Status cycle button */}
       <button
