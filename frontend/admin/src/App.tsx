@@ -3,13 +3,17 @@ import { useAdminAuth } from './hooks/useAdminAuth';
 import { AccessDenied } from './components/common/AccessDenied';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
+import { UsersView } from './views/UsersView';
 import { initialStats, initialUsers, initialInvitations } from './data/mockData';
-import { AdminRoute } from './types';
+import { AdminRoute, AdminUser } from './types';
 
 export default function App() {
   const { user, isAdmin, loading, checkAuth, devSetAdmin, logout } = useAdminAuth();
   const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash || '#/');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Local state for users and invitations (syncs with backend later in Task 9)
+  const [users, setUsers] = useState<AdminUser[]>(initialUsers);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -18,6 +22,18 @@ export default function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  const handleToggleRole = (userId: string, newRole: 'customer' | 'admin') => {
+    setUsers((prev) =>
+      prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
+    );
+  };
+
+  const handleToggleStatus = (userId: string, newStatus: 'active' | 'suspended') => {
+    setUsers((prev) =>
+      prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u))
+    );
+  };
 
   if (loading) {
     return (
@@ -61,14 +77,25 @@ export default function App() {
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
     >
-      {route === 'dashboard' ? (
+      {route === 'dashboard' && (
         <DashboardView
           stats={initialStats}
-          recentUsers={initialUsers}
+          recentUsers={users}
           recentInvitations={initialInvitations}
           onNavigate={navigateTo}
         />
-      ) : (
+      )}
+
+      {route === 'users' && (
+        <UsersView
+          users={users}
+          onToggleRole={handleToggleRole}
+          onToggleStatus={handleToggleStatus}
+          searchQuery={searchQuery}
+        />
+      )}
+
+      {route !== 'dashboard' && route !== 'users' && (
         <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30">
           <h2 className="text-xl font-bold text-on-surface mb-2 capitalize">Menu {route}</h2>
           <p className="text-sm text-on-surface-variant">Konten halaman {route} akan dimuat di sini.</p>
