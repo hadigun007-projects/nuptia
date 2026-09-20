@@ -55,7 +55,6 @@ export default function App() {
     return (
       <LoginView
         onLogin={login}
-        onDevLogin={devSetAdmin}
       />
     );
   }

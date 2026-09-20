@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 
 interface LoginViewProps {
   onLogin: (email: string, password: string) => Promise<void>;
-  onDevLogin?: () => void;
 }
 
-export const LoginView: React.FC<LoginViewProps> = ({ onLogin, onDevLogin }) => {
+export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const isLocalhost =
-    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,18 +149,6 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLogin, onDevLogin }) => 
               )}
             </button>
           </form>
-
-          {/* Dev Quick Login */}
-          {isLocalhost && onDevLogin && (
-            <div className="mt-5 pt-4 border-t border-outline-variant/20">
-              <button
-                onClick={onDevLogin}
-                className="w-full py-2 px-3 rounded-lg text-xs font-semibold text-primary bg-primary-container/30 hover:bg-primary-container/60 transition-colors"
-              >
-                ⚡ Masuk Cepat Mode Dev (Localhost)
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Footer */}
