@@ -385,6 +385,11 @@ function EditorViewInner({
                 <PreviewPanel
                   event={event}
                   media={media}
+                  guests={guests}
+                  loveStory={loveStory}
+                  streaming={streaming}
+                  social={social}
+                  greetingsList={greetingsList}
                   device={device}
                   onDeviceChange={setDevice}
                 />

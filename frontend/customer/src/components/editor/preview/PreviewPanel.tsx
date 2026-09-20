@@ -1,29 +1,53 @@
 import React from 'react';
-import { Device, EventData, MediaData } from '../../../types';
+import {
+  Device,
+  EventData,
+  MediaData,
+  GuestData,
+  LoveStoryMilestone,
+  StreamingConfig,
+  SocialConfig,
+  GreetingItem,
+} from '../../../types';
 import { Ic } from '../../common/Icons';
 import { InvitePreview } from './InvitePreview';
 
 interface PreviewPanelProps {
   event: EventData;
   media: MediaData;
+  guests?: GuestData;
+  loveStory?: LoveStoryMilestone[];
+  streaming?: StreamingConfig;
+  social?: SocialConfig;
+  greetingsList?: GreetingItem[];
   device: Device;
   onDeviceChange: (d: Device) => void;
 }
 
-export function PreviewPanel({ event, media, device, onDeviceChange }: PreviewPanelProps) {
+export function PreviewPanel({
+  event,
+  media,
+  guests,
+  loveStory,
+  streaming,
+  social,
+  greetingsList,
+  device,
+  onDeviceChange,
+}: PreviewPanelProps) {
   const frameStyles: Record<Device, { outer: string; inner: string; notch: boolean }> = {
     mobile: {
-      outer: 'w-[220px] h-[440px] rounded-[32px] border-[10px] border-inverse-surface shadow-2xl relative',
+      outer: 'w-[230px] h-[460px] rounded-[34px] border-[10px] border-inverse-surface shadow-2xl relative',
       inner: 'rounded-[24px] overflow-hidden',
       notch: true,
     },
     tablet: {
-      outer: 'w-[320px] h-[430px] rounded-2xl border-[10px] border-inverse-surface shadow-2xl relative',
+      outer: 'w-[320px] h-[450px] rounded-2xl border-[10px] border-inverse-surface shadow-2xl relative',
       inner: 'rounded-xl overflow-hidden',
       notch: false,
     },
     desktop: {
-      outer: 'w-[380px] h-[260px] rounded-xl border-[10px] border-inverse-surface shadow-2xl relative',
+      outer: 'w-[380px] h-[270px] rounded-xl border-[10px] border-inverse-surface shadow-2xl relative',
       inner: 'rounded-sm overflow-hidden',
       notch: false,
     },
@@ -70,7 +94,15 @@ export function PreviewPanel({ event, media, device, onDeviceChange }: PreviewPa
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-5 bg-inverse-surface rounded-b-2xl z-10" />
         )}
         <div className={`${f.inner} w-full h-full bg-surface overflow-hidden`} style={{ position: 'relative' }}>
-          <InvitePreview event={event} media={media} />
+          <InvitePreview
+            event={event}
+            media={media}
+            guests={guests}
+            loveStory={loveStory}
+            streaming={streaming}
+            social={social}
+            greetingsList={greetingsList}
+          />
         </div>
       </div>
 
