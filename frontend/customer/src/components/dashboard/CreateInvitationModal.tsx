@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CreateInvitationInput } from '../../types';
-import { TEMPLATE_OPTIONS } from '../../data/seedData';
+import { useTemplates } from '../../hooks/useTemplates';
 import { Ic } from '../common/Icons';
 import { M3Field } from '../common/UIComponents';
 
@@ -11,6 +11,7 @@ interface CreateInvitationModalProps {
 }
 
 export function CreateInvitationModal({ isOpen, onClose, onCreate }: CreateInvitationModalProps) {
+  const { templates, isLiveFromDB } = useTemplates();
   const [groomNick, setGroomNick] = useState('');
   const [brideNick, setBrideNick] = useState('');
   const [weddingDate, setWeddingDate] = useState(() => {
@@ -18,8 +19,14 @@ export function CreateInvitationModal({ isOpen, onClose, onCreate }: CreateInvit
     d.setMonth(d.getMonth() + 2);
     return d.toISOString().split('T')[0];
   });
-  const [templateId, setTemplateId] = useState(TEMPLATE_OPTIONS[0].id);
+  const [templateId, setTemplateId] = useState(() => templates[0]?.id || 'wedding-rustic');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (templates.length > 0 && !templates.some((t) => t.id === templateId)) {
+      setTemplateId(templates[0].id);
+    }
+  }, [templates, templateId]);
 
   if (!isOpen) return null;
 
@@ -105,11 +112,19 @@ export function CreateInvitationModal({ isOpen, onClose, onCreate }: CreateInvit
           </div>
 
           <div>
-            <span className="text-xs font-bold text-on-surface uppercase tracking-wider block mb-2">
-              Pilihan Tema Desain Awal
-            </span>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-on-surface uppercase tracking-wider block">
+                Pilihan Tema Desain Awal
+              </span>
+              {isLiveFromDB && (
+                <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  PostgreSQL
+                </span>
+              )}
+            </div>
             <div className="grid grid-cols-2 gap-2.5">
-              {TEMPLATE_OPTIONS.map((tpl) => {
+              {templates.map((tpl) => {
                 const isSelected = templateId === tpl.id;
                 return (
                   <button

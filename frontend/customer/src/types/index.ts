@@ -166,6 +166,22 @@ export interface ThemeConfig {
   fontStyle: string;
 }
 
+export interface TemplateOption {
+  id: string;
+  slug?: string;
+  name: string;
+  tagline: string;
+  color: string;
+  cover: string;
+  font: string;
+  category?: string;
+  tier?: string;
+  rating?: number;
+  description?: string;
+  isPopular?: boolean;
+  isNew?: boolean;
+}
+
 export interface Toast {
   id: string;
   msg: string;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ThemeConfig } from '../../../types';
-import { TEMPLATE_OPTIONS } from '../../../data/seedData';
+import { ThemeConfig, TemplateOption } from '../../../types';
+import { useTemplates } from '../../../hooks/useTemplates';
 import { Card, SectionHead } from '../../common/UIComponents';
 import { Ic } from '../../common/Icons';
 
@@ -28,10 +28,11 @@ const FONT_OPTIONS = [
 ];
 
 export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
+  const { templates, isLiveFromDB } = useTemplates();
   const currentTemplate =
-    TEMPLATE_OPTIONS.find((t) => t.id === theme.templateId) || TEMPLATE_OPTIONS[0];
+    templates.find((t) => t.id === theme.templateId) || templates[0];
 
-  const handleSelectTemplate = (tpl: typeof TEMPLATE_OPTIONS[0]) => {
+  const handleSelectTemplate = (tpl: TemplateOption) => {
     onChange({
       ...theme,
       templateId: tpl.id,
@@ -56,12 +57,20 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
     <div className="space-y-6 animate-fade-in-up">
       {/* Pilihan Template */}
       <Card>
-        <SectionHead
-          title="Template Desain"
-          sub="Pilih tema dasar visual untuk undangan pernikahan digitalmu"
-        />
+        <div className="flex items-center justify-between mb-2">
+          <SectionHead
+            title="Template Desain"
+            sub="Pilih tema dasar visual untuk undangan pernikahan digitalmu"
+          />
+          {isLiveFromDB && (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 text-[11px] font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              PostgreSQL
+            </span>
+          )}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {TEMPLATE_OPTIONS.map((tpl) => {
+          {templates.map((tpl) => {
             const isSelected = theme.templateId === tpl.id;
             return (
               <div
@@ -79,6 +88,22 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
                     alt={tpl.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
+                  {/* Tier Badge */}
+                  {tpl.tier && (
+                    <div className="absolute top-2.5 left-2.5">
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          tpl.tier === 'exclusive'
+                            ? 'bg-amber-500 text-white'
+                            : tpl.tier === 'premium'
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-black/50 text-white backdrop-blur-xs'
+                        }`}
+                      >
+                        {tpl.tier}
+                      </span>
+                    </div>
+                  )}
                   <div className="absolute top-2.5 right-2.5">
                     {isSelected ? (
                       <span className="px-2.5 py-1 rounded-full bg-primary text-on-primary text-[11px] font-bold flex items-center gap-1">
