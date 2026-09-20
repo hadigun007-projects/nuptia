@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from './hooks/useAdminAuth';
 import { useAdminData } from './hooks/useAdminData';
 import { AccessDenied } from './components/common/AccessDenied';
+import { LoginView } from './views/LoginView';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
 import { UsersView } from './views/UsersView';
@@ -12,7 +13,7 @@ import { SettingsView } from './views/SettingsView';
 import { AdminRoute } from './types';
 
 export default function App() {
-  const { user, isAdmin, loading: authLoading, checkAuth, devSetAdmin, logout } = useAdminAuth();
+  const { user, isAdmin, loading: authLoading, checkAuth, devSetAdmin, logout, login, isAuthenticated } = useAdminAuth();
   const {
     stats,
     users,
@@ -49,7 +50,17 @@ export default function App() {
     );
   }
 
-  // Role Guard: user must be authenticated with role === 'admin'
+  // Guard 1: Belum terautentikasi → halaman Login
+  if (!isAuthenticated) {
+    return (
+      <LoginView
+        onLogin={login}
+        onDevLogin={devSetAdmin}
+      />
+    );
+  }
+
+  // Guard 2: Sudah login tapi bukan role internal → akses ditolak
   if (!isAdmin) {
     return (
       <AccessDenied
