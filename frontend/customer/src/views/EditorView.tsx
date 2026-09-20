@@ -20,6 +20,7 @@ import { EditorSidebar } from '../components/editor/EditorSidebar';
 import { BottomNav15 } from '../components/editor/BottomNav15';
 import { MenuGridModal } from '../components/editor/MenuGridModal';
 import { PreviewPanel } from '../components/editor/preview/PreviewPanel';
+import { StepNavigationFooter } from '../components/editor/StepNavigationFooter';
 import { Ic } from '../components/common/Icons';
 
 // 15 Form Tabs
@@ -415,6 +416,16 @@ function EditorViewInner({
                     showToast={showToast}
                   />
                 )}
+
+                {/* Step Navigation Footer for sequential timeline flow */}
+                <StepNavigationFooter
+                  currentTab={activeNormalizedTab}
+                  onNavigateTab={setTab}
+                  onCompleteCreation={() => {
+                    showToast('Seluruh tahapan undangan telah selesai ditinjau!', 'success');
+                    setShowPreview(true);
+                  }}
+                />
               </div>
             </div>
 
