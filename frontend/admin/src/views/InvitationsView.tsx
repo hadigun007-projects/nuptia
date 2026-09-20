@@ -51,8 +51,8 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${statusFilter === s
-                  ? 'bg-primary text-on-primary'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                ? 'bg-primary text-on-primary'
+                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
                 }`}
             >
               {s === 'all' ? 'Semua' : s}
@@ -87,9 +87,8 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-outline-variant/20 bg-surface-container-low/40 text-[11px] font-bold text-on-surface-variant tracking-wider uppercase">
-                <th className="py-3.5 px-5">Undangan & URL Slug</th>
-                <th className="py-3.5 px-4">Customer Pemilik</th>
-                <th className="py-3.5 px-4">Tema</th>
+                <th className="py-3.5 px-5">Undangan</th>
+                <th className="py-3.5 px-4">Customer</th>
                 <th className="py-3.5 px-4">Status</th>
                 <th className="py-3.5 px-4">Trafik & RSVP</th>
                 <th className="py-3.5 px-4">Pembaruan</th>
@@ -110,48 +109,29 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
                     {/* Title & Slug */}
                     <td className="py-3.5 px-5">
                       <p className="font-bold text-on-surface">{inv.title}</p>
-                      <a
-                        href={`http://localhost:5173/#/preview?slug=${inv.slug}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline mt-0.5"
-                      >
-                        <span>nuptia.id/{inv.slug}</span>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
                     </td>
 
                     {/* Owner */}
                     <td className="py-3.5 px-4">
                       <p className="font-semibold text-on-surface">{inv.userName}</p>
-                      <p className="text-[11px] text-on-surface-variant">{inv.userEmail}</p>
-                    </td>
-
-                    {/* Template */}
-                    <td className="py-3.5 px-4">
-                      <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-surface-container text-on-surface">
-                        🎨 {inv.templateName}
-                      </span>
                     </td>
 
                     {/* Status */}
                     <td className="py-3.5 px-4">
                       <span
                         className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${inv.status === 'Live'
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : inv.status === 'Published'
-                              ? 'bg-blue-100 text-blue-800'
-                              : 'bg-amber-100 text-amber-800'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : inv.status === 'Published'
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-amber-100 text-amber-800'
                           }`}
                       >
                         <span
                           className={`w-1.5 h-1.5 rounded-full ${inv.status === 'Live'
-                              ? 'bg-emerald-500'
-                              : inv.status === 'Published'
-                                ? 'bg-blue-500'
-                                : 'bg-amber-500'
+                            ? 'bg-emerald-500'
+                            : inv.status === 'Published'
+                              ? 'bg-blue-500'
+                              : 'bg-amber-500'
                             }`}
                         />
                         {inv.status}
@@ -210,8 +190,8 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
                             )
                           }
                           className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${inv.status === 'Live'
-                              ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
-                              : 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                            ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                            : 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
                             }`}
                         >
                           {inv.status === 'Live' ? 'Set Draft' : 'Aktifkan Live'}
