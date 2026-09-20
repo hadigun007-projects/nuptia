@@ -19,6 +19,26 @@ nuptia/
 └── README.md                # Dokumentasi utama proyek
 ```
 
+## Quick Start (Makefile)
+
+Gunakan perintah `make` dari root direktori untuk menjalankan dan mengelola semua aplikasi secara praktis:
+
+```bash
+# 1. Instal seluruh dependensi
+make install
+
+# 2. Jalankan SEMUA aplikasi bersamaan (Home di port 3000 + Customer di port 5173)
+make dev
+
+# Atau jalankan aplikasi spesifik:
+make dev-home       # Landing Page (Next.js 16) -> http://localhost:3000
+make dev-customer   # Customer Dashboard (Vite) -> http://localhost:5173
+make dev-template   # Template Wedding Rustic   -> http://localhost:8080
+
+# Build semua aplikasi untuk produksi:
+make build
+```
+
 ---
 
 ## 1. Modul Customer Workspace (`frontend/customer/`)
