@@ -61,7 +61,7 @@ export function TimelineSidebar({
 
   return (
     <aside
-      className={`hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/40 transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px]'
+      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px]'
         }`}
     >
       {/* Timeline Stepper List */}
@@ -81,9 +81,8 @@ export function TimelineSidebar({
                 {!isLastStep && (
                   <span
                     aria-hidden="true"
-                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${
-                      isPast || isCompleted ? 'bg-primary/40' : 'bg-outline-variant/60'
-                    } ${collapsed ? 'left-[29px]' : 'left-[21px]'}`}
+                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${isPast || isCompleted ? 'bg-primary/40' : 'bg-outline-variant/60'
+                      } ${collapsed ? 'left-[29px]' : 'left-[21px]'}`}
                     style={{
                       top: '26px',
                       bottom: '-6px',
@@ -94,9 +93,8 @@ export function TimelineSidebar({
                 <button
                   onClick={() => onSelectTab(step.id)}
                   title={`${step.label}${step.isRequired ? ' *' : ''} (${isCompleted ? 'Selesai' : step.isRequired ? 'Wajib' : 'Opsional'})`}
-                  className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 hover:bg-surface-container/50 ${
-                    collapsed ? 'justify-center p-2.5' : ''
-                  }`}
+                  className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 hover:bg-surface-container/50 ${collapsed ? 'justify-center p-2.5' : ''
+                    }`}
                 >
                   {/* Step Node Circle on Timeline with Icon */}
                   <div
@@ -134,13 +132,6 @@ export function TimelineSidebar({
                           {step.label}
                           {step.isRequired && <span className="text-red-500 font-bold ml-1">*</span>}
                         </span>
-
-                        {/* Status Tag: Checkmark when completed */}
-                        {isCompleted && (
-                          <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800 text-[9px] font-bold">
-                            ✓
-                          </span>
-                        )}
                       </div>
                     </div>
                   )}
