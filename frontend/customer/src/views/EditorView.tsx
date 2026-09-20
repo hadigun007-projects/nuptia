@@ -324,122 +324,217 @@ function EditorViewInner({
           <div className="flex min-h-full items-start">
             {/* Form Area */}
             <div className={`flex-1 p-4 pb-24 lg:pb-8 ${showPreview ? 'lg:max-w-[calc(100%-360px)]' : ''}`}>
-              <div className="max-w-2xl mx-auto">
-                {/* 1. Pengantin */}
-                {activeNormalizedTab === 'pengantin' && (
-                  <PengantinTab data={event} onChange={setEvent} showToast={showToast} />
-                )}
+              <div className="max-w-2xl mx-auto space-y-12">
+                {/* ═══════════════ KATEGORI 1: MEMPELAI & ACARA ═══════════════ */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 pb-2 border-b border-outline-variant/30">
+                    <span className="w-8 h-8 rounded-2xl bg-primary/15 text-primary flex items-center justify-center font-extrabold text-sm font-display">
+                      1
+                    </span>
+                    <div>
+                      <h2 className="text-base sm:text-lg font-extrabold text-on-surface font-display">
+                        Mempelai & Acara
+                      </h2>
+                      <p className="text-xs text-on-surface-variant">
+                        Profil kedua mempelai, jadwal acara, streaming, quote, dan kisah cinta
+                      </p>
+                    </div>
+                  </div>
 
-                {/* 2. Tema */}
-                {activeNormalizedTab === 'tema' && (
-                  <TemaTab theme={theme} onChange={setTheme} showToast={showToast} />
-                )}
+                  {/* 1. Pengantin */}
+                  <section id="section-pengantin" className="scroll-mt-24">
+                    <PengantinTab data={event} onChange={setEvent} showToast={showToast} />
+                  </section>
 
-                {/* 3. Acara */}
-                {activeNormalizedTab === 'acara' && (
-                  <AcaraTab data={event} onChange={setEvent} showToast={showToast} />
-                )}
+                  {/* 2. Acara */}
+                  <section id="section-acara" className="scroll-mt-24">
+                    <AcaraTab data={event} onChange={setEvent} showToast={showToast} />
+                  </section>
 
-                {/* 4. Galeri */}
-                {activeNormalizedTab === 'galeri' && (
-                  <GaleriTab data={media} onChange={setMedia} showToast={showToast} />
-                )}
+                  {/* 3. Streaming */}
+                  <section id="section-streaming" className="scroll-mt-24">
+                    <StreamingTab data={streaming} onChange={setStreaming} showToast={showToast} />
+                  </section>
 
-                {/* 5. Musik */}
-                {activeNormalizedTab === 'musik' && (
-                  <MusikTab data={media} onChange={setMedia} showToast={showToast} />
-                )}
+                  {/* 4. Quote */}
+                  <section id="section-quote" className="scroll-mt-24">
+                    <QuoteTab
+                      quote={event.quote}
+                      blessing={event.blessing}
+                      onChangeQuote={(q) => setEvent({ ...event, quote: q })}
+                      onChangeBlessing={(b) => setEvent({ ...event, blessing: b })}
+                      showToast={showToast}
+                    />
+                  </section>
 
-                {/* 6. Ucapan */}
-                {activeNormalizedTab === 'ucapan' && (
-                  <UcapanTab
-                    enabled={guests.greetingsEnabled}
-                    greetings={greetingsList}
-                    onToggleEnabled={(v) => setGuests({ ...guests, greetingsEnabled: v })}
-                    onChangeGreetings={setGreetingsList}
-                    showToast={showToast}
-                  />
-                )}
+                  {/* 5. Kisah Cinta */}
+                  <section id="section-kisah-cinta" className="scroll-mt-24">
+                    <KisahCintaTab milestones={loveStory} onChange={setLoveStory} showToast={showToast} />
+                  </section>
+                </div>
 
-                {/* 7. Kado */}
-                {activeNormalizedTab === 'kado' && (
-                  <KadoTab data={guests} onChange={setGuests} showToast={showToast} />
-                )}
+                {/* ═══════════════ KATEGORI 2: DESAIN & MEDIA ═══════════════ */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 pb-2 border-b border-outline-variant/30">
+                    <span className="w-8 h-8 rounded-2xl bg-primary/15 text-primary flex items-center justify-center font-extrabold text-sm font-display">
+                      2
+                    </span>
+                    <div>
+                      <h2 className="text-base sm:text-lg font-extrabold text-on-surface font-display">
+                        Desain & Media
+                      </h2>
+                      <p className="text-xs text-on-surface-variant">
+                        Pilihan tema desain, galeri foto, musik pengiring, dan filter Instagram
+                      </p>
+                    </div>
+                  </div>
 
-                {/* 8. RSVP */}
-                {activeNormalizedTab === 'rsvp' && (
-                  <RSVPTab
-                    data={guests}
-                    stats={invitation.stats}
-                    onChange={setGuests}
-                    showToast={showToast}
-                  />
-                )}
+                  {/* 6. Tema */}
+                  <section id="section-tema" className="scroll-mt-24">
+                    <TemaTab theme={theme} onChange={setTheme} showToast={showToast} />
+                  </section>
 
-                {/* 9. Streaming */}
-                {activeNormalizedTab === 'streaming' && (
-                  <StreamingTab data={streaming} onChange={setStreaming} showToast={showToast} />
-                )}
+                  {/* 7. Galeri */}
+                  <section id="section-galeri" className="scroll-mt-24">
+                    <GaleriTab data={media} onChange={setMedia} showToast={showToast} />
+                  </section>
 
-                {/* 10. Kisah Cinta */}
-                {activeNormalizedTab === 'kisah-cinta' && (
-                  <KisahCintaTab milestones={loveStory} onChange={setLoveStory} showToast={showToast} />
-                )}
+                  {/* 8. Musik */}
+                  <section id="section-musik" className="scroll-mt-24">
+                    <MusikTab data={media} onChange={setMedia} showToast={showToast} />
+                  </section>
 
-                {/* 11. Story IG */}
-                {activeNormalizedTab === 'story-ig' && (
-                  <StoryIGTab data={social} onChange={setSocial} showToast={showToast} />
-                )}
+                  {/* 9. Story IG */}
+                  <section id="section-story-ig" className="scroll-mt-24">
+                    <StoryIGTab data={social} onChange={setSocial} showToast={showToast} />
+                  </section>
+                </div>
 
-                {/* 12. Quote */}
-                {activeNormalizedTab === 'quote' && (
-                  <QuoteTab
-                    quote={event.quote}
-                    blessing={event.blessing}
-                    onChangeQuote={(q) => setEvent({ ...event, quote: q })}
-                    onChangeBlessing={(b) => setEvent({ ...event, blessing: b })}
-                    showToast={showToast}
-                  />
-                )}
+                {/* ═══════════════ KATEGORI 3: TAMU & INTERAKSI ═══════════════ */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 pb-2 border-b border-outline-variant/30">
+                    <span className="w-8 h-8 rounded-2xl bg-primary/15 text-primary flex items-center justify-center font-extrabold text-sm font-display">
+                      3
+                    </span>
+                    <div>
+                      <h2 className="text-base sm:text-lg font-extrabold text-on-surface font-display">
+                        Tamu & Interaksi
+                      </h2>
+                      <p className="text-xs text-on-surface-variant">
+                        Konfirmasi kehadiran (RSVP), buku tamu, ucapan doa restu, dan amplop digital
+                      </p>
+                    </div>
+                  </div>
 
-                {/* 13. Setting */}
-                {activeNormalizedTab === 'setting' && (
-                  <SettingTab
-                    slug={slug}
-                    status={status}
-                    settings={settings}
-                    onChangeSlug={setSlug}
-                    onChangeStatus={setStatus}
-                    onChangeSettings={setSettings}
-                    showToast={showToast}
-                  />
-                )}
+                  {/* 10. RSVP */}
+                  <section id="section-rsvp" className="scroll-mt-24">
+                    <RSVPTab
+                      data={guests}
+                      stats={invitation.stats}
+                      onChange={setGuests}
+                      showToast={showToast}
+                    />
+                  </section>
 
-                {/* 14. Buku Tamu */}
-                {activeNormalizedTab === 'buku-tamu' && (
-                  <BukuTamuTab entries={guestBook} onChange={setGuestBook} showToast={showToast} />
-                )}
+                  {/* 11. Buku Tamu */}
+                  <section id="section-buku-tamu" className="scroll-mt-24">
+                    <BukuTamuTab entries={guestBook} onChange={setGuestBook} showToast={showToast} />
+                  </section>
 
-                {/* 15. Kirim */}
-                {activeNormalizedTab === 'kirim' && (
-                  <KirimTab
-                    title={invitation.title}
-                    slug={slug}
-                    groomNick={event.groomNick}
-                    brideNick={event.brideNick}
-                    showToast={showToast}
-                  />
-                )}
+                  {/* 12. Ucapan */}
+                  <section id="section-ucapan" className="scroll-mt-24">
+                    <UcapanTab
+                      enabled={guests.greetingsEnabled}
+                      greetings={greetingsList}
+                      onToggleEnabled={(v) => setGuests({ ...guests, greetingsEnabled: v })}
+                      onChangeGreetings={setGreetingsList}
+                      showToast={showToast}
+                    />
+                  </section>
 
-                {/* Step Navigation Footer for sequential timeline flow */}
-                <StepNavigationFooter
-                  currentTab={activeNormalizedTab}
-                  onNavigateTab={setTab}
-                  onCompleteCreation={() => {
-                    showToast('Seluruh tahapan undangan telah selesai ditinjau!', 'success');
-                    setShowPreview(true);
-                  }}
-                />
+                  {/* 13. Kado */}
+                  <section id="section-kado" className="scroll-mt-24">
+                    <KadoTab data={guests} onChange={setGuests} showToast={showToast} />
+                  </section>
+                </div>
+
+                {/* ═══════════════ KATEGORI 4: DISTRIBUSI & PENGATURAN ═══════════════ */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 pb-2 border-b border-outline-variant/30">
+                    <span className="w-8 h-8 rounded-2xl bg-primary/15 text-primary flex items-center justify-center font-extrabold text-sm font-display">
+                      4
+                    </span>
+                    <div>
+                      <h2 className="text-base sm:text-lg font-extrabold text-on-surface font-display">
+                        Distribusi & Pengaturan
+                      </h2>
+                      <p className="text-xs text-on-surface-variant">
+                        Konfigurasi tautan unik (slug), status publikasi, dan pembagian ke tamu
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 14. Setting */}
+                  <section id="section-setting" className="scroll-mt-24">
+                    <SettingTab
+                      slug={slug}
+                      status={status}
+                      settings={settings}
+                      onChangeSlug={setSlug}
+                      onChangeStatus={setStatus}
+                      onChangeSettings={setSettings}
+                      showToast={showToast}
+                    />
+                  </section>
+
+                  {/* 15. Kirim */}
+                  <section id="section-kirim" className="scroll-mt-24">
+                    <KirimTab
+                      title={invitation.title}
+                      slug={slug}
+                      groomNick={event.groomNick}
+                      brideNick={event.brideNick}
+                      showToast={showToast}
+                    />
+                  </section>
+                </div>
+
+                {/* Final Completion Banner Card */}
+                <div className="p-6 sm:p-8 rounded-[32px] bg-gradient-to-r from-primary-container via-surface-container to-secondary-container/40 border border-outline-variant/30 text-center space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-primary text-on-primary flex items-center justify-center mx-auto shadow-sm">
+                    <Ic.Sparkles s={22} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-on-surface font-display">
+                      Semua Data Undangan Telah Terisi!
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant max-w-md mx-auto mt-1">
+                      Perubahan tersimpan otomatis secara real-time. Undangan siap dibagikan ke para tamu istimewa Anda.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const url = `${window.location.origin}/#/${slug || invitation.id}`;
+                        if (navigator.clipboard) navigator.clipboard.writeText(url);
+                        showToast('Link undangan berhasil disalin!', 'success');
+                      }}
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all cursor-pointer shadow-xs"
+                    >
+                      <Ic.Link s={16} />
+                      <span>Salin Link Undangan</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowPreview(true)}
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high text-xs sm:text-sm font-semibold transition-all cursor-pointer"
+                    >
+                      <Ic.Eye s={16} />
+                      <span>Lihat Pratinjau</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
