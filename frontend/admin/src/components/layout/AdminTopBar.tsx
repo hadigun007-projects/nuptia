@@ -160,21 +160,15 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({
   const info = ROUTE_TITLES[currentRoute] || ROUTE_TITLES.dashboard;
 
   return (
-    <header
-      className={`sticky top-0 z-20 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 px-6 md:px-8 transition-all duration-300 ${
-        isSidebarCollapsed ? 'left-20' : 'left-64'
-      }`}
-    >
-      <div className="max-w-7xl w-full mx-auto h-full flex items-center justify-between">
-        {/* Title & Subtitle */}
-        <div className="flex flex-col justify-center">
-          <h1 className="text-base font-bold text-on-surface leading-tight">{info.title}</h1>
-        </div>
+    <header className="sticky top-0 z-20 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 px-6 md:px-8 flex items-center justify-between">
+      {/* Title & Subtitle */}
+      <div className="flex flex-col justify-center">
+        <h1 className="text-base font-bold text-on-surface leading-tight">{info.title}</h1>
+      </div>
 
-        {/* Right Toolbar */}
-        <div className="flex items-center gap-3">
-          <AdminAvatarChip user={user} onLogout={onLogout} />
-        </div>
+      {/* Right Toolbar */}
+      <div className="flex items-center gap-3">
+        <AdminAvatarChip user={user} onLogout={onLogout} />
       </div>
     </header>
   );
