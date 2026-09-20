@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { AdminUser } from '../types';
+import { AdminUser, UserRole } from '../types';
 
 interface UsersViewProps {
   users: AdminUser[];
-  onToggleRole: (userId: string, newRole: 'customer' | 'admin') => void;
+  onToggleRole: (userId: string, newRole: UserRole) => void;
   onToggleStatus: (userId: string, newStatus: 'active' | 'suspended') => void;
   searchQuery: string;
 }
@@ -14,7 +14,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
   onToggleStatus,
   searchQuery,
 }) => {
-  const [roleFilter, setRoleFilter] = useState<'all' | 'customer' | 'admin'>('all');
+  const [roleFilter, setRoleFilter] = useState<'all' | 'customer' | 'admin' | 'developer' | 'viewer'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'suspended'>('all');
   const [localSearch, setLocalSearch] = useState('');
 
@@ -36,6 +36,8 @@ export const UsersView: React.FC<UsersViewProps> = ({
       total: users.length,
       customers: users.filter((u) => u.role === 'customer').length,
       admins: users.filter((u) => u.role === 'admin').length,
+      developers: users.filter((u) => u.role === 'developer').length,
+      viewers: users.filter((u) => u.role === 'viewer').length,
       suspended: users.filter((u) => u.status === 'suspended').length,
     };
   }, [users]);
@@ -47,7 +49,7 @@ export const UsersView: React.FC<UsersViewProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           {/* Role Filter Pills */}
           <span className="text-xs font-semibold text-on-surface-variant mr-1">Role:</span>
-          {(['all', 'customer', 'admin'] as const).map((r) => (
+          {(['all', 'customer', 'admin', 'developer', 'viewer'] as const).map((r) => (
             <button
               key={r}
               onClick={() => setRoleFilter(r)}

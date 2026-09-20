@@ -22,6 +22,8 @@ export default function App() {
     toast,
     updateUserRole,
     updateUserStatus,
+    createInternalUser,
+    deleteUser,
     toggleTemplateActive,
     toggleInvitationStatus,
     togglePackage,
@@ -129,7 +131,16 @@ export default function App() {
         />
       )}
 
-      {route === 'settings' && <SettingsView />}
+      {route === 'settings' && (
+        <SettingsView
+          currentUser={user}
+          users={users}
+          onCreateInternalUser={createInternalUser}
+          onToggleRole={updateUserRole}
+          onToggleStatus={updateUserStatus}
+          onDeleteUser={deleteUser}
+        />
+      )}
     </AdminLayout>
   );
 }
