@@ -1,13 +1,81 @@
 package database
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"nuptia-backend/internal/domain"
 
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
+
+// SeedDefaultUsers seeds internal staff and sample customer accounts idempotently.
+// It checks per-email so it is safe to run multiple times without duplicating data.
+func SeedDefaultUsers(db *gorm.DB) error {
+	defaultPassword := "password123"
+	hash, err := bcrypt.GenerateFromPassword([]byte(defaultPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("gagal mengenkripsi kata sandi default: %w", err)
+	}
+	hashedPassword := string(hash)
+
+	type seedUser struct {
+		Name     string
+		Email    string
+		Role     string
+		IsActive bool
+	}
+
+	users := []seedUser{
+		// --- Tim Internal ---
+		{Name: "Super Admin Nuptia", Email: "admin@nuptia.id", Role: "developer", IsActive: true},
+		{Name: "Budi Kurniawan", Email: "budi.ops@nuptia.id", Role: "admin", IsActive: true},
+		{Name: "Siti Rahayu", Email: "siti.support@nuptia.id", Role: "viewer", IsActive: true},
+		// --- Customer Contoh ---
+		{Name: "Dimas Aditya", Email: "dimas.aditya@gmail.com", Role: "customer", IsActive: true},
+		{Name: "Siti Sarah", Email: "sarah.siti@yahoo.com", Role: "customer", IsActive: true},
+		{Name: "Rian Pratama", Email: "rian.pratama@gmail.com", Role: "customer", IsActive: true},
+		{Name: "Budi Santoso", Email: "budi.santoso@outlook.com", Role: "customer", IsActive: false}, // suspended
+		{Name: "Anisa Rahma", Email: "anisa.rahma@gmail.com", Role: "customer", IsActive: true},
+	}
+
+	seeded := 0
+	skipped := 0
+	for _, u := range users {
+		email := strings.ToLower(strings.TrimSpace(u.Email))
+
+		// Idempotency check: skip if email already exists
+		var existing domain.User
+		if err := db.Where("LOWER(email) = ?", email).First(&existing).Error; err == nil {
+			skipped++
+			continue
+		}
+
+		newUser := domain.User{
+			ID:           uuid.New(),
+			Name:         u.Name,
+			Email:        email,
+			PasswordHash: hashedPassword,
+			AuthProvider: "email",
+			Role:         u.Role,
+			IsActive:     u.IsActive,
+		}
+		if err := db.Create(&newUser).Error; err != nil {
+			return fmt.Errorf("gagal membuat user %s: %w", email, err)
+		}
+		seeded++
+	}
+
+	log.Printf("[Seeder] Users: %d akun baru ditambahkan, %d sudah ada (dilewati).\n", seeded, skipped)
+	if seeded > 0 {
+		log.Println("[Seeder] Kredensial default semua akun seeder: password = 'password123'")
+	}
+	return nil
+}
 
 func SeedDefaultTemplates(db *gorm.DB) error {
 	var count int64
