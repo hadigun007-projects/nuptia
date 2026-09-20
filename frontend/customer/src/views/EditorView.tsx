@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   Tab,
   Device,
@@ -256,27 +256,52 @@ function EditorViewInner({
   const activeNormalizedTab: Tab =
     tab === 'event' ? 'pengantin' : tab === 'media' ? 'galeri' : tab === 'guests' ? 'kado' : tab;
 
+  const [timelineMode, setTimelineMode] = useState<boolean>(initialTimelineMode || isNew);
+
+  const completedSteps = useMemo<Partial<Record<Tab, boolean>>>(() => {
+    return {
+      pengantin: Boolean(event.groomNick?.trim() && event.brideNick?.trim()),
+      tema: Boolean(theme.templateId || invitation.templateId),
+      acara: Boolean(event.venue?.trim() || event.akadDate?.trim() || event.resepsiDate?.trim()),
+      quote: Boolean(event.quote?.trim()),
+      galeri: Boolean(media.gallery && media.gallery.length > 0),
+      musik: Boolean(media.musicTitle?.trim()),
+      'kisah-cinta': Boolean(loveStory && loveStory.length > 0),
+      rsvp: Boolean(guests.rsvpEnabled),
+      kado: Boolean(guests.accountNo?.trim() || guests.ewalletNo?.trim()),
+      streaming: Boolean(streaming.enabled && streaming.url?.trim()),
+      'story-ig': Boolean(social.hashtag?.trim() || social.igFilterUrl?.trim()),
+      'buku-tamu': Boolean(guestBook && guestBook.length > 0),
+      ucapan: Boolean(guests.greetingsEnabled),
+      setting: Boolean(settings.customSlug?.trim() || slug?.trim()),
+      kirim: false,
+    };
+  }, [event, theme, media, loveStory, guests, streaming, social, guestBook, settings, slug, invitation.templateId]);
+
   return (
     <div className="flex flex-col h-screen bg-surface overflow-hidden">
-      {/* Editor Top Bar with Menu 3x5 button */}
+      {/* Top Navbar */}
       <EditorTopBar
-        title={`${event.groomNick || 'Mempelai'} & ${event.brideNick || 'Mempelai'}`}
+        title={invitation.title}
         status={status}
         autoSaving={autoSaving}
         showPreview={showPreview}
-        onBack={onBackToDashboard}
         onTogglePreview={() => setShowPreview((p) => !p)}
-        onSave={handleManualSave}
+        onBackToDashboard={onBackToDashboard}
+        onManualSave={handleManualSave}
         onChangeStatus={cycleStatus}
         onOpenGridModal={() => setIsGridModalOpen(true)}
       />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Hierarchical 15-menu Sidebar for Desktop */}
+        {/* Hierarchical 15-menu Sidebar / Timeline Stepper for Desktop */}
         <EditorSidebar
           activeTab={activeNormalizedTab}
           onSelectTab={setTab}
           onOpenGridModal={() => setIsGridModalOpen(true)}
+          isTimelineMode={timelineMode}
+          onToggleMode={() => setTimelineMode((m) => !m)}
+          completedSteps={completedSteps}
         />
 
         {/* Main Editor Work Area */}

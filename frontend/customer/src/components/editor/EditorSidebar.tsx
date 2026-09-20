@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Tab } from '../../types';
 import { MENU_ITEMS_15, MenuItemDef } from './MenuGridModal';
+import { TimelineSidebar, TIMELINE_STEPS } from './TimelineSidebar';
 import { Ic } from '../common/Icons';
+
+export { TIMELINE_STEPS };
 
 interface EditorSidebarProps {
   activeTab: Tab;
   onSelectTab: (tab: Tab) => void;
   onOpenGridModal: () => void;
+  isTimelineMode?: boolean;
+  onToggleMode?: () => void;
+  completedSteps?: Partial<Record<Tab, boolean>>;
 }
 
 const CATEGORIES = [
@@ -32,8 +38,35 @@ const CATEGORIES = [
   },
 ];
 
-export function EditorSidebar({ activeTab, onSelectTab, onOpenGridModal }: EditorSidebarProps) {
+export function EditorSidebar({
+  activeTab,
+  onSelectTab,
+  onOpenGridModal,
+  isTimelineMode = false,
+  onToggleMode,
+  completedSteps = {},
+}: EditorSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const [internalTimelineMode, setInternalTimelineMode] = useState(isTimelineMode);
+
+  // Sync internal state if prop changes
+  const effectiveTimelineMode = onToggleMode ? isTimelineMode : internalTimelineMode;
+  const handleToggleMode = onToggleMode || (() => setInternalTimelineMode((prev) => !prev));
+
+  if (effectiveTimelineMode) {
+    return (
+      <TimelineSidebar
+        activeTab={activeTab}
+        onSelectTab={onSelectTab}
+        completedSteps={completedSteps}
+        onOpenGridModal={onOpenGridModal}
+        isTimelineMode={true}
+        onToggleMode={handleToggleMode}
+        collapsed={collapsed}
+        onToggleCollapse={() => setCollapsed((c) => !c)}
+      />
+    );
+  }
 
   const getDef = (id: Tab): MenuItemDef => {
     return MENU_ITEMS_15.find((m) => m.id === id) || MENU_ITEMS_15[0];
@@ -42,14 +75,14 @@ export function EditorSidebar({ activeTab, onSelectTab, onOpenGridModal }: Edito
   return (
     <aside
       className={`hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/40 transition-all duration-300 flex-shrink-0 z-20 ${
-        collapsed ? 'w-[74px]' : 'w-[236px]'
+        collapsed ? 'w-[74px]' : 'w-[250px]'
       }`}
     >
-      {/* Top action: Open 3x5 Grid Modal */}
-      <div className="p-3 border-b border-outline-variant/30">
+      {/* Top action: Open 3x5 Grid Modal & Mode switcher */}
+      <div className="p-3 border-b border-outline-variant/30 space-y-2">
         <button
           onClick={onOpenGridModal}
-          className={`w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary-container/80 transition-all duration-200 font-bold text-xs shadow-2xs group ${
+          className={`w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary-container/80 transition-all duration-200 font-bold text-xs shadow-2xs group ${
             collapsed ? 'px-0' : ''
           }`}
           title="Buka Menu Cepat (Grid 3x5)"
@@ -59,6 +92,26 @@ export function EditorSidebar({ activeTab, onSelectTab, onOpenGridModal }: Edito
           </span>
           {!collapsed && <span>Semua Menu (3x5)</span>}
         </button>
+
+        {/* Mode Toggle Pill */}
+        {!collapsed && (
+          <div className="flex items-center p-1 rounded-xl bg-surface-container border border-outline-variant/40 text-[11px] font-semibold">
+            <button
+              onClick={handleToggleMode}
+              className="flex-1 py-1 px-2 rounded-lg transition-all flex items-center justify-center gap-1 text-on-surface-variant hover:text-on-surface"
+            >
+              <Ic.Sparkles s={13} />
+              <span>Timeline</span>
+            </button>
+            <button
+              onClick={() => {}}
+              className="flex-1 py-1 px-2 rounded-lg bg-primary text-on-primary shadow-xs font-bold flex items-center justify-center gap-1"
+            >
+              <Ic.Check s={13} />
+              <span>Kategori</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Categories & 15 Menu Items */}
