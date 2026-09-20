@@ -52,6 +52,10 @@ func main() {
 	templateService := service.NewTemplateService(templateRepo)
 	templateHandler := handler.NewTemplateHandler(templateService)
 
+	userRepo := repository.NewUserRepository(db)
+	authService := service.NewAuthService(userRepo, cfg)
+	authHandler := handler.NewAuthHandler(authService)
+
 	// 5. Setup Gin Router
 	r := gin.New()
 	r.Use(gin.Logger())
@@ -72,6 +76,12 @@ func main() {
 	{
 		templateHandler.RegisterRoutes(v1)
 	}
+
+	// Protected API v1 group with JWT Auth Middleware
+	v1Protected := v1.Group("")
+	v1Protected.Use(middleware.AuthMiddleware(cfg.JWTSecret))
+
+	authHandler.RegisterRoutes(v1, v1Protected)
 
 	// 6. Graceful HTTP Server
 	serverAddr := fmt.Sprintf(":%s", cfg.Port)
