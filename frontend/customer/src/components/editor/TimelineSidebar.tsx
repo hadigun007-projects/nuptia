@@ -98,7 +98,7 @@ export function TimelineSidebar({
       )}
 
       {/* Main List: 4 Category Nodes with Sub-items */}
-      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
+      <div className={`flex-1 overflow-y-auto py-3 space-y-4 ${collapsed ? 'px-1.5' : 'px-2'}`}>
         {CATEGORY_STEPS.map((cat, catIdx) => {
           const isCurrentCat = catIdx === safeCatIndex;
           const isPastCat = catIdx < safeCatIndex;
@@ -110,18 +110,23 @@ export function TimelineSidebar({
           const isCatFullyCompleted = completedCount === cat.items.length;
 
           return (
-            <div key={cat.key} className="relative">
-              {/* Category Connecting Line (drawn from this node to the next category node) */}
-              {!isLastCat && (
+            <div
+              key={cat.key}
+              className={`relative ${
+                collapsed && catIdx > 0 ? 'pt-2 mt-2 border-t border-outline-variant/20' : ''
+              }`}
+            >
+              {/* Category Connecting Line (Only drawn when expanded to prevent slicing through icons) */}
+              {!collapsed && !isLastCat && (
                 <span
                   aria-hidden="true"
-                  className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${
+                  className={`absolute w-0.5 pointer-events-none transition-colors z-0 left-[15px] ${
                     isPastCat
                       ? 'bg-primary/50'
                       : isCurrentCat
                       ? 'bg-primary/25'
                       : 'bg-outline-variant/30'
-                  } ${collapsed ? 'left-[36px]' : 'left-[15px]'}`}
+                  }`}
                   style={{
                     top: '24px',
                     bottom: '-16px',
@@ -130,7 +135,11 @@ export function TimelineSidebar({
               )}
 
               {/* Category Bullet Header */}
-              <div className={`flex items-center gap-2.5 relative z-10 ${collapsed ? 'justify-center mb-2' : 'px-1 pb-1.5'}`}>
+              <div
+                className={`flex items-center gap-2.5 relative z-10 ${
+                  collapsed ? 'justify-center mb-2' : 'px-1 pb-1.5'
+                }`}
+              >
                 {/* Category Timeline Node Circle */}
                 <div
                   title={`Kategori ${cat.stepNumber}: ${cat.title}`}
@@ -173,7 +182,11 @@ export function TimelineSidebar({
               </div>
 
               {/* Category Sub-items (Listed cleanly below category header) */}
-              <div className={`space-y-1 ${collapsed ? '' : 'pl-7'}`}>
+              <div
+                className={`space-y-1 ${
+                  collapsed ? 'flex flex-col items-center' : 'pl-7'
+                }`}
+              >
                 {cat.items.map((tabId) => {
                   const def = getDef(tabId);
                   const IconComp = def.Icon;
@@ -185,11 +198,19 @@ export function TimelineSidebar({
                       key={tabId}
                       onClick={() => onSelectTab(tabId)}
                       title={def.label}
-                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 ${
-                        isActive
-                          ? 'bg-primary text-on-primary font-bold shadow-xs'
-                          : 'text-on-surface hover:bg-surface-container hover:text-primary'
-                      } ${collapsed ? 'justify-center px-0' : ''}`}
+                      className={`transition-all duration-150 ${
+                        collapsed
+                          ? `w-10 h-10 rounded-xl flex items-center justify-center ${
+                              isActive
+                                ? 'bg-primary text-on-primary font-bold shadow-xs'
+                                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+                            }`
+                          : `w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold ${
+                              isActive
+                                ? 'bg-primary text-on-primary font-bold shadow-xs'
+                                : 'text-on-surface hover:bg-surface-container hover:text-primary'
+                            }`
+                      }`}
                     >
                       <span
                         className={`flex-shrink-0 transition-transform ${
