@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { AdminUser, UserRole } from '../types';
 
 interface UsersViewProps {
@@ -17,6 +17,20 @@ export const UsersView: React.FC<UsersViewProps> = ({
   const [roleFilter, setRoleFilter] = useState<'all' | 'customer' | 'admin' | 'developer' | 'viewer'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'suspended'>('all');
   const [localSearch, setLocalSearch] = useState('');
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Tutup dropdown jika klik di luar
+  useEffect(() => {
+    if (!openMenuId) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openMenuId]);
 
   const activeSearch = searchQuery || localSearch;
 
@@ -190,33 +204,69 @@ export const UsersView: React.FC<UsersViewProps> = ({
                       })}
                     </td>
 
-                    {/* Action buttons */}
+                    {/* Actions — Kebab Menu */}
                     <td className="py-3.5 px-5 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                      <div
+                        className="relative inline-block"
+                        ref={openMenuId === u.id ? menuRef : null}
+                      >
+                        {/* Trigger ⋮ */}
                         <button
-                          onClick={() =>
-                            onToggleRole(u.id, u.role === 'admin' ? 'customer' : 'admin')
-                          }
-                          className="px-2 py-1 rounded-lg text-[11px] font-medium bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors"
-                          title="Ganti Role (Admin/Customer)"
+                          onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
+                          className="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                          title="Opsi"
                         >
-                          {u.role === 'admin' ? 'Jadikan Customer' : 'Jadikan Admin'}
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <circle cx="10" cy="4" r="1.5" />
+                            <circle cx="10" cy="10" r="1.5" />
+                            <circle cx="10" cy="16" r="1.5" />
+                          </svg>
                         </button>
-                        <button
-                          onClick={() =>
-                            onToggleStatus(
-                              u.id,
-                              u.status === 'active' ? 'suspended' : 'active'
-                            )
-                          }
-                          className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${u.status === 'active'
-                              ? 'bg-error/10 text-error hover:bg-error/20'
-                              : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                            }`}
-                          title="Tangguhkan atau Aktifkan Akun"
-                        >
-                          {u.status === 'active' ? 'Suspend' : 'Aktifkan'}
-                        </button>
+
+                        {/* Dropdown */}
+                        {openMenuId === u.id && (
+                          <div className="absolute right-0 top-8 z-50 w-48 rounded-2xl bg-surface border border-outline-variant/30 shadow-xl py-1.5 animate-fade-in-up origin-top-right">
+
+                            {/* Toggle Role */}
+                            <button
+                              onClick={() => {
+                                onToggleRole(u.id, u.role === 'admin' ? 'customer' : 'admin');
+                                setOpenMenuId(null);
+                              }}
+                              className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors"
+                            >
+                              <svg className="w-3.5 h-3.5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              </svg>
+                              {u.role === 'admin' ? 'Jadikan Customer' : 'Jadikan Admin'}
+                            </button>
+
+                            {/* Suspend / Aktifkan */}
+                            <button
+                              onClick={() => {
+                                onToggleStatus(u.id, u.status === 'active' ? 'suspended' : 'active');
+                                setOpenMenuId(null);
+                              }}
+                              className={`w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium transition-colors ${
+                                u.status === 'active'
+                                  ? 'text-amber-700 hover:bg-amber-50'
+                                  : 'text-emerald-700 hover:bg-emerald-50'
+                              }`}
+                            >
+                              {u.status === 'active' ? (
+                                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg>
+                              ) : (
+                                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              )}
+                              {u.status === 'active' ? 'Suspend Akun' : 'Aktifkan Akun'}
+                            </button>
+
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>
