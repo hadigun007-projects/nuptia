@@ -12,7 +12,7 @@ export function BottomNav15({ activeTab, onSelectTab }: BottomNav15Props) {
   const [isOpen, setIsOpen] = useState(false);
   const currentIndex = MENU_ITEMS_15.findIndex((m) => m.id === activeTab);
   const currentDef = MENU_ITEMS_15[currentIndex] || MENU_ITEMS_15[0];
-  const CurrentIcon = currentDef.Icon;
+  const CurrentIcon = currentDef?.Icon || Ic.Pengantin;
 
   const currentCategory =
     CATEGORY_STEPS.find((c) => c.items.includes(activeTab)) || CATEGORY_STEPS[0];
