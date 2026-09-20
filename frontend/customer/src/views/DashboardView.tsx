@@ -81,135 +81,132 @@ export function DashboardView({
   };
 
   return (
-    <div className="min-h-screen bg-surface flex justify-center">
-      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-col relative shadow-none">
-        {/* Top Navbar */}
-        <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} onNavigateToLogin={onNavigateToLogin ?? (() => (window.location.hash = '#/login'))} />
+    <div className="min-h-screen bg-surface flex flex-col w-full">
+      {/* Top Navbar */}
+      <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} onNavigateToLogin={onNavigateToLogin ?? (() => (window.location.hash = '#/login'))} />
 
-        {/* Main Content Area */}
-        <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
-        {/* Welcome & Quick Action Banner */}
-        <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-primary-container via-surface-container to-secondary-container/40 p-6 sm:p-8 border border-outline-variant/30">
-          <div className="relative z-10 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/80 text-primary text-xs font-bold mb-3 backdrop-blur-xs">
-              <Ic.Sparkles s={14} />
-              <span>Pusat Kendali Undangan Pernikahan</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-on-surface font-display leading-tight">
-              Selamat datang kembali, Hadiyah ✨
-            </h1>
-            <p className="text-xs sm:text-sm text-on-surface-variant mt-2 leading-relaxed max-w-xl">
-              Kelola daftar undangan digitalmu, pantau konfirmasi kehadiran (RSVP) tamu secara real-time, dan edit
-              setiap momen spesial dengan mudah.
-            </p>
-
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <button
-                onClick={onCreateBlankInvitation}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200"
-              >
-                <Ic.Plus s={16} />
-                <span>Buat Undangan Baru</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Decorative heart watermark */}
-          <div className="absolute -right-8 -bottom-10 opacity-10 pointer-events-none text-primary transform rotate-12">
-            <Ic.Heart s={220} />
-          </div>
-        </section>
-
-        {/* Quick Stats Row */}
-        <section>
-          <DashboardStats invitations={invitations} />
-        </section>
-
-        {/* Filter, Search & Invitation List */}
-        <section className="space-y-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-extrabold text-on-surface font-display">Daftar Undangan Pernikahan</h2>
-              <p className="text-xs text-on-surface-variant mt-0.5">
-                Menampilkan {filteredInvitations.length} dari {invitations.length} undangan
+      {/* Main Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+          {/* Welcome & Quick Action Banner */}
+          <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-primary-container via-surface-container to-secondary-container/40 p-6 sm:p-8 border border-outline-variant/30">
+            <div className="relative z-10 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/80 text-primary text-xs font-bold mb-3 backdrop-blur-xs">
+                <Ic.Sparkles s={14} />
+                <span>Pusat Kendali Undangan Pernikahan</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-on-surface font-display leading-tight">
+                Selamat datang kembali, Hadiyah ✨
+              </h1>
+              <p className="text-xs sm:text-sm text-on-surface-variant mt-2 leading-relaxed max-w-xl">
+                Kelola daftar undangan digitalmu, pantau konfirmasi kehadiran (RSVP) tamu secara real-time, dan edit
+                setiap momen spesial dengan mudah.
               </p>
+
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <button
+                  onClick={onCreateBlankInvitation}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200"
+                >
+                  <Ic.Plus s={16} />
+                  <span>Buat Undangan Baru</span>
+                </button>
+              </div>
             </div>
 
-            {/* Controls: Search & Status Filters */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              {/* Search Bar */}
-              <div className="relative flex-1 sm:w-64">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">
-                  <Ic.Search s={16} />
-                </span>
-                <input
-                  type="text"
-                  placeholder="Cari mempelai, lokasi..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-full bg-surface-container-high text-xs sm:text-sm text-on-surface outline-none focus:ring-2 focus:ring-primary border-0 transition-all placeholder:text-on-surface-variant/70"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
-                  >
-                    <Ic.Close s={14} />
-                  </button>
-                )}
+            {/* Decorative heart watermark */}
+            <div className="absolute -right-8 -bottom-10 opacity-10 pointer-events-none text-primary transform rotate-12">
+              <Ic.Heart s={220} />
+            </div>
+          </section>
+
+          {/* Quick Stats Row */}
+          <section>
+            <DashboardStats invitations={invitations} />
+          </section>
+
+          {/* Filter, Search & Invitation List */}
+          <section className="space-y-5">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-extrabold text-on-surface font-display">Daftar Undangan Pernikahan</h2>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  Menampilkan {filteredInvitations.length} dari {invitations.length} undangan
+                </p>
               </div>
 
-              {/* Status Filter Chips */}
-              <div className="flex items-center gap-1.5 p-1 bg-surface-container rounded-full overflow-x-auto">
-                {(['Semua', 'Live', 'Published', 'Draft'] as const).map((filter) => {
-                  const isActive = statusFilter === filter;
-                  return (
+              {/* Controls: Search & Status Filters */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                {/* Search Bar */}
+                <div className="relative flex-1 sm:w-64">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">
+                    <Ic.Search s={16} />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Cari mempelai, lokasi..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 rounded-full bg-surface-container-high text-xs sm:text-sm text-on-surface outline-none focus:ring-2 focus:ring-primary border-0 transition-all placeholder:text-on-surface-variant/70"
+                  />
+                  {searchQuery && (
                     <button
-                      key={filter}
-                      onClick={() => setStatusFilter(filter)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
-                        isActive
-                          ? 'bg-surface-container-lowest text-primary font-bold'
-                          : 'text-on-surface-variant hover:text-on-surface'
-                      }`}
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
                     >
-                      {filter}
+                      <Ic.Close s={14} />
                     </button>
-                  );
-                })}
+                  )}
+                </div>
+
+                {/* Status Filter Chips */}
+                <div className="flex items-center gap-1.5 p-1 bg-surface-container rounded-full overflow-x-auto">
+                  {(['Semua', 'Live', 'Published', 'Draft'] as const).map((filter) => {
+                    const isActive = statusFilter === filter;
+                    return (
+                      <button
+                        key={filter}
+                        onClick={() => setStatusFilter(filter)}
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${isActive
+                            ? 'bg-surface-container-lowest text-primary font-bold'
+                            : 'text-on-surface-variant hover:text-on-surface'
+                          }`}
+                      >
+                        {filter}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Cards Grid */}
-          {filteredInvitations.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-              {filteredInvitations.map((invitation) => (
-                <InvitationCard
-                  key={invitation.id}
-                  invitation={invitation}
-                  onEdit={onNavigateToEditor}
-                  onPreview={(inv) => setPreviewingInv(inv)}
-                  onDuplicate={handleDuplicate}
-                  onDelete={handleDelete}
-                  onChangeStatus={handleStatusChange}
-                  onCopyLink={handleCopyLink}
-                />
-              ))}
-            </div>
-          ) : (
-            <EmptyState
-              isSearch={Boolean(searchQuery || statusFilter !== 'Semua')}
-              onReset={() => {
-                setSearchQuery('');
-                setStatusFilter('Semua');
-              }}
-              onCreateNew={onCreateBlankInvitation}
-            />
-          )}
-        </section>
+            {/* Cards Grid */}
+            {filteredInvitations.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                {filteredInvitations.map((invitation) => (
+                  <InvitationCard
+                    key={invitation.id}
+                    invitation={invitation}
+                    onEdit={onNavigateToEditor}
+                    onPreview={(inv) => setPreviewingInv(inv)}
+                    onDuplicate={handleDuplicate}
+                    onDelete={handleDelete}
+                    onChangeStatus={handleStatusChange}
+                    onCopyLink={handleCopyLink}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                isSearch={Boolean(searchQuery || statusFilter !== 'Semua')}
+                onReset={() => {
+                  setSearchQuery('');
+                  setStatusFilter('Semua');
+                }}
+                onCreateNew={onCreateBlankInvitation}
+              />
+            )}
+          </section>
       </main>
-    </div>
 
       {/* Modal Buat Undangan Baru */}
       <CreateInvitationModal
