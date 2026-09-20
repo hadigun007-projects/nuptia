@@ -1,6 +1,6 @@
 import React from 'react';
 import { EventData, EventSession } from '../../../types';
-import { Card, SectionHead, M3Field } from '../../common/UIComponents';
+import { Card, SubCard, SectionHead, M3Field } from '../../common/UIComponents';
 import { Ic } from '../../common/Icons';
 
 interface AcaraTabProps {
@@ -146,12 +146,10 @@ export function AcaraTab({ data, onChange, showToast }: AcaraTabProps) {
       </Card>
 
       {/* Sesi Tambahan Opsional */}
-      <Card>
-        <div className="flex items-center justify-between mb-4">
-          <SectionHead
-            title="Rangkaian Sesi Khusus"
-            sub="Tambahkan sesi lain seperti Acara Adat, Lamaran, atau Unduh Mantu"
-          />
+      <Card
+        title="Rangkaian Sesi Khusus"
+        sub="Tambahkan sesi lain seperti Acara Adat, Lamaran, atau Unduh Mantu"
+        headerAction={
           <button
             type="button"
             onClick={handleAddSession}
@@ -159,13 +157,24 @@ export function AcaraTab({ data, onChange, showToast }: AcaraTabProps) {
           >
             <Ic.Plus s={15} /> Tambah Sesi
           </button>
-        </div>
-
+        }
+      >
         <div className="space-y-3">
           {sessions.map((s, idx) => (
-            <div
+            <SubCard
               key={s.id}
-              className="p-3.5 rounded-2xl bg-surface-container-low border border-outline-variant/30 flex items-center justify-between gap-3"
+              action={
+                idx >= 2 ? (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSession(s.id)}
+                    className="w-7 h-7 rounded-full text-error hover:bg-error-container/40 flex items-center justify-center transition-colors"
+                    title="Hapus Sesi"
+                  >
+                    <Ic.Trash s={14} />
+                  </button>
+                ) : undefined
+              }
             >
               <div className="min-w-0 flex-1">
                 <input
@@ -178,18 +187,7 @@ export function AcaraTab({ data, onChange, showToast }: AcaraTabProps) {
                   {s.date} • {s.time} {s.timezone || 'WIB'} • {s.venue || data.venue || 'Venue'}
                 </p>
               </div>
-
-              {idx >= 2 && (
-                <button
-                  type="button"
-                  onClick={() => handleRemoveSession(s.id)}
-                  className="w-7 h-7 rounded-full text-error hover:bg-error-container/40 flex items-center justify-center transition-colors"
-                  title="Hapus Sesi"
-                >
-                  <Ic.Trash s={14} />
-                </button>
-              )}
-            </div>
+            </SubCard>
           ))}
         </div>
       </Card>

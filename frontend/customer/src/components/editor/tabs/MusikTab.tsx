@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { MediaData } from '../../../types';
-import { Card, SectionHead, M3Field, M3Switch } from '../../common/UIComponents';
+import { Card, SubCard, SectionHead, M3Field, M3Switch } from '../../common/UIComponents';
 import { Ic } from '../../common/Icons';
 
 interface MusikTabProps {
@@ -130,43 +130,33 @@ export function MusikTab({ data, onChange, showToast }: MusikTabProps) {
       </Card>
 
       {/* Katalog Lagu Populer */}
-      <Card>
-        <SectionHead
-          title="Katalog Pilihan Lagu Pernikahan Populer"
-          sub="Klik salah satu judul lagu untuk langsung menggunakannya"
-        />
-        <div className="divide-y divide-outline-variant/30">
+      <Card
+        title="Katalog Pilihan Lagu Pernikahan Populer"
+        sub="Klik salah satu judul lagu untuk langsung menggunakannya"
+      >
+        <div className="space-y-2">
           {SONG_CATALOG.map((song, idx) => {
             const isCurrent = data.musicTitle.includes(song.title);
             return (
-              <div
+              <SubCard
                 key={idx}
+                interactive
+                selected={isCurrent}
                 onClick={() => handleSelectSong(song)}
-                className={`py-3 px-3 rounded-xl flex items-center justify-between cursor-pointer transition-all ${
-                  isCurrent
-                    ? 'bg-primary-container/40 text-primary font-bold'
-                    : 'hover:bg-surface-container text-on-surface'
-                }`}
-              >
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-xs flex-shrink-0">
-                    <Ic.Musik s={14} />
-                  </span>
-                  <div className="truncate">
-                    <p className="text-xs font-bold font-display truncate">{song.title}</p>
-                    <p className="text-[10px] text-on-surface-variant truncate">{song.artist}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-[11px] text-on-surface-variant font-mono">{song.duration}</span>
-                  {isCurrent && (
+                icon={<Ic.Musik s={15} />}
+                title={song.title}
+                subtitle={song.artist}
+                badge={
+                  isCurrent ? (
                     <span className="px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-bold">
                       Aktif
                     </span>
-                  )}
-                </div>
-              </div>
+                  ) : undefined
+                }
+                action={
+                  <span className="text-[11px] text-on-surface-variant font-mono">{song.duration}</span>
+                }
+              />
             );
           })}
         </div>

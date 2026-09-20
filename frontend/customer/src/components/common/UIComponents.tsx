@@ -145,16 +145,10 @@ export const Skeleton = ({ className = '' }: { className?: string }) => (
   <div className={`shimmer-bg rounded-xl ${className}`} />
 );
 
-/* ── Card ────────────────────────────────────────────────────────── */
-export function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div
-      className={`bg-surface-container-lowest rounded-[20px] p-5 shadow-sm border border-outline-variant/30 ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
+/* ── Card & SubCard ────────────────────────────────────────────────── */
+export { Card, SubCard } from './Card';
+export type { CardProps, SubCardProps, CardVariant, CardPadding } from './Card';
+
 
 /* ── Section Header ──────────────────────────────────────────────── */
 export function SectionHead({ title, sub }: { title: string; sub?: string }) {

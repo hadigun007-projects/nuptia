@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LoveStoryMilestone } from '../../../types';
-import { Card, SectionHead, M3Field } from '../../common/UIComponents';
+import { Card, SubCard, SectionHead, M3Field } from '../../common/UIComponents';
 import { Ic } from '../../common/Icons';
 
 interface KisahCintaTabProps {
@@ -117,20 +117,19 @@ export function KisahCintaTab({ milestones = [], onChange, showToast }: KisahCin
         ) : (
           <div className="space-y-4">
             {milestones.map((m, idx) => (
-              <div
+              <SubCard
                 key={m.id}
-                className="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-3"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-primary text-on-primary font-bold text-xs flex items-center justify-center">
-                      {idx + 1}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-bold text-xs">
-                      {m.year}
-                    </span>
-                  </div>
-
+                icon={
+                  <span className="w-6 h-6 rounded-full bg-primary text-on-primary font-bold text-xs flex items-center justify-center">
+                    {idx + 1}
+                  </span>
+                }
+                badge={
+                  <span className="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-bold text-xs">
+                    {m.year}
+                  </span>
+                }
+                action={
                   <button
                     type="button"
                     onClick={() => handleDelete(m.id)}
@@ -139,8 +138,8 @@ export function KisahCintaTab({ milestones = [], onChange, showToast }: KisahCin
                   >
                     <Ic.Trash s={14} />
                   </button>
-                </div>
-
+                }
+              >
                 <div className="space-y-2">
                   <M3Field
                     label="Judul Momen"
@@ -155,7 +154,7 @@ export function KisahCintaTab({ milestones = [], onChange, showToast }: KisahCin
                     rows={2}
                   />
                 </div>
-              </div>
+              </SubCard>
             ))}
           </div>
         )}
