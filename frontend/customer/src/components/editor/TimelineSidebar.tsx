@@ -66,82 +66,92 @@ export function TimelineSidebar({
     >
       {/* Timeline Stepper List */}
       <div className="flex-1 overflow-y-auto py-3 px-2 relative">
-        {/* Continuous Vertical Line */}
-        <div
-          className={`absolute top-4 bottom-8 w-0.5 bg-outline-variant/50 pointer-events-none transition-all ${collapsed ? 'left-[37px]' : 'left-[29px]'
-            }`}
-        />
-
-        <div className="space-y-1 relative z-10">
+        <div className="space-y-1 relative">
           {TIMELINE_STEPS.map((step, idx) => {
             const def = getDef(step.id);
             const IconComp = def.Icon;
             const isActive = activeTab === step.id;
             const isCompleted = Boolean(completedSteps[step.id]);
             const isPast = idx < currentStepIndex;
+            const isLastStep = idx === TIMELINE_STEPS.length - 1;
 
             return (
-              <button
-                key={step.id}
-                onClick={() => onSelectTab(step.id)}
-                title={`${step.stepNumber}. ${step.label} (${isCompleted ? 'Selesai' : step.isRequired ? 'Wajib' : 'Opsional'})`}
-                className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left ${isActive
-                  ? 'bg-primary-container/40 border border-primary/25 shadow-2xs'
-                  : 'hover:bg-surface-container/70 border border-transparent'
-                  } ${collapsed ? 'justify-center p-2.5' : ''}`}
-              >
-                {/* Step Node Circle on Timeline with Icon */}
-                <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
-                    ? 'bg-primary text-on-primary ring-4 ring-primary/20 shadow-xs scale-105'
-                    : isCompleted
-                      ? 'bg-emerald-600 text-white shadow-2xs'
-                      : isPast
-                        ? 'bg-surface-container-high text-on-surface-variant border border-outline-variant'
-                        : 'bg-surface-container text-on-surface-variant/70 border border-outline-variant/40 group-hover:text-primary'
-                    }`}
-                >
-                  <IconComp s={14} />
-
-                  {/* Tiny check badge when completed */}
-                  {isCompleted && (
-                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[7px] font-black border border-white">
-                      ✓
-                    </span>
-                  )}
-
-                  {/* Pulsing indicator for active step */}
-                  {isActive && (
-                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-secondary ring-2 ring-white animate-pulse" />
-                  )}
-                </div>
-
-                {/* Step Details (when expanded) */}
-                {!collapsed && (
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-1">
-                      <span
-                        className={`truncate font-display leading-tight ${isActive
-                          ? 'font-bold text-primary'
-                          : isCompleted
-                            ? 'font-semibold text-on-surface'
-                            : 'font-medium text-on-surface/85'
-                          }`}
-                      >
-                        {step.label}
-                        {step.isRequired && <span className="text-red-500 font-bold ml-1">*</span>}
-                      </span>
-
-                      {/* Status Tag: Checkmark when completed */}
-                      {isCompleted && (
-                        <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800 text-[9px] font-bold">
-                          ✓
-                        </span>
-                      )}
-                    </div>
-                  </div>
+              <div key={step.id} className="relative">
+                {/* Connecting Line between nodes (hidden on the last item to prevent overflow) */}
+                {!isLastStep && (
+                  <span
+                    aria-hidden="true"
+                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${
+                      isPast || isCompleted ? 'bg-primary/40' : 'bg-outline-variant/60'
+                    } ${collapsed ? 'left-[29px]' : 'left-[21px]'}`}
+                    style={{
+                      top: '26px',
+                      bottom: '-6px',
+                    }}
+                  />
                 )}
-              </button>
+
+                <button
+                  onClick={() => onSelectTab(step.id)}
+                  title={`${step.label}${step.isRequired ? ' *' : ''} (${isCompleted ? 'Selesai' : step.isRequired ? 'Wajib' : 'Opsional'})`}
+                  className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 ${isActive
+                    ? 'bg-primary-container/40 border border-primary/25 shadow-2xs'
+                    : 'hover:bg-surface-container/70 border border-transparent'
+                    } ${collapsed ? 'justify-center p-2.5' : ''}`}
+                >
+                  {/* Step Node Circle on Timeline with Icon */}
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
+                      ? 'bg-primary text-on-primary ring-4 ring-primary/20 shadow-xs scale-105'
+                      : isCompleted
+                        ? 'bg-emerald-600 text-white shadow-2xs'
+                        : isPast
+                          ? 'bg-surface-container-high text-on-surface-variant border border-outline-variant'
+                          : 'bg-surface-container text-on-surface-variant/70 border border-outline-variant/40 group-hover:text-primary'
+                      }`}
+                  >
+                    <IconComp s={14} />
+
+                    {/* Tiny check badge when completed */}
+                    {isCompleted && (
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[7px] font-black border border-white">
+                        ✓
+                      </span>
+                    )}
+
+                    {/* Pulsing indicator for active step */}
+                    {isActive && (
+                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-secondary ring-2 ring-white animate-pulse" />
+                    )}
+                  </div>
+
+                  {/* Step Details (when expanded) */}
+                  {!collapsed && (
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-1">
+                        <span
+                          className={`truncate font-display leading-tight ${isActive
+                            ? 'font-bold text-primary'
+                            : isCompleted
+                              ? 'font-semibold text-on-surface'
+                              : 'font-medium text-on-surface/85'
+                            }`}
+                        >
+                          {step.label}
+                          {step.isRequired && <span className="text-red-500 font-bold ml-1">*</span>}
+                        </span>
+
+                        {/* Status Tag: Checkmark when completed */}
+                        {isCompleted && (
+                          <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800 text-[9px] font-bold">
+                            ✓
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </button>
+              </div>
             );
           })}
         </div>

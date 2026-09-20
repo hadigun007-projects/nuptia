@@ -6,7 +6,6 @@ import { STATUS_STYLES } from '../common/UIComponents';
 interface EditorTopBarProps {
   title: string;
   status: Status;
-  autoSaving: boolean;
   showPreview: boolean;
   onBack: () => void;
   onTogglePreview: () => void;
@@ -17,7 +16,6 @@ interface EditorTopBarProps {
 export function EditorTopBar({
   title,
   status,
-  autoSaving,
   showPreview,
   onBack,
   onTogglePreview,
@@ -55,36 +53,13 @@ export function EditorTopBar({
         </div>
       </div>
 
-      {/* Status cycle button */}
-      <button
-        onClick={onChangeStatus}
-        title="Klik untuk mengubah status (Draft → Published → Live)"
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 hover:opacity-90 ${statusMeta.badge}`}
-      >
-        {status === 'Live' && <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-dot" />}
-        {status}
-      </button>
-
-      {/* Autosave indicator */}
-      {autoSaving ? (
-        <span className="hidden sm:flex items-center gap-1.5 text-xs text-on-surface-variant">
-          <span className="w-3 h-3 rounded-full border-2 border-primary border-t-transparent animate-spin-slow" />
-          Menyimpan…
-        </span>
-      ) : (
-        <span className="hidden sm:flex items-center gap-1.5 text-xs text-on-surface-variant">
-          <Ic.Cloud s={14} cls="text-primary" /> Tersimpan
-        </span>
-      )}
-
       {/* Toggle Preview button */}
       <button
         onClick={onTogglePreview}
-        className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold border transition-all duration-200 ${
-          showPreview
-            ? 'bg-primary-container text-on-primary-container border-primary/30'
-            : 'bg-surface-container text-on-surface-variant border-outline-variant hover:bg-surface-container-high'
-        }`}
+        className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold border transition-all duration-200 ${showPreview
+          ? 'bg-primary-container text-on-primary-container border-primary/30'
+          : 'bg-surface-container text-on-surface-variant border-outline-variant hover:bg-surface-container-high'
+          }`}
       >
         <Ic.Eye s={15} />
         <span className="hidden sm:inline">Preview</span>
