@@ -117,11 +117,6 @@ export function TimelineSidebar({
                         ✓
                       </span>
                     )}
-
-                    {/* Pulsing indicator for active step */}
-                    {isActive && (
-                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-secondary ring-2 ring-white animate-pulse" />
-                    )}
                   </div>
 
                   {/* Step Details (when expanded) */}
