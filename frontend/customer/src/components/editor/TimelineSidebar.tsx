@@ -61,9 +61,8 @@ export function TimelineSidebar({
 
   return (
     <aside
-      className={`hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/40 transition-all duration-300 flex-shrink-0 z-20 select-none ${
-        collapsed ? 'w-[76px]' : 'w-[264px]'
-      }`}
+      className={`hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/40 transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px]'
+        }`}
     >
       {/* Top Header & Mode Switcher */}
       <div className="p-3 border-b border-outline-variant/30 space-y-2.5">
@@ -75,11 +74,10 @@ export function TimelineSidebar({
               onClick={() => {
                 if (!isTimelineMode) onToggleMode();
               }}
-              className={`flex-1 py-1.5 px-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                isTimelineMode
-                  ? 'bg-primary text-on-primary shadow-xs font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
+              className={`flex-1 py-1.5 px-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${isTimelineMode
+                ? 'bg-primary text-on-primary shadow-xs font-bold'
+                : 'text-on-surface-variant hover:text-on-surface'
+                }`}
             >
               <Ic.Sparkles s={13} />
               <span>Timeline</span>
@@ -88,11 +86,10 @@ export function TimelineSidebar({
               onClick={() => {
                 if (isTimelineMode) onToggleMode();
               }}
-              className={`flex-1 py-1.5 px-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                !isTimelineMode
-                  ? 'bg-primary text-on-primary shadow-xs font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
+              className={`flex-1 py-1.5 px-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${!isTimelineMode
+                ? 'bg-primary text-on-primary shadow-xs font-bold'
+                : 'text-on-surface-variant hover:text-on-surface'
+                }`}
             >
               <Ic.Check s={13} />
               <span>Kategori</span>
@@ -126,9 +123,8 @@ export function TimelineSidebar({
       <div className="flex-1 overflow-y-auto py-3 px-2 relative">
         {/* Continuous Vertical Line */}
         <div
-          className={`absolute top-4 bottom-8 w-0.5 bg-outline-variant/50 pointer-events-none transition-all ${
-            collapsed ? 'left-[37px]' : 'left-[29px]'
-          }`}
+          className={`absolute top-4 bottom-8 w-0.5 bg-outline-variant/50 pointer-events-none transition-all ${collapsed ? 'left-[37px]' : 'left-[29px]'
+            }`}
         />
 
         <div className="space-y-1 relative z-10">
@@ -144,28 +140,29 @@ export function TimelineSidebar({
                 key={step.id}
                 onClick={() => onSelectTab(step.id)}
                 title={`${step.stepNumber}. ${step.label} (${isCompleted ? 'Selesai' : step.isRequired ? 'Wajib' : 'Opsional'})`}
-                className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left ${
-                  isActive
-                    ? 'bg-primary-container/40 border border-primary/25 shadow-2xs'
-                    : 'hover:bg-surface-container/70 border border-transparent'
-                } ${collapsed ? 'justify-center p-2.5' : ''}`}
+                className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left ${isActive
+                  ? 'bg-primary-container/40 border border-primary/25 shadow-2xs'
+                  : 'hover:bg-surface-container/70 border border-transparent'
+                  } ${collapsed ? 'justify-center p-2.5' : ''}`}
               >
-                {/* Step Node Circle on Timeline */}
+                {/* Step Node Circle on Timeline with Icon */}
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${
-                    isActive
-                      ? 'bg-primary text-on-primary ring-4 ring-primary/20 shadow-xs scale-105'
-                      : isCompleted
+                  className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
+                    ? 'bg-primary text-on-primary ring-4 ring-primary/20 shadow-xs scale-105'
+                    : isCompleted
                       ? 'bg-emerald-600 text-white shadow-2xs'
                       : isPast
-                      ? 'bg-surface-container-high text-on-surface-variant border border-outline-variant'
-                      : 'bg-surface-container text-on-surface-variant/70 border border-outline-variant/40'
-                  }`}
+                        ? 'bg-surface-container-high text-on-surface-variant border border-outline-variant'
+                        : 'bg-surface-container text-on-surface-variant/70 border border-outline-variant/40 group-hover:text-primary'
+                    }`}
                 >
-                  {isCompleted ? (
-                    <Ic.Check s={14} />
-                  ) : (
-                    <span className="font-mono text-[11px]">{step.stepNumber}</span>
+                  <IconComp s={14} />
+
+                  {/* Tiny check badge when completed */}
+                  {isCompleted && (
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[7px] font-black border border-white">
+                      ✓
+                    </span>
                   )}
 
                   {/* Pulsing indicator for active step */}
@@ -179,13 +176,12 @@ export function TimelineSidebar({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-1">
                       <span
-                        className={`truncate font-display leading-tight ${
-                          isActive
-                            ? 'font-bold text-primary'
-                            : isCompleted
+                        className={`truncate font-display leading-tight ${isActive
+                          ? 'font-bold text-primary'
+                          : isCompleted
                             ? 'font-semibold text-on-surface'
                             : 'font-medium text-on-surface/85'
-                        }`}
+                          }`}
                       >
                         {step.label}
                       </span>
@@ -204,15 +200,6 @@ export function TimelineSidebar({
                           Opsi
                         </span>
                       )}
-                    </div>
-
-                    <div className="flex items-center gap-1 mt-0.5">
-                      <span className="text-on-surface-variant/80 group-hover:text-primary transition-colors">
-                        <IconComp s={12} />
-                      </span>
-                      <p className="text-[10px] text-on-surface-variant truncate">
-                        {step.subLabel}
-                      </p>
                     </div>
                   </div>
                 )}
