@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { AdminUser, CreateInternalUserPayload, UserRole } from '../../types';
 
 interface InternalUsersTabProps {
@@ -33,6 +33,20 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
   const [showAddModal, setShowAddModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
   const [roleEditTarget, setRoleEditTarget] = useState<AdminUser | null>(null);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Tutup dropdown jika klik di luar
+  useEffect(() => {
+    if (!openMenuId) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openMenuId]);
 
   // Form states
   const [formData, setFormData] = useState<CreateInternalUserPayload>({
@@ -199,7 +213,7 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
             </svg>
-            <span>Tambah User Internal</span>
+            <span>Tambah User</span>
           </button>
         </div>
       </div>
@@ -213,7 +227,6 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                 <th className="py-3.5 px-5">Nama</th>
                 <th className="py-3.5 px-4">Role</th>
                 <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4">Metode Auth</th>
                 <th className="py-3.5 px-4">Terdaftar</th>
                 <th className="py-3.5 px-5 text-right">Aksi</th>
               </tr>
@@ -221,7 +234,7 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
             <tbody className="divide-y divide-outline-variant/20 text-xs">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-on-surface-variant">
+                  <td colSpan={5} className="py-12 text-center text-on-surface-variant">
                     <div className="w-10 h-10 rounded-2xl bg-surface-container flex items-center justify-center mx-auto mb-2 text-on-surface-variant">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -293,13 +306,6 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                         </span>
                       </td>
 
-                      {/* Provider */}
-                      <td className="py-3.5 px-4">
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-[10px] font-semibold text-on-surface-variant capitalize">
-                          {u.authProvider === 'google' ? '🟢Google' : 'Password'}
-                        </span>
-                      </td>
-
                       {/* Registered Date */}
                       <td className="py-3.5 px-4 text-on-surface-variant text-[11px]">
                         {new Date(u.createdAt).toLocaleDateString('id-ID', {
@@ -309,55 +315,87 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                         })}
                       </td>
 
-                      {/* Actions */}
+                      {/* Actions — Kebab Menu */}
                       <td className="py-3.5 px-5 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          {/* Change Role Button */}
+                        <div
+                          className="relative inline-block"
+                          ref={openMenuId === u.id ? menuRef : null}
+                        >
+                          {/* Trigger ⋮ */}
                           <button
-                            onClick={() => setRoleEditTarget(u)}
-                            className="px-2 py-1 rounded-lg text-[11px] font-medium bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors"
-                            title="Ubah Role Internal"
+                            onClick={() => setOpenMenuId(openMenuId === u.id ? null : u.id)}
+                            className="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                            title="Opsi"
                           >
-                            Ubah Role
-                          </button>
-
-                          {/* Suspend / Activate Button (disabled for self) */}
-                          <button
-                            disabled={isSelf}
-                            onClick={() =>
-                              onToggleStatus(u.id, u.status === 'active' ? 'suspended' : 'active')
-                            }
-                            className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${isSelf
-                              ? 'opacity-40 cursor-not-allowed bg-surface-container text-on-surface-variant'
-                              : u.status === 'active'
-                                ? 'bg-error/10 text-error hover:bg-error/20'
-                                : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                              }`}
-                            title={
-                              isSelf
-                                ? 'Tidak bisa mengubah status akun Anda sendiri'
-                                : u.status === 'active'
-                                  ? 'Suspend Akun'
-                                  : 'Aktifkan Akun'
-                            }
-                          >
-                            {u.status === 'active' ? 'Suspend' : 'Aktifkan'}
-                          </button>
-
-                          {/* Delete / Revoke Button (disabled for self) */}
-                          <button
-                            disabled={isSelf}
-                            onClick={() => setDeleteTarget(u)}
-                            className={`p-1 rounded-lg text-[11px] transition-colors ${isSelf
-                              ? 'opacity-30 cursor-not-allowed text-on-surface-variant'
-                              : 'text-error hover:bg-error/10'
-                              }`}
-                            title={isSelf ? 'Tidak bisa menghapus akun Anda sendiri' : 'Hapus User Internal'}
-                          >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <circle cx="10" cy="4" r="1.5" />
+                              <circle cx="10" cy="10" r="1.5" />
+                              <circle cx="10" cy="16" r="1.5" />
                             </svg>
                           </button>
+
+                          {/* Dropdown */}
+                          {openMenuId === u.id && (
+                            <div className="absolute right-0 top-8 z-50 w-44 rounded-2xl bg-surface border border-outline-variant/30 shadow-xl py-1.5 animate-fade-in-up origin-top-right">
+
+                              {/* Ubah Role */}
+                              <button
+                                onClick={() => { setRoleEditTarget(u); setOpenMenuId(null); }}
+                                className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-on-surface hover:bg-surface-container-high transition-colors"
+                              >
+                                <svg className="w-3.5 h-3.5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Ubah Role
+                              </button>
+
+                              {/* Suspend / Aktifkan */}
+                              <button
+                                disabled={isSelf}
+                                onClick={() => {
+                                  onToggleStatus(u.id, u.status === 'active' ? 'suspended' : 'active');
+                                  setOpenMenuId(null);
+                                }}
+                                className={`w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium transition-colors ${
+                                  isSelf
+                                    ? 'opacity-40 cursor-not-allowed text-on-surface-variant'
+                                    : u.status === 'active'
+                                      ? 'text-amber-700 hover:bg-amber-50'
+                                      : 'text-emerald-700 hover:bg-emerald-50'
+                                }`}
+                              >
+                                {u.status === 'active' ? (
+                                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                  </svg>
+                                ) : (
+                                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                )}
+                                {u.status === 'active' ? 'Suspend Akun' : 'Aktifkan Akun'}
+                              </button>
+
+                              <div className="my-1 h-px bg-outline-variant/20 mx-3" />
+
+                              {/* Hapus */}
+                              <button
+                                disabled={isSelf}
+                                onClick={() => { setDeleteTarget(u); setOpenMenuId(null); }}
+                                className={`w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium transition-colors ${
+                                  isSelf
+                                    ? 'opacity-30 cursor-not-allowed text-on-surface-variant'
+                                    : 'text-error hover:bg-error/10'
+                                }`}
+                              >
+                                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Hapus User
+                              </button>
+
+                            </div>
+                          )}
                         </div>
                       </td>
                     </tr>
