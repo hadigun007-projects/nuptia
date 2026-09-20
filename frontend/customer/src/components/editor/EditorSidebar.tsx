@@ -74,7 +74,7 @@ export function EditorSidebar({
 
   return (
     <aside
-      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 ${
+      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 sticky top-[57px] max-h-[calc(100vh-57px)] ${
         collapsed ? 'w-[74px]' : 'w-[250px]'
       }`}
     >

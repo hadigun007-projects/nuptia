@@ -66,7 +66,7 @@ export function TimelineSidebar({
 
   return (
     <aside
-      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px] p-8 pt-4'
+      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none sticky top-[57px] max-h-[calc(100vh-57px)] ${collapsed ? 'w-[76px]' : 'w-[264px] p-8 pt-4'
         }`}
     >
       {/* Timeline Stepper List */}

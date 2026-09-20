@@ -381,7 +381,7 @@ export function LoginView({ onSuccess, onBack }: LoginViewProps) {
       </div>
 
       {/* ── RIGHT: Form panel ────────────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 bg-surface overflow-y-auto">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 bg-surface">
         {/* Mobile back link */}
         {onBack && (
           <div className="w-full max-w-md mb-6 lg:hidden">

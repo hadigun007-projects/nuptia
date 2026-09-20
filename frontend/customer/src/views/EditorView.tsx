@@ -293,8 +293,8 @@ function EditorViewInner({
   }, [event, theme, media, loveStory, guests, streaming, social, guestBook, settings, slug, invitation.templateId]);
 
   return (
-    <div className="h-screen bg-surface flex justify-center overflow-hidden">
-      <div className="w-full max-w-7xl h-screen bg-surface flex flex-col relative shadow-none overflow-hidden">
+    <div className="min-h-screen bg-surface flex justify-center">
+      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-col relative shadow-none">
         {/* Top Navbar */}
       <EditorTopBar
         title={invitation.title}
@@ -308,7 +308,7 @@ function EditorViewInner({
         onNavigateToLogin={onNavigateToLogin}
       />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 items-start">
         {/* Hierarchical 15-menu Sidebar / Timeline Stepper for Desktop */}
         <EditorSidebar
           activeTab={activeNormalizedTab}
@@ -320,8 +320,8 @@ function EditorViewInner({
         />
 
         {/* Main Editor Work Area */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="flex min-h-full">
+        <main className="flex-1 min-w-0">
+          <div className="flex min-h-full items-start">
             {/* Form Area */}
             <div className={`flex-1 p-4 pb-24 lg:pb-8 ${showPreview ? 'lg:max-w-[calc(100%-360px)]' : ''}`}>
               <div className="max-w-2xl mx-auto">
@@ -445,7 +445,7 @@ function EditorViewInner({
 
             {/* Live Preview Panel for Desktop */}
             {showPreview && (
-              <aside className="hidden lg:block w-[360px] flex-shrink-0 overflow-y-auto bg-surface">
+              <aside className="hidden lg:block w-[360px] flex-shrink-0 sticky top-[57px] max-h-[calc(100vh-57px)] overflow-y-auto bg-surface">
                 <PreviewPanel
                   event={event}
                   media={media}
