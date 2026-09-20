@@ -19,7 +19,6 @@ import { EditorTopBar } from '../components/editor/EditorTopBar';
 import { EditorSidebar } from '../components/editor/EditorSidebar';
 import { BottomNav15 } from '../components/editor/BottomNav15';
 import { PreviewPanel } from '../components/editor/preview/PreviewPanel';
-import { StepNavigationFooter } from '../components/editor/StepNavigationFooter';
 import { Ic } from '../components/common/Icons';
 
 // 15 Form Tabs
