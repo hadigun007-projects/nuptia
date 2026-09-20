@@ -94,15 +94,14 @@ export function TimelineSidebar({
                 <button
                   onClick={() => onSelectTab(step.id)}
                   title={`${step.label}${step.isRequired ? ' *' : ''} (${isCompleted ? 'Selesai' : step.isRequired ? 'Wajib' : 'Opsional'})`}
-                  className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 ${isActive
-                    ? 'bg-primary-container/40 border border-primary/25 shadow-2xs'
-                    : 'hover:bg-surface-container/70 border border-transparent'
-                    } ${collapsed ? 'justify-center p-2.5' : ''}`}
+                  className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 hover:bg-surface-container/50 ${
+                    collapsed ? 'justify-center p-2.5' : ''
+                  }`}
                 >
                   {/* Step Node Circle on Timeline with Icon */}
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
-                      ? 'bg-primary text-on-primary ring-4 ring-primary/20 shadow-xs scale-105'
+                      ? 'bg-primary text-on-primary shadow-xs scale-105'
                       : isCompleted
                         ? 'bg-emerald-600 text-white shadow-2xs'
                         : isPast
