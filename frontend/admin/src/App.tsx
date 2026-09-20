@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from './hooks/useAdminAuth';
+import { useAdminData } from './hooks/useAdminData';
 import { AccessDenied } from './components/common/AccessDenied';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
@@ -8,25 +9,26 @@ import { InvitationsView } from './views/InvitationsView';
 import { TemplatesView } from './views/TemplatesView';
 import { PackagesView } from './views/PackagesView';
 import { SettingsView } from './views/SettingsView';
-import {
-  initialStats,
-  initialUsers,
-  initialInvitations,
-  initialTemplates,
-  initialPackages,
-} from './data/mockData';
-import { AdminRoute, AdminUser, AdminInvitation, AdminTemplate, PackageTier } from './types';
+import { AdminRoute } from './types';
 
 export default function App() {
-  const { user, isAdmin, loading, checkAuth, devSetAdmin, logout } = useAdminAuth();
+  const { user, isAdmin, loading: authLoading, checkAuth, devSetAdmin, logout } = useAdminAuth();
+  const {
+    stats,
+    users,
+    invitations,
+    templates,
+    packages,
+    toast,
+    updateUserRole,
+    updateUserStatus,
+    toggleTemplateActive,
+    toggleInvitationStatus,
+    togglePackage,
+  } = useAdminData();
+
   const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash || '#/');
   const [searchQuery, setSearchQuery] = useState<string>('');
-
-  // State management (connected to API via hooks in Task 9)
-  const [users, setUsers] = useState<AdminUser[]>(initialUsers);
-  const [invitations, setInvitations] = useState<AdminInvitation[]>(initialInvitations);
-  const [templates, setTemplates] = useState<AdminTemplate[]>(initialTemplates);
-  const [packages, setPackages] = useState<PackageTier[]>(initialPackages);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -36,37 +38,7 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const handleToggleRole = (userId: string, newRole: 'customer' | 'admin') => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
-    );
-  };
-
-  const handleToggleStatus = (userId: string, newStatus: 'active' | 'suspended') => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u))
-    );
-  };
-
-  const handleToggleInvStatus = (invId: string, newStatus: 'Draft' | 'Published' | 'Live') => {
-    setInvitations((prev) =>
-      prev.map((inv) => (inv.id === invId ? { ...inv, status: newStatus } : inv))
-    );
-  };
-
-  const handleToggleTemplateActive = (templateId: string) => {
-    setTemplates((prev) =>
-      prev.map((t) => (t.id === templateId ? { ...t, isActive: !t.isActive } : t))
-    );
-  };
-
-  const handleTogglePackage = (pkgId: string) => {
-    setPackages((prev) =>
-      prev.map((p) => (p.id === pkgId ? { ...p, isActive: !p.isActive } : p))
-    );
-  };
-
-  if (loading) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
         <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
@@ -108,9 +80,17 @@ export default function App() {
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
     >
+      {/* Toast feedback */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-2xl bg-inverse-surface text-inverse-on-surface text-xs font-semibold shadow-lg border border-outline-variant/30 flex items-center gap-2 animate-toast">
+          <span>✓</span>
+          <span>{toast}</span>
+        </div>
+      )}
+
       {route === 'dashboard' && (
         <DashboardView
-          stats={initialStats}
+          stats={stats}
           recentUsers={users}
           recentInvitations={invitations}
           onNavigate={navigateTo}
@@ -120,8 +100,8 @@ export default function App() {
       {route === 'users' && (
         <UsersView
           users={users}
-          onToggleRole={handleToggleRole}
-          onToggleStatus={handleToggleStatus}
+          onToggleRole={updateUserRole}
+          onToggleStatus={updateUserStatus}
           searchQuery={searchQuery}
         />
       )}
@@ -129,7 +109,7 @@ export default function App() {
       {route === 'invitations' && (
         <InvitationsView
           invitations={invitations}
-          onToggleStatus={handleToggleInvStatus}
+          onToggleStatus={toggleInvitationStatus}
           searchQuery={searchQuery}
         />
       )}
@@ -137,7 +117,7 @@ export default function App() {
       {route === 'templates' && (
         <TemplatesView
           templates={templates}
-          onToggleActive={handleToggleTemplateActive}
+          onToggleActive={toggleTemplateActive}
           searchQuery={searchQuery}
         />
       )}
@@ -145,7 +125,7 @@ export default function App() {
       {route === 'packages' && (
         <PackagesView
           packages={packages}
-          onTogglePackage={handleTogglePackage}
+          onTogglePackage={togglePackage}
         />
       )}
 
