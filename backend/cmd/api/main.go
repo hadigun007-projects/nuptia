@@ -56,7 +56,9 @@ func main() {
 	templateHandler := handler.NewTemplateHandler(templateService)
 
 	userRepo := repository.NewUserRepository(db)
-	authService := service.NewAuthService(userRepo, cfg)
+	resetRepo := repository.NewPasswordResetRepository(db)
+	emailSvc := service.NewEmailService(cfg)
+	authService := service.NewAuthService(userRepo, resetRepo, emailSvc, cfg)
 	authHandler := handler.NewAuthHandler(authService)
 
 	adminHandler := handler.NewAdminHandler(userRepo, templateRepo)

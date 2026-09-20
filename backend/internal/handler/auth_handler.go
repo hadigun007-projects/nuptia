@@ -24,6 +24,8 @@ func (h *AuthHandler) RegisterRoutes(publicRg *gin.RouterGroup, protectedRg *gin
 		auth.POST("/register", h.Register)
 		auth.POST("/login", h.Login)
 		auth.POST("/google", h.LoginWithGoogle)
+		auth.POST("/forgot-password", h.ForgotPassword)
+		auth.POST("/reset-password", h.ResetPassword)
 	}
 
 	protectedAuth := protectedRg.Group("/auth")
@@ -103,3 +105,36 @@ func (h *AuthHandler) GetMe(c *gin.Context) {
 
 	SuccessResponse(c, http.StatusOK, user, nil)
 }
+
+// ForgotPassword godoc
+// POST /api/v1/auth/forgot-password
+func (h *AuthHandler) ForgotPassword(c *gin.Context) {
+	var req domain.ForgotPasswordRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		ErrorResponse(c, http.StatusBadRequest, "Format email tidak valid")
+		return
+	}
+
+	// Selalu response 200 meski email tidak terdaftar (keamanan)
+	_ = h.authService.RequestPasswordReset(req)
+	SuccessResponse(c, http.StatusOK, nil, strPtr("Jika email terdaftar, link reset akan dikirim ke inbox Anda"))
+}
+
+// ResetPassword godoc
+// POST /api/v1/auth/reset-password
+func (h *AuthHandler) ResetPassword(c *gin.Context) {
+	var req domain.ResetPasswordRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		ErrorResponse(c, http.StatusBadRequest, "Data tidak valid: token dan kata sandi wajib diisi (min 6 karakter)")
+		return
+	}
+
+	if err := h.authService.ResetPassword(req); err != nil {
+		ErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	SuccessResponse(c, http.StatusOK, nil, strPtr("Kata sandi berhasil diperbarui. Silakan masuk dengan kata sandi baru Anda"))
+}
+
+func strPtr(s string) *string { return &s }

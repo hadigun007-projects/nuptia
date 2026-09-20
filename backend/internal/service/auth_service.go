@@ -1,6 +1,8 @@
 package service
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -21,17 +23,23 @@ type AuthService interface {
 	Login(req domain.LoginRequest) (*domain.AuthResponse, error)
 	LoginWithGoogle(req domain.GoogleLoginRequest) (*domain.AuthResponse, error)
 	GetMe(userID uuid.UUID) (*domain.UserResponse, error)
+	RequestPasswordReset(req domain.ForgotPasswordRequest) error
+	ResetPassword(req domain.ResetPasswordRequest) error
 }
 
 type authService struct {
-	userRepo domain.UserRepository
-	cfg      *config.Config
+	userRepo      domain.UserRepository
+	resetRepo     domain.PasswordResetRepository
+	emailService  EmailService
+	cfg           *config.Config
 }
 
-func NewAuthService(userRepo domain.UserRepository, cfg *config.Config) AuthService {
+func NewAuthService(userRepo domain.UserRepository, resetRepo domain.PasswordResetRepository, emailSvc EmailService, cfg *config.Config) AuthService {
 	return &authService{
-		userRepo: userRepo,
-		cfg:      cfg,
+		userRepo:     userRepo,
+		resetRepo:    resetRepo,
+		emailService: emailSvc,
+		cfg:          cfg,
 	}
 }
 
@@ -275,4 +283,70 @@ func (s *authService) toUserResponse(user *domain.User) domain.UserResponse {
 		Role:         user.Role,
 		CreatedAt:    user.CreatedAt,
 	}
+}
+
+// RequestPasswordReset membuat token reset dan mengirim email ke user
+func (s *authService) RequestPasswordReset(req domain.ForgotPasswordRequest) error {
+	email := strings.ToLower(strings.TrimSpace(req.Email))
+
+	// Cari user — selalu response sukses agar tidak bocorkan info email
+	user, err := s.userRepo.FindByEmail(email)
+	if err != nil {
+		return nil // silent fail
+	}
+	if user == nil {
+		return nil // user tidak ada, tapi tetap 200
+	}
+
+	// Hapus token lama milik user
+	_ = s.resetRepo.DeleteByUserID(user.ID)
+
+	// Generate 32-byte crypto-random token
+	b := make([]byte, 32)
+	if _, err := rand.Read(b); err != nil {
+		return fmt.Errorf("gagal menghasilkan token reset: %w", err)
+	}
+	tokenStr := hex.EncodeToString(b)
+
+	resetToken := &domain.PasswordResetToken{
+		ID:        uuid.New(),
+		UserID:    user.ID,
+		Token:     tokenStr,
+		ExpiresAt: time.Now().UTC().Add(1 * time.Hour),
+	}
+
+	if err := s.resetRepo.Create(resetToken); err != nil {
+		return fmt.Errorf("gagal menyimpan token reset: %w", err)
+	}
+
+	resetURL := fmt.Sprintf("%s/#/reset-password?token=%s", s.cfg.AppBaseURL, tokenStr)
+	return s.emailService.SendPasswordResetEmail(user.Email, user.Name, resetURL)
+}
+
+// ResetPassword memvalidasi token dan memperbarui kata sandi user
+func (s *authService) ResetPassword(req domain.ResetPasswordRequest) error {
+	tokenRecord, err := s.resetRepo.FindValid(req.Token)
+	if err != nil {
+		return fmt.Errorf("gagal memeriksa token: %w", err)
+	}
+	if tokenRecord == nil {
+		return errors.New("link reset tidak valid atau sudah kedaluwarsa")
+	}
+
+	user, err := s.userRepo.FindByID(tokenRecord.UserID)
+	if err != nil || user == nil {
+		return errors.New("akun tidak ditemukan")
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("gagal mengenkripsi kata sandi baru: %w", err)
+	}
+
+	user.PasswordHash = string(hash)
+	if err := s.userRepo.Update(user); err != nil {
+		return fmt.Errorf("gagal menyimpan kata sandi baru: %w", err)
+	}
+
+	return s.resetRepo.MarkUsed(req.Token)
 }
