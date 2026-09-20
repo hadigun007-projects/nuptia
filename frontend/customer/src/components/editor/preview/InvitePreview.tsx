@@ -55,9 +55,13 @@ export function InvitePreview({
         <div className="absolute bottom-0 left-0 right-0 p-3 text-white text-center">
           <p className="text-[8px] opacity-80 mb-0.5 tracking-[2.5px] uppercase font-semibold">The Wedding of</p>
           <h2 className="text-xl font-extrabold font-display leading-tight tracking-tight">
-            {event.groomNick || 'Reza'} <span className="text-xs opacity-70">&</span> {event.brideNick || 'Hana'}
+            {event.groomNick || 'Mempelai Pria'} <span className="text-xs opacity-70">&</span> {event.brideNick || 'Mempelai Wanita'}
           </h2>
-          <p className="text-[9px] opacity-90 mt-0.5">{formatDate(event.akadDate || event.resepsiDate)}</p>
+          <p className="text-[9px] opacity-90 mt-0.5">
+            {event.akadDate || event.resepsiDate
+              ? formatDate(event.akadDate || event.resepsiDate)
+              : 'Tanggal Acara Belum Diatur'}
+          </p>
         </div>
       </div>
 
@@ -84,9 +88,9 @@ export function InvitePreview({
               />
             )}
             <p className="text-[7px] text-on-surface-variant uppercase tracking-widest font-bold">Mempelai Pria</p>
-            <p className="font-bold text-sm font-display text-primary">{event.groomNick || 'Reza'}</p>
-            <p className="text-[9px] text-on-surface-variant">{event.groomFull}</p>
-            <p className="text-[8px] text-on-surface-variant/70">{event.groomParents}</p>
+            <p className="font-bold text-sm font-display text-primary">{event.groomNick || 'Mempelai Pria'}</p>
+            <p className="text-[9px] text-on-surface-variant">{event.groomFull || 'Nama Lengkap Pria'}</p>
+            <p className="text-[8px] text-on-surface-variant/70">{event.groomParents || 'Putra Bpk. & Ibu Mempelai'}</p>
             {event.groomInstagram && (
               <span className="inline-block mt-0.5 text-[8px] text-primary font-medium">
                 @{event.groomInstagram.replace('@', '')}
@@ -110,9 +114,9 @@ export function InvitePreview({
               />
             )}
             <p className="text-[7px] text-on-surface-variant uppercase tracking-widest font-bold">Mempelai Wanita</p>
-            <p className="font-bold text-sm font-display text-primary">{event.brideNick || 'Hana'}</p>
-            <p className="text-[9px] text-on-surface-variant">{event.brideFull}</p>
-            <p className="text-[8px] text-on-surface-variant/70">{event.brideParents}</p>
+            <p className="font-bold text-sm font-display text-primary">{event.brideNick || 'Mempelai Wanita'}</p>
+            <p className="text-[9px] text-on-surface-variant">{event.brideFull || 'Nama Lengkap Wanita'}</p>
+            <p className="text-[8px] text-on-surface-variant/70">{event.brideParents || 'Putri Bpk. & Ibu Mempelai'}</p>
             {event.brideInstagram && (
               <span className="inline-block mt-0.5 text-[8px] text-primary font-medium">
                 @{event.brideInstagram.replace('@', '')}
@@ -125,14 +129,18 @@ export function InvitePreview({
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-surface-container rounded-2xl p-2.5 space-y-0.5 text-center">
             <p className="text-[7px] text-primary font-bold uppercase tracking-wider">Akad Nikah</p>
-            <p className="font-bold text-[9px] text-on-surface">{formatDate(event.akadDate)}</p>
-            <p className="text-[8px] text-on-surface-variant">{formatTime(event.akadTime)}</p>
+            <p className="font-bold text-[9px] text-on-surface">
+              {event.akadDate ? formatDate(event.akadDate) : 'Belum diatur'}
+            </p>
+            <p className="text-[8px] text-on-surface-variant">{event.akadTime ? formatTime(event.akadTime) : '-'}</p>
           </div>
 
           <div className="bg-surface-container rounded-2xl p-2.5 space-y-0.5 text-center">
             <p className="text-[7px] text-secondary font-bold uppercase tracking-wider">Resepsi</p>
-            <p className="font-bold text-[9px] text-on-surface">{formatDate(event.resepsiDate)}</p>
-            <p className="text-[8px] text-on-surface-variant">{formatTime(event.resepsiTime)}</p>
+            <p className="font-bold text-[9px] text-on-surface">
+              {event.resepsiDate ? formatDate(event.resepsiDate) : 'Belum diatur'}
+            </p>
+            <p className="text-[8px] text-on-surface-variant">{event.resepsiTime ? formatTime(event.resepsiTime) : '-'}</p>
           </div>
         </div>
 
@@ -140,8 +148,10 @@ export function InvitePreview({
         <div className="flex items-start gap-2 p-2.5 bg-surface-container-low rounded-2xl border border-outline-variant/30">
           <Ic.Location s={14} cls="text-primary mt-0.5 flex-shrink-0" />
           <div className="min-w-0">
-            <p className="font-bold text-[9px]">{event.venue || 'Lokasi Venue'}</p>
-            <p className="text-[8px] text-on-surface-variant leading-tight mt-0.5">{event.address}</p>
+            <p className="font-bold text-[9px]">{event.venue || 'Nama Gedung / Tempat Acara'}</p>
+            <p className="text-[8px] text-on-surface-variant leading-tight mt-0.5">
+              {event.address || 'Alamat lokasi pernikahan'}
+            </p>
           </div>
         </div>
 
