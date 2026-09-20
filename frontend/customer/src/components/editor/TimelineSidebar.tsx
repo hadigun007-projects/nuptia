@@ -33,6 +33,7 @@ interface TimelineSidebarProps {
   activeTab: Tab;
   onSelectTab: (tab: Tab) => void;
   completedSteps?: Partial<Record<Tab, boolean>>;
+  visitedTabs?: Set<Tab>;
   isTimelineMode: boolean;
   onToggleMode: () => void;
   collapsed: boolean;
@@ -43,6 +44,7 @@ export function TimelineSidebar({
   activeTab,
   onSelectTab,
   completedSteps = {},
+  visitedTabs,
   isTimelineMode,
   onToggleMode,
   collapsed,
@@ -50,6 +52,9 @@ export function TimelineSidebar({
 }: TimelineSidebarProps) {
   const currentStepIndex = TIMELINE_STEPS.findIndex((s) => s.id === activeTab);
   const currentStepNumber = currentStepIndex >= 0 ? currentStepIndex + 1 : 1;
+
+  // Track visited steps (at minimum clicked/opened)
+  const visited = visitedTabs || new Set([activeTab]);
 
   // Calculate completed count
   const completedCount = TIMELINE_STEPS.filter((s) => completedSteps[s.id]).length;
@@ -72,10 +77,15 @@ export function TimelineSidebar({
             const IconComp = def.Icon;
             const isActive = activeTab === step.id;
             const isCompleted = Boolean(completedSteps[step.id]);
-            const isPast = idx < currentStepIndex;
             const isLastStep = idx === TIMELINE_STEPS.length - 1;
 
-            const isPassed = isPast || isCompleted;
+            // Pastikan hanya yang sudah diklik/dikunjungi dan bukan yang sedang aktif
+            const isVisited = visited.has(step.id);
+            const isPassed = isVisited && !isActive;
+
+            // Garis penghubung aktif hanya jika kedua node berurutan sudah dikunjungi
+            const nextStep = TIMELINE_STEPS[idx + 1];
+            const isLineActive = (isVisited || isActive) && nextStep && (visited.has(nextStep.id) || activeTab === nextStep.id);
 
             return (
               <div key={step.id} className="relative">
@@ -83,7 +93,7 @@ export function TimelineSidebar({
                 {!isLastStep && (
                   <span
                     aria-hidden="true"
-                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${isPast ? 'bg-primary/35' : 'bg-outline-variant/40'
+                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${isLineActive ? 'bg-primary/35' : 'bg-outline-variant/40'
                       } ${collapsed ? 'left-[29px]' : 'left-[21px]'}`}
                     style={{
                       top: '26px',

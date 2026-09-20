@@ -256,6 +256,16 @@ function EditorViewInner({
     tab === 'event' ? 'pengantin' : tab === 'media' ? 'galeri' : tab === 'guests' ? 'kado' : tab;
 
   const [timelineMode, setTimelineMode] = useState<boolean>(initialTimelineMode || isNew);
+  const [visitedTabs, setVisitedTabs] = useState<Set<Tab>>(() => new Set([activeNormalizedTab]));
+
+  useEffect(() => {
+    setVisitedTabs((prev) => {
+      if (prev.has(activeNormalizedTab)) return prev;
+      const next = new Set(prev);
+      next.add(activeNormalizedTab);
+      return next;
+    });
+  }, [activeNormalizedTab]);
 
   const completedSteps = useMemo<Partial<Record<Tab, boolean>>>(() => {
     return {
@@ -299,6 +309,7 @@ function EditorViewInner({
           isTimelineMode={timelineMode}
           onToggleMode={() => setTimelineMode((m) => !m)}
           completedSteps={completedSteps}
+          visitedTabs={visitedTabs}
         />
 
         {/* Main Editor Work Area */}

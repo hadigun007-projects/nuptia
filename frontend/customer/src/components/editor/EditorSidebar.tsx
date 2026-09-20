@@ -12,6 +12,7 @@ interface EditorSidebarProps {
   isTimelineMode?: boolean;
   onToggleMode?: () => void;
   completedSteps?: Partial<Record<Tab, boolean>>;
+  visitedTabs?: Set<Tab>;
 }
 
 const CATEGORIES = [
@@ -43,6 +44,7 @@ export function EditorSidebar({
   isTimelineMode = false,
   onToggleMode,
   completedSteps = {},
+  visitedTabs,
 }: EditorSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [internalTimelineMode, setInternalTimelineMode] = useState(isTimelineMode);
@@ -57,6 +59,7 @@ export function EditorSidebar({
         activeTab={activeTab}
         onSelectTab={onSelectTab}
         completedSteps={completedSteps}
+        visitedTabs={visitedTabs}
         isTimelineMode={true}
         onToggleMode={handleToggleMode}
         collapsed={collapsed}
