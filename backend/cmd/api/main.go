@@ -46,6 +46,9 @@ func main() {
 	if err := database.SeedDefaultTemplates(db); err != nil {
 		log.Printf("[Database Warning] Gagal auto-seed template: %v", err)
 	}
+	if err := database.SeedDefaultUsers(db); err != nil {
+		log.Printf("[Database Warning] Gagal auto-seed users: %v", err)
+	}
 
 	// 4. Initialize Dependency Injection Layers
 	templateRepo := repository.NewTemplateRepository(db)
