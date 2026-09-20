@@ -90,7 +90,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
 
   return (
     <aside
-      className={`fixed top-0 bottom-0 left-0 z-30 bg-surface-container-low border-r border-outline-variant/30 flex flex-col transition-all duration-300 ${
+      className={`fixed top-0 bottom-0 left-0 z-30 bg-surface flex flex-col transition-all duration-300 ${
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
@@ -174,7 +174,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       </div>
 
       {/* User Profile / Logout */}
-      <div className="p-3 border-t border-outline-variant/20 bg-surface-container/40">
+      <div className="p-3 border-t border-outline-variant/20 bg-surface">
         <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
           <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm shrink-0">
             {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
