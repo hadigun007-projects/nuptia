@@ -30,8 +30,8 @@ export default function Navbar() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-[#FCFBF7]/92 backdrop-blur-md shadow-sm border-b border-amber-100 py-3.5'
-                    : 'bg-transparent py-5'
+                ? 'bg-[#FCFBF7]/92 backdrop-blur-md shadow-sm border-b border-amber-100 py-3.5'
+                : 'bg-transparent py-5'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -44,10 +44,6 @@ export default function Navbar() {
                     <div className="flex flex-col">
                         <span className="font-serif text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-1">
                             Nuptia
-                            <span className="w-2 h-2 rounded-full bg-[#A3158A] animate-pulse"></span>
-                        </span>
-                        <span className="text-[10px] tracking-widest text-[#A3158A] uppercase -mt-1 font-semibold flex items-center gap-1">
-                            <span>Happy Wedding Platform</span>
                         </span>
                     </div>
                 </a>

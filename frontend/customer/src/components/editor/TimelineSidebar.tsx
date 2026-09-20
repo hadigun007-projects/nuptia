@@ -144,20 +144,6 @@ export function TimelineSidebar({
           })}
         </div>
       </div>
-
-      {/* Bottom Footer Action: Collapse Toggle */}
-      <div className="p-2 border-t border-outline-variant/30 flex items-center justify-between">
-        <button
-          onClick={onToggleCollapse}
-          className="w-full flex items-center justify-center gap-2 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container text-xs transition-colors"
-          title={collapsed ? 'Perluas Sidebar' : 'Ciutkan Sidebar'}
-        >
-          <span className="transform transition-transform">
-            {collapsed ? <Ic.ChevronRight s={16} /> : <Ic.ChevronLeft s={16} />}
-          </span>
-          {!collapsed && <span className="text-[11px] font-medium">Ciutkan Linimasa</span>}
-        </button>
-      </div>
     </aside>
   );
 }
