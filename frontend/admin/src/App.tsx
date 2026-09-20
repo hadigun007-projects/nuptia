@@ -4,16 +4,18 @@ import { AccessDenied } from './components/common/AccessDenied';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
 import { UsersView } from './views/UsersView';
+import { InvitationsView } from './views/InvitationsView';
 import { initialStats, initialUsers, initialInvitations } from './data/mockData';
-import { AdminRoute, AdminUser } from './types';
+import { AdminRoute, AdminUser, AdminInvitation } from './types';
 
 export default function App() {
   const { user, isAdmin, loading, checkAuth, devSetAdmin, logout } = useAdminAuth();
   const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash || '#/');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Local state for users and invitations (syncs with backend later in Task 9)
+  // Local state for users and invitations (syncs with backend in Task 9)
   const [users, setUsers] = useState<AdminUser[]>(initialUsers);
+  const [invitations, setInvitations] = useState<AdminInvitation[]>(initialInvitations);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -32,6 +34,12 @@ export default function App() {
   const handleToggleStatus = (userId: string, newStatus: 'active' | 'suspended') => {
     setUsers((prev) =>
       prev.map((u) => (u.id === userId ? { ...u, status: newStatus } : u))
+    );
+  };
+
+  const handleToggleInvStatus = (invId: string, newStatus: 'Draft' | 'Published' | 'Live') => {
+    setInvitations((prev) =>
+      prev.map((inv) => (inv.id === invId ? { ...inv, status: newStatus } : inv))
     );
   };
 
@@ -81,7 +89,7 @@ export default function App() {
         <DashboardView
           stats={initialStats}
           recentUsers={users}
-          recentInvitations={initialInvitations}
+          recentInvitations={invitations}
           onNavigate={navigateTo}
         />
       )}
@@ -95,7 +103,15 @@ export default function App() {
         />
       )}
 
-      {route !== 'dashboard' && route !== 'users' && (
+      {route === 'invitations' && (
+        <InvitationsView
+          invitations={invitations}
+          onToggleStatus={handleToggleInvStatus}
+          searchQuery={searchQuery}
+        />
+      )}
+
+      {route !== 'dashboard' && route !== 'users' && route !== 'invitations' && (
         <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30">
           <h2 className="text-xl font-bold text-on-surface mb-2 capitalize">Menu {route}</h2>
           <p className="text-sm text-on-surface-variant">Konten halaman {route} akan dimuat di sini.</p>
