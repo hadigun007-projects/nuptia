@@ -61,7 +61,7 @@ export function TimelineSidebar({
 
   return (
     <aside
-      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px]'
+      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px] p-8 pt-4'
         }`}
     >
       {/* Timeline Stepper List */}
@@ -81,8 +81,8 @@ export function TimelineSidebar({
                 {!isLastStep && (
                   <span
                     aria-hidden="true"
-                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${isPast || isCompleted ? 'bg-primary/40' : 'bg-outline-variant/60'
-                      } ${collapsed ? 'left-[29px]' : 'left-[21px]'}`}
+                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 bg-outline-variant/40 ${collapsed ? 'left-[29px]' : 'left-[21px]'
+                      }`}
                     style={{
                       top: '26px',
                       bottom: '-6px',
@@ -92,29 +92,18 @@ export function TimelineSidebar({
 
                 <button
                   onClick={() => onSelectTab(step.id)}
-                  title={`${step.label}${step.isRequired ? ' *' : ''} (${isCompleted ? 'Selesai' : step.isRequired ? 'Wajib' : 'Opsional'})`}
+                  title={`${step.label}${step.isRequired ? ' *' : ''}`}
                   className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 hover:bg-surface-container/50 ${collapsed ? 'justify-center p-2.5' : ''
                     }`}
                 >
-                  {/* Step Node Circle on Timeline with Icon */}
+                  {/* Step Node Circle on Timeline with Icon: Main color when active, gray when inactive */}
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
-                      ? 'bg-primary text-on-primary scale-105'
-                      : isCompleted
-                        ? 'bg-emerald-600 text-white'
-                        : isPast
-                          ? 'bg-surface-container-high text-on-surface-variant border border-outline-variant'
-                          : 'bg-surface-container text-on-surface-variant/70 border border-outline-variant/40 group-hover:text-primary'
+                      ? 'bg-primary text-on-primary scale-105 shadow-xs'
+                      : 'bg-surface-container text-on-surface-variant/60 border border-outline-variant/30 group-hover:text-primary group-hover:border-primary/40'
                       }`}
                   >
                     <IconComp s={14} />
-
-                    {/* Tiny check badge when completed */}
-                    {isCompleted && (
-                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[7px] font-black border border-white">
-                        ✓
-                      </span>
-                    )}
                   </div>
 
                   {/* Step Details (when expanded) */}
@@ -124,9 +113,7 @@ export function TimelineSidebar({
                         <span
                           className={`truncate font-display leading-tight ${isActive
                             ? 'font-bold text-primary'
-                            : isCompleted
-                              ? 'font-semibold text-on-surface'
-                              : 'font-medium text-on-surface/85'
+                            : 'font-medium text-on-surface-variant group-hover:text-on-surface'
                             }`}
                         >
                           {step.label}
