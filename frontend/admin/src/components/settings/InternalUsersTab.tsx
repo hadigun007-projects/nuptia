@@ -144,50 +144,46 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
   return (
     <div className="space-y-6">
       {/* Action and Filter Bar */}
-      <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="p-3.5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <div className="flex flex-wrap items-center gap-2">
-          {/* Role Filter */}
-          <span className="text-xs font-semibold text-on-surface-variant mr-1">Role:</span>
-          {(['all', 'developer', 'admin', 'viewer'] as const).map((r) => (
-            <button
-              key={r}
-              onClick={() => setRoleFilter(r)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${roleFilter === r
-                ? 'bg-primary text-on-primary'
-                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                }`}
-            >
-              {r === 'all'
-                ? 'Semua'
-                : r === 'developer'
-                  ? 'Developer'
-                  : r === 'admin'
-                    ? 'Admin'
-                    : 'Viewer'}
-            </button>
-          ))}
 
-          <div className="h-4 w-px bg-outline-variant/30 mx-1 hidden sm:block" />
-
-          {/* Status Filter */}
-          <span className="text-xs font-semibold text-on-surface-variant mr-1">Status:</span>
-          {(['all', 'active', 'suspended'] as const).map((s) => (
-            <button
-              key={s}
-              onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${statusFilter === s
-                ? 'bg-secondary text-on-secondary'
-                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                }`}
+          {/* Role Filter Dropdown */}
+          <div className="relative">
+            <select
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value as typeof roleFilter)}
+              className="pl-3 pr-7 py-1.5 text-xs font-semibold rounded-xl border border-outline-variant/30 bg-surface-container text-on-surface appearance-none cursor-pointer focus:outline-none focus:border-primary transition-colors"
             >
-              {s === 'all' ? 'Semua' : s === 'active' ? 'Aktif' : 'Suspended'}
-            </button>
-          ))}
+              <option value="all">Semua Role</option>
+              <option value="developer">Developer</option>
+              <option value="admin">Admin</option>
+              <option value="viewer">Viewer</option>
+            </select>
+            <svg className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+
+          {/* Status Filter Dropdown */}
+          <div className="relative">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+              className="pl-3 pr-7 py-1.5 text-xs font-semibold rounded-xl border border-outline-variant/30 bg-surface-container text-on-surface appearance-none cursor-pointer focus:outline-none focus:border-primary transition-colors"
+            >
+              <option value="all">Semua Status</option>
+              <option value="active">Aktif</option>
+              <option value="suspended">Suspended</option>
+            </select>
+            <svg className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {/* Search Input */}
-          <div className="relative w-full md:w-56">
+          <div className="relative w-full sm:w-52">
             <svg
               className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
               fill="none"
