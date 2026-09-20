@@ -179,11 +179,11 @@ function TopBar({ status, autoSaving, showPreview, onTogglePreview, onSave, onCh
   return (
     <header className="sticky top-0 z-30 flex items-center gap-3 px-4 lg:px-6 py-3 bg-surface-container-low/90 backdrop-blur-md border-b border-outline-variant/50 shadow-sm">
       <div className="flex items-center gap-2 mr-auto">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center flex-shrink-0 shadow-xs">
           <Ic.Heart s={14} cls="text-on-primary" />
         </div>
         <div>
-          <h1 className="text-base font-extrabold text-on-surface leading-none font-display">InvitoStudio</h1>
+          <h1 className="text-base font-extrabold text-on-surface leading-none font-display">Nuptia</h1>
           <p className="text-[10px] text-on-surface-variant">Workspace Undangan</p>
         </div>
       </div>

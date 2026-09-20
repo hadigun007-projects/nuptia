@@ -23,7 +23,15 @@ export const metadata: Metadata = {
     description: "Sebar momen bahagia lebih praktis, mewah, dan berkesan dalam 5 menit.",
     type: "website",
     locale: "id_ID",
-  }
+  },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

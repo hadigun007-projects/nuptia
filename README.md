@@ -1,70 +1,69 @@
-# LinkUndanganmu - Platform Undangan Pernikahan Digital
+# Nuptia - Platform Undangan Pernikahan Digital
 
-Repositori monorepo platform pembuatan undangan pernikahan digital berbasis web responsif, ceria, dan berorientasi konversi tinggi.
+Repositori monorepo platform pembuatan undangan pernikahan digital modern, responsif, dan elegan.
 
 ---
 
 ## Struktur Proyek
 
 ```
-linkundanganmu/
-├── home/                    # Frontend SaaS platform & landing page (Next.js 16 + Tailwind CSS)
-├── templates/               # Koleksi template tema undangan digital (Mobile-first HTML/CSS/JS)
-│   └── wedding-rustic/      # Tema Rustic Warm Gold (Arya & Sarah)
-├── api/                     # Backend REST API service
+nuptia/
+├── frontend/
+│   ├── home/                # Landing page & showcase (Next.js 16 + Tailwind CSS)
+│   ├── customer/            # Customer workspace & dashboard (React 19 + Vite + Tailwind CSS)
+│   └── templates/           # Koleksi template undangan digital (Mobile-first HTML/CSS/JS)
+│       └── wedding-rustic/  # Tema Rustic Warm Gold (Arya & Sarah)
+├── backend/                 # Backend REST API service
+├── deployment/              # Konfigurasi Nginx & Docker deployment
+├── docker-compose.yml       # Orkestrasi Docker Compose
 └── README.md                # Dokumentasi utama proyek
 ```
 
 ---
 
-## 1. Modul Home (`home/`)
+## 1. Modul Customer Workspace (`frontend/customer/`)
+Dashboard/portal terpadu bagi customer untuk mengelola undangan online mereka:
+- Header top bar dengan status badge (Draft, Published, Live), status autosave cloud, tombol preview, dan aksi simpan.
+- Desain modern Material You / M3 Expressive dengan palet Deep Berry Nuptia (`#A3158A`).
+- Live Preview interaktif dengan switch device (Mobile, Tablet, Desktop).
+- Modul detail acara, media studio (foto/galeri/musik), manajemen tamu, dan amplop digital.
+
+**Menjalankan Customer Workspace:**
+```bash
+cd frontend/customer
+npm install
+npm run dev
+```
+Akses di browser: `http://localhost:5173`
+
+---
+
+## 2. Modul Home (`frontend/home/`)
 Aplikasi landing page utama dengan fitur:
 - Hero Section persuasif dengan mockup HP interaktif.
 - Showcase tema undangan dengan filter kategori & preview live.
 - Fitur unggulan, tabel paket harga, ribbon momen bahagia, testimoni, & FAQ.
-- Nuansa hangat ceria dengan dekorasi botani cat air transparan.
+- Branding Nuptia dengan palet hangat ceria dan logo signature hati magenta.
 
-**Menjalankan Frontend:**
+**Menjalankan Frontend Home:**
 ```bash
-npm run dev:home
-# atau masuk ke folder home
-cd home && npm run dev
+cd frontend/home
+npm install
+npm run dev
 ```
 Akses di browser: `http://localhost:3000`
 
 ---
 
-## 2. Modul Templates (`templates/`)
+## 3. Modul Templates (`frontend/templates/`)
 Koleksi template undangan pernikahan mandiri (*standalone mobile-first*):
-- `templates/wedding-rustic/`: Tema krem hangat, taupe, dan aksen emas dengan cover gatekeeper, background music, countdown timer, Google Maps, RSVP real-time, dan amplop digital.
+- `frontend/templates/wedding-rustic/`: Tema krem hangat, taupe, dan aksen emas dengan cover gatekeeper, background music, countdown timer, Google Maps, RSVP real-time, dan amplop digital.
 
 **Membuka Template:**
-Cukup buka file `templates/wedding-rustic/index.html` langsung di peramban web atau gunakan local server:
+Cukup buka file `frontend/templates/wedding-rustic/index.html` langsung di peramban web atau gunakan local server:
 ```bash
-npx serve templates/wedding-rustic
+npx serve frontend/templates/wedding-rustic
 ```
-
----
-
-## 3. Modul API (`api/`)
-Layanan backend REST API yang menangani:
-- `/health`: Health check server.
-- `/api/v1/templates`: Metadata tema undangan.
-- `/api/v1/invitations`: Data detail undangan, mempelai, dan acara.
-- `/api/v1/rsvp`: Konfirmasi kehadiran tamu dan rekapitulasi statistik.
-- `/api/v1/wishes`: Buku tamu dan kirim doa restu.
-
-**Menjalankan Backend:**
-```bash
-# Install dependensi (pertama kali)
-cd api && npm install
-
-# Jalankan API server
-npm run dev
-# atau dari root
-npm run dev:api
-```
-Server berjalan di: `http://localhost:5000`
 
 ---
 

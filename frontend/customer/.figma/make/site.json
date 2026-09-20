@@ -1,5 +1,10 @@
 {
-  "description": "Manage online invitations seamlessly with a modern dashboard that allows users to customize events, manage guests, and preview changes in real-time.",
+  "title": "Nuptia - Customer Invitation Dashboard",
+  "description": "Kelola undangan digital pernikahan Anda dengan mudah dan elegan bersama Nuptia.",
+  "language": "id",
+  "icons": {
+    "icon": "/favicon.svg"
+  },
   "robots": {
     "index": false
   },

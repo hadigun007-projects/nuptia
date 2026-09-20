@@ -1,5 +1,5 @@
 # ==============================================================================
-# Multi-stage Dockerfile for Next.js 16 (LinkUndanganmu)
+# Multi-stage Dockerfile for Next.js 16 (Nuptia)
 # ==============================================================================
 
 # --- Stage 1: Dependencies ---

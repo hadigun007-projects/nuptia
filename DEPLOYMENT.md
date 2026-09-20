@@ -1,6 +1,6 @@
-# Panduan Deployment LinkUndanganmu dengan Docker Compose
+# Panduan Deployment Nuptia dengan Docker Compose
 
-Panduan lengkap ini menjelaskan langkah demi langkah cara men-deploy proyek **LinkUndanganmu** ke server VPS (Virtual Private Server) maupun lingkungan lokal menggunakan **Docker** dan **Docker Compose**.
+Panduan lengkap ini menjelaskan langkah demi langkah cara men-deploy proyek **Nuptia** ke server VPS (Virtual Private Server) maupun lingkungan lokal menggunakan **Docker** dan **Docker Compose**.
 
 ---
 
@@ -21,12 +21,12 @@ Panduan lengkap ini menjelaskan langkah demi langkah cara men-deploy proyek **Li
 ## 1. Arsitektur Kontainer
 
 Stack kontainer terdiri dari:
-- **`web` (`linkundanganmu-web`)**:
+- **`web` (`nuptia-web`)**:
   - Frontend Next.js 16 (React 19, Tailwind CSS v4) yang dibundel dalam mode **standalone** dengan multi-stage Docker build berbasis `node:20-alpine`.
   - Berjalan sebagai non-root user (`nextjs:1001`) untuk keamanan tingkat produksi.
   - Menyajikan halaman landing page SaaS sekaligus template statis (`/templates/wedding-rustic/`).
   - Dilengkapi *built-in healthcheck*.
-- **`nginx` (`linkundanganmu-nginx`)**:
+- **`nginx` (`nuptia-nginx`)**:
   - Reverse proxy berbasis `nginx:1.27-alpine` di port 80 (HTTP) dan port 443 (HTTPS).
   - Mengaktifkan kompresi Gzip otomatis dan caching header performa tinggi untuk aset statis Next.js (`/_next/static/`) dan template undangan (`/templates/`).
 - **`certbot` (Opsional)**:
@@ -104,7 +104,7 @@ docker compose version
    WEB_PORT=3000
    HTTP_PORT=80
    HTTPS_PORT=443
-   DOMAIN=undanganmu.com
+   DOMAIN=nuptia.id
    ```
 
 ---
@@ -127,8 +127,8 @@ docker compose ps
 *Output yang diharapkan:*
 ```
 NAME                   IMAGE                 STATUS                   PORTS
-linkundanganmu-web     invite-web            Up (healthy)             0.0.0.0:3000->3000/tcp
-linkundanganmu-nginx   nginx:1.27-alpine     Up                       0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp
+nuptia-web             invite-web            Up (healthy)             0.0.0.0:3000->3000/tcp
+nuptia-nginx           nginx:1.27-alpine     Up                       0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp
 ```
 
 Sekarang Anda dapat membuka `http://<IP-VPS-ANDA>` atau domain Anda di browser.
@@ -260,9 +260,9 @@ Ketika modul `api/` sudah siap (misalnya berbasis Express / Fastify / NestJS):
 2. Buka `docker-compose.yml`, lalu hapus tanda komentar pada blok service `api`:
    ```yaml
    api:
-     container_name: linkundanganmu-api
+     container_name: nuptia-api
      build:
-       context: ./api
+       context: ./backend
        dockerfile: Dockerfile
      restart: unless-stopped
      environment:

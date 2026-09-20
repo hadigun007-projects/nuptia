@@ -3,10 +3,10 @@ services:
   # Frontend & Landing Page Service (Next.js 16 + Standalone + Static Templates)
   # ============================================================================
   web:
-    container_name: linkundanganmu-web
+    container_name: nuptia-web
     build:
       context: .
-      dockerfile: home/Dockerfile
+      dockerfile: frontend/home/Dockerfile
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -26,15 +26,15 @@ services:
   # Nginx Reverse Proxy (Gzip, Static Caching, Port 80/443 Routing)
   # ============================================================================
   nginx:
-    container_name: linkundanganmu-nginx
+    container_name: nuptia-nginx
     image: nginx:1.27-alpine
     restart: unless-stopped
     ports:
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./deployment/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deployment/nginx/conf.d:/etc/nginx/conf.d:ro
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/www/certbot
     depends_on:
@@ -48,7 +48,7 @@ services:
   # Jalankan dengan: docker compose --profile ssl up -d
   # ============================================================================
   certbot:
-    container_name: linkundanganmu-certbot
+    container_name: nuptia-certbot
     image: certbot/certbot:latest
     profiles: ["ssl"]
     volumes:
@@ -59,13 +59,13 @@ services:
       - app-network
 
   # ============================================================================
-  # Backend API Service (Siap digunakan saat modul api/ dikembangkan)
-  # Aktifkan blok ini setelah membuat Dockerfile di direktori api/
+  # Backend API Service (Siap digunakan saat modul backend/ dikembangkan)
+  # Aktifkan blok ini setelah membuat Dockerfile di direktori backend/
   # ============================================================================
   # api:
-  #   container_name: linkundanganmu-api
+  #   container_name: nuptia-api
   #   build:
-  #     context: ./api
+  #     context: ./backend
   #     dockerfile: Dockerfile
   #   restart: unless-stopped
   #   environment:

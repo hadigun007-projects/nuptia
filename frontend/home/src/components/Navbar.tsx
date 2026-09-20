@@ -38,17 +38,16 @@ export default function Navbar() {
 
                 {/* Brand Logo */}
                 <a href="#" className="flex items-center gap-2.5 group">
-                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 via-amber-500 to-amber-300 flex items-center justify-center text-white shadow-md group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                        <Sparkles className="w-5 h-5 fill-white text-white" />
+                    <div className="w-10 h-10 rounded-2xl bg-[#A3158A] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-all duration-300">
+                        <Heart className="w-5 h-5 fill-white text-white" />
                     </div>
                     <div className="flex flex-col">
                         <span className="font-serif text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-1">
                             Nuptia
-                            <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                            <span className="w-2 h-2 rounded-full bg-[#A3158A] animate-pulse"></span>
                         </span>
-                        <span className="text-[10px] tracking-widest text-amber-700 uppercase -mt-1 font-semibold flex items-center gap-1">
+                        <span className="text-[10px] tracking-widest text-[#A3158A] uppercase -mt-1 font-semibold flex items-center gap-1">
                             <span>Happy Wedding Platform</span>
-                            <span></span>
                         </span>
                     </div>
                 </a>
