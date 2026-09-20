@@ -7,6 +7,9 @@ node_modules/
 .next/
 out/
 build/
+dist/
+bin/
+
 
 # Misc & System
 .DS_Store

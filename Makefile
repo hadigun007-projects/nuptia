@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-home dev-customer dev-admin dev-backend dev-template seed-backend build build-home build-customer build-admin clean kill docker-up docker-down docker-logs
+.PHONY: help install dev dev-home dev-customer dev-admin dev-backend dev-template seed-backend build build-home build-customer build-admin build-backend start prod build-run clean kill docker-up docker-down docker-logs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -27,11 +27,15 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo "  $(GREEN)make dev-template$(RESET)   Jalankan preview standalone template (Wedding Rustic di port 8080)"
 	@echo "  $(GREEN)make seed-backend$(RESET)   Jalankan database seeder untuk template undangan"
 	@echo ""
-	@echo "$(BOLD)Instalasi & Build:$(RESET)"
+	@echo "$(BOLD)Build & Jalankan Produksi:$(RESET)"
+	@echo "  $(GREEN)make prod$(RESET)           Build SEMUA modul lalu langsung jalankan (mode produksi)"
+	@echo "  $(GREEN)make build-run$(RESET)      Sama dengan 'make prod' (build & jalankan)"
+	@echo "  $(GREEN)make build$(RESET)          Build semua aplikasi & backend binary untuk produksi"
+	@echo "  $(GREEN)make start$(RESET)          Jalankan semua aplikasi hasil build (mode produksi)"
 	@echo "  $(GREEN)make install$(RESET)        Instal dependensi untuk semua modul (frontend & backend)"
-	@echo "  $(GREEN)make build$(RESET)          Build semua aplikasi untuk mode produksi"
-	@echo "  $(GREEN)make clean$(RESET)          Bersihkan file bundle & cache build (dist, .next)"
+	@echo "  $(GREEN)make clean$(RESET)          Bersihkan file bundle & cache build (dist, .next, bin)"
 	@echo ""
+
 	@echo "$(BOLD)Docker & Deployment:$(RESET)"
 	@echo "  $(GREEN)make docker-up$(RESET)      Build & jalankan semua kontainer via Docker Compose"
 	@echo "  $(GREEN)make docker-down$(RESET)    Hentikan semua kontainer Docker Compose"
@@ -87,8 +91,8 @@ dev-template: ## Jalankan preview template wedding-rustic
 	@echo "$(YELLOW)Menjalankan preview template di http://localhost:8080...$(RESET)"
 	@npx -y serve frontend/templates/wedding-rustic -l 8080
 
-build: build-home build-customer build-admin ## Build semua aplikasi untuk produksi
-	@echo "$(GREEN)Semua aplikasi berhasil di-build!$(RESET)"
+build: build-home build-customer build-admin build-backend ## Build semua aplikasi dan backend untuk produksi
+	@echo "$(GREEN)Semua aplikasi dan backend binary berhasil di-build!$(RESET)"
 
 build-home: ## Build frontend/home
 	@echo "$(CYAN)Building frontend/home (Next.js)...$(RESET)"
@@ -101,6 +105,28 @@ build-customer: ## Build frontend/customer
 build-admin: ## Build frontend/admin
 	@echo "$(BLUE)Building frontend/admin (Vite)...$(RESET)"
 	@npm --prefix frontend/admin run build
+
+build-backend: ## Build binary backend Go
+	@echo "$(GREEN)Building backend binary (Go)...$(RESET)"
+	@cd backend && go build -o bin/api cmd/api/main.go
+
+start: ## Jalankan semua aplikasi hasil build (mode produksi)
+	@echo "$(YELLOW)Membebaskan port sebelumnya (3000, 5173, 5174, 5000)...$(RESET)"
+	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5174 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
+	@sleep 1
+	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), Admin (port 5174), & API (port 5000) [PRODUKSI]...$(RESET)"
+	@npx -y concurrently --kill-others-on-fail --raw -n "HOME,CUSTOMER,ADMIN,API" -c "cyan.bold,magenta.bold,blue.bold,green.bold" \
+		"npm --prefix frontend/home run start" \
+		"npm --prefix frontend/customer run preview -- --port 5173" \
+		"npm --prefix frontend/admin run preview -- --port 5174" \
+		"cd backend && ./bin/api"
+
+prod: build start ## Build SEMUA modul lalu langsung jalankan (mode produksi)
+
+build-run: build start ## Alias untuk 'make prod' (build lalu jalankan)
 
 kill: ## Bebaskan port yang digunakan (3000, 5173, 5174, 5000)
 	@echo "$(YELLOW)Membebaskan port 3000, 5173, 5174, 5000...$(RESET)"
@@ -115,7 +141,9 @@ clean: ## Hapus folder build dan cache
 	@rm -rf frontend/home/.next
 	@rm -rf frontend/customer/dist
 	@rm -rf frontend/admin/dist
+	@rm -rf backend/bin
 	@echo "$(GREEN)Pembersihan selesai!$(RESET)"
+
 
 
 docker-up: ## Jalankan kontainer produksi dengan Docker Compose
