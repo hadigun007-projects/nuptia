@@ -71,8 +71,8 @@ export function PreviewPanel({
             type="button"
             onClick={() => onDeviceChange(d)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${device === d
-                ? 'bg-primary text-on-primary'
-                : 'text-on-surface-variant hover:text-on-surface'
+              ? 'bg-primary text-on-primary'
+              : 'text-on-surface-variant hover:text-on-surface'
               }`}
           >
             <Icon s={14} />
@@ -99,10 +99,6 @@ export function PreviewPanel({
           />
         </div>
       </div>
-
-      <p className="text-xs text-on-surface-variant text-center max-w-[280px] leading-relaxed">
-        Preview diperbarui secara otomatis secara real-time setiap perubahan data form di sebelah kiri.
-      </p>
     </div>
   );
 }

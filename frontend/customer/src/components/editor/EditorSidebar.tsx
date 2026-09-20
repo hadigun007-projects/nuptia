@@ -101,15 +101,15 @@ export function EditorSidebar({
                     key={tabId}
                     onClick={() => onSelectTab(tabId)}
                     title={def.label}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 ${
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs transition-all duration-150 ${
                       isActive
-                        ? 'bg-primary text-on-primary font-bold'
-                        : 'text-on-surface hover:bg-surface-container hover:text-primary'
+                        ? 'text-primary font-bold'
+                        : 'text-on-surface-variant hover:bg-surface-container/60 hover:text-on-surface'
                     } ${collapsed ? 'justify-center px-0' : ''}`}
                   >
                     <span
                       className={`flex-shrink-0 transition-transform ${
-                        isActive ? 'text-on-primary' : isKirim ? 'text-amber-500' : 'text-on-surface-variant'
+                        isActive ? 'text-primary' : isKirim ? 'text-amber-500' : 'text-on-surface-variant'
                       }`}
                     >
                       <IconComp s={19} />
@@ -119,10 +119,6 @@ export function EditorSidebar({
                       <span className="truncate flex-1 text-left font-display">
                         {def.label}
                       </span>
-                    )}
-
-                    {!collapsed && isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0" />
                     )}
                   </button>
                 );

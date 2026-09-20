@@ -59,46 +59,11 @@ export function TimelineSidebar({
 
   return (
     <aside
-      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none sticky top-[57px] max-h-[calc(100vh-57px)] ${
-        collapsed ? 'w-[74px]' : 'w-[250px]'
-      }`}
+      className={`hidden lg:flex flex-col bg-surface transition-all duration-300 flex-shrink-0 z-20 select-none sticky top-[57px] max-h-[calc(100vh-57px)] ${collapsed ? 'w-[74px]' : 'w-[250px]'
+        }`}
     >
-      {/* Top Header with 4-Phase Category Stepper Progress */}
-      {!collapsed && (
-        <div className="p-3 border-b border-outline-variant/30 space-y-1.5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-extrabold text-primary font-display uppercase tracking-wider">
-              Langkah {safeCatIndex + 1} dari 4
-            </span>
-            <span className="text-[10px] text-on-surface-variant font-semibold">
-              {Math.round(((safeCatIndex + 1) / 4) * 100)}%
-            </span>
-          </div>
-          <p className="text-xs font-extrabold text-on-surface font-display truncate">
-            {activeCategory.title}
-          </p>
-
-          {/* 4-Segment Progress Bar */}
-          <div className="grid grid-cols-4 gap-1.5 pt-1">
-            {CATEGORY_STEPS.map((c, i) => (
-              <div
-                key={c.key}
-                title={`Kategori ${i + 1}: ${c.title}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i < safeCatIndex
-                    ? 'bg-primary'
-                    : i === safeCatIndex
-                    ? 'bg-primary animate-pulse'
-                    : 'bg-surface-container-high'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Main List: 4 Category Nodes with Sub-items */}
-      <div className={`flex-1 overflow-y-auto py-3 space-y-4 ${collapsed ? 'px-1.5' : 'px-2'}`}>
+      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4 mt-8">
         {CATEGORY_STEPS.map((cat, catIdx) => {
           const isCurrentCat = catIdx === safeCatIndex;
           const isPastCat = catIdx < safeCatIndex;
@@ -112,21 +77,19 @@ export function TimelineSidebar({
           return (
             <div
               key={cat.key}
-              className={`relative ${
-                collapsed && catIdx > 0 ? 'pt-2 mt-2 border-t border-outline-variant/20' : ''
-              }`}
+              className={`relative ${collapsed && catIdx > 0 ? 'pt-2 mt-2 border-t border-outline-variant/20' : ''
+                }`}
             >
               {/* Category Connecting Line (Only drawn when expanded to prevent slicing through icons) */}
               {!collapsed && !isLastCat && (
                 <span
                   aria-hidden="true"
-                  className={`absolute w-0.5 pointer-events-none transition-colors z-0 left-[15px] ${
-                    isPastCat
-                      ? 'bg-primary/50'
-                      : isCurrentCat
+                  className={`absolute w-0.5 pointer-events-none transition-colors z-0 left-[15px] ${isPastCat
+                    ? 'bg-primary/50'
+                    : isCurrentCat
                       ? 'bg-primary/25'
                       : 'bg-outline-variant/30'
-                  }`}
+                    }`}
                   style={{
                     top: '24px',
                     bottom: '-16px',
@@ -136,20 +99,18 @@ export function TimelineSidebar({
 
               {/* Category Bullet Header */}
               <div
-                className={`flex items-center gap-2.5 relative z-10 ${
-                  collapsed ? 'justify-center mb-2' : 'px-1 pb-1.5'
-                }`}
+                className={`flex items-center gap-2.5 relative z-10 ${collapsed ? 'justify-center mb-2' : 'px-1 pb-1.5'
+                  }`}
               >
                 {/* Category Timeline Node Circle */}
                 <div
                   title={`Kategori ${cat.stepNumber}: ${cat.title}`}
-                  className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-extrabold flex-shrink-0 transition-all ${
-                    isCurrentCat
-                      ? 'bg-primary text-on-primary ring-3 ring-primary/25 shadow-xs scale-105'
-                      : isPastCat || isCatFullyCompleted
+                  className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-extrabold flex-shrink-0 transition-all ${isCurrentCat
+                    ? 'bg-primary text-on-primary ring-3 ring-primary/25 shadow-xs scale-105'
+                    : isPastCat || isCatFullyCompleted
                       ? 'bg-primary/15 text-primary border border-primary/30 font-bold'
                       : 'bg-surface-container-high text-on-surface-variant/60 border border-outline-variant/40'
-                  }`}
+                    }`}
                 >
                   {isPastCat || isCatFullyCompleted ? (
                     <Ic.Check s={13} />
@@ -162,13 +123,12 @@ export function TimelineSidebar({
                 {!collapsed && (
                   <div className="flex-1 min-w-0 flex items-center justify-between">
                     <span
-                      className={`text-[10px] font-bold tracking-wider uppercase font-display truncate ${
-                        isCurrentCat
-                          ? 'text-primary font-extrabold'
-                          : isPastCat
+                      className={`text-[10px] font-bold tracking-wider uppercase font-display truncate ${isCurrentCat
+                        ? 'text-primary font-extrabold'
+                        : isPastCat
                           ? 'text-on-surface/90'
                           : 'text-on-surface-variant/70'
-                      }`}
+                        }`}
                     >
                       {cat.title}
                     </span>
@@ -183,9 +143,8 @@ export function TimelineSidebar({
 
               {/* Category Sub-items (Listed cleanly below category header) */}
               <div
-                className={`space-y-1 ${
-                  collapsed ? 'flex flex-col items-center' : 'pl-7'
-                }`}
+                className={`space-y-1 ${collapsed ? 'flex flex-col items-center' : 'pl-7'
+                  }`}
               >
                 {cat.items.map((tabId) => {
                   const def = getDef(tabId);
@@ -198,28 +157,24 @@ export function TimelineSidebar({
                       key={tabId}
                       onClick={() => onSelectTab(tabId)}
                       title={def.label}
-                      className={`transition-all duration-150 ${
-                        collapsed
-                          ? `w-10 h-10 rounded-xl flex items-center justify-center ${
-                              isActive
-                                ? 'bg-primary text-on-primary font-bold shadow-xs'
-                                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
-                            }`
-                          : `w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold ${
-                              isActive
-                                ? 'bg-primary text-on-primary font-bold shadow-xs'
-                                : 'text-on-surface hover:bg-surface-container hover:text-primary'
-                            }`
-                      }`}
+                      className={`transition-all duration-150 ${collapsed
+                        ? `w-10 h-10 rounded-xl flex items-center justify-center ${isActive
+                          ? 'text-primary'
+                          : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60'
+                        }`
+                        : `w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs ${isActive
+                          ? 'text-primary font-bold'
+                          : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60'
+                        }`
+                        }`}
                     >
                       <span
-                        className={`flex-shrink-0 transition-transform ${
-                          isActive
-                            ? 'text-on-primary'
-                            : isKirim
+                        className={`flex-shrink-0 transition-transform ${isActive
+                          ? 'text-primary'
+                          : isKirim
                             ? 'text-amber-500'
                             : 'text-on-surface-variant'
-                        }`}
+                          }`}
                       >
                         <IconComp s={18} />
                       </span>
@@ -228,10 +183,6 @@ export function TimelineSidebar({
                         <span className="truncate flex-1 text-left font-display">
                           {def.label}
                         </span>
-                      )}
-
-                      {!collapsed && isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0" />
                       )}
                     </button>
                   );
