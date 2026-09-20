@@ -81,8 +81,8 @@ export function DashboardView({
   };
 
   return (
-    <div className="min-h-screen bg-surface-container-low/40 flex justify-center">
-      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-col relative border-x border-outline-variant/20 shadow-none">
+    <div className="min-h-screen bg-surface flex justify-center">
+      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-col relative shadow-none">
         {/* Top Navbar */}
         <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} onNavigateToLogin={onNavigateToLogin ?? (() => (window.location.hash = '#/login'))} />
 

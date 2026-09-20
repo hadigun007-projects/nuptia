@@ -300,8 +300,8 @@ export function LoginView({ onSuccess, onBack }: LoginViewProps) {
   const isBusy = isSubmitting || authLoading;
 
   return (
-    <div className="min-h-screen bg-surface-container-low/40 flex justify-center" style={{ fontFamily: 'var(--font-body)' }}>
-      <div className="w-full max-w-7xl min-h-screen bg-surface flex relative border-x border-outline-variant/20 shadow-none">
+    <div className="min-h-screen bg-surface flex justify-center" style={{ fontFamily: 'var(--font-body)' }}>
+      <div className="w-full max-w-7xl min-h-screen bg-surface flex relative shadow-none">
         {/* ── LEFT: Branding panel (hidden on mobile) ─────────────────────── */}
         <div
           className="hidden lg:flex flex-col justify-between relative overflow-hidden lg:w-[50%] p-12"
