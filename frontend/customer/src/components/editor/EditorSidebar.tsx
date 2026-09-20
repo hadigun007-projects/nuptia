@@ -18,7 +18,7 @@ const CATEGORIES = [
   {
     key: 'mempelai',
     title: 'Mempelai & Acara',
-    items: ['pengantin', 'acara', 'quote', 'kisah-cinta'] as Tab[],
+    items: ['pengantin', 'acara', 'streaming', 'quote', 'kisah-cinta'] as Tab[],
   },
   {
     key: 'media',
@@ -28,12 +28,12 @@ const CATEGORIES = [
   {
     key: 'tamu',
     title: 'Tamu & Interaksi',
-    items: ['rsvp', 'ucapan', 'buku-tamu', 'kado'] as Tab[],
+    items: ['rsvp', 'buku-tamu', 'ucapan', 'kado'] as Tab[],
   },
   {
     key: 'distribusi',
     title: 'Distribusi & Pengaturan',
-    items: ['streaming', 'kirim', 'setting'] as Tab[],
+    items: ['setting', 'kirim'] as Tab[],
   },
 ];
 

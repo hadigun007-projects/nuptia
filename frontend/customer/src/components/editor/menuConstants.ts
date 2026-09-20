@@ -11,24 +11,24 @@ export interface MenuItemDef {
 }
 
 export const MENU_ITEMS_15: MenuItemDef[] = [
-  // Row 1
+  // 1. Informasi Pokok
   { id: 'pengantin', label: 'Pengantin', Icon: Ic.Pengantin, category: 'mempelai' },
-  { id: 'tema', label: 'Tema', Icon: Ic.Tema, category: 'media' },
   { id: 'acara', label: 'Acara', Icon: Ic.Acara, category: 'mempelai' },
-  // Row 2
+  { id: 'streaming', label: 'Streaming', Icon: Ic.Streaming, category: 'mempelai' },
+  // 2. Cerita Mempelai
+  { id: 'quote', label: 'Quote', Icon: Ic.Quote, category: 'mempelai' },
+  { id: 'kisah-cinta', label: 'Kisah Cinta', Icon: Ic.KisahCinta, category: 'mempelai' },
+  // 3. Desain & Multimedia
+  { id: 'tema', label: 'Tema', Icon: Ic.Tema, category: 'media' },
   { id: 'galeri', label: 'Galeri', Icon: Ic.Galeri, category: 'media' },
   { id: 'musik', label: 'Musik', Icon: Ic.Musik, category: 'media' },
-  { id: 'ucapan', label: 'Ucapan', Icon: Ic.Ucapan, category: 'tamu' },
-  // Row 3
-  { id: 'kado', label: 'Kado', Icon: Ic.Kado, category: 'tamu' },
-  { id: 'rsvp', label: 'RSVP', Icon: Ic.RSVP, category: 'tamu' },
-  { id: 'streaming', label: 'Streaming', Icon: Ic.Streaming, category: 'distribusi' },
-  // Row 4
-  { id: 'kisah-cinta', label: 'Kisah Cinta', Icon: Ic.KisahCinta, category: 'mempelai' },
   { id: 'story-ig', label: 'Story IG', Icon: Ic.StoryIG, category: 'media' },
-  { id: 'quote', label: 'Quote', Icon: Ic.Quote, category: 'mempelai' },
-  // Row 5
-  { id: 'setting', label: 'Setting', Icon: Ic.Setting, category: 'distribusi' },
+  // 4. Interaksi Tamu & Hadiah
+  { id: 'rsvp', label: 'RSVP', Icon: Ic.RSVP, category: 'tamu' },
   { id: 'buku-tamu', label: 'Buku Tamu', Icon: Ic.BukuTamu, category: 'tamu' },
+  { id: 'ucapan', label: 'Ucapan', Icon: Ic.Ucapan, category: 'tamu' },
+  { id: 'kado', label: 'Kado', Icon: Ic.Kado, category: 'tamu' },
+  // 5. Finalisasi & Distribusi
+  { id: 'setting', label: 'Setting', Icon: Ic.Setting, category: 'distribusi' },
   { id: 'kirim', label: 'Kirim', Icon: Ic.Kirim, accent: '#FACC15', category: 'distribusi' },
 ];
