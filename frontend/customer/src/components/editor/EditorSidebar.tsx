@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Tab } from '../../types';
-import { MENU_ITEMS_15, MenuItemDef } from './MenuGridModal';
+import { MENU_ITEMS_15, MenuItemDef } from './menuConstants';
 import { TimelineSidebar, TIMELINE_STEPS } from './TimelineSidebar';
 import { Ic } from '../common/Icons';
 
@@ -9,7 +9,6 @@ export { TIMELINE_STEPS };
 interface EditorSidebarProps {
   activeTab: Tab;
   onSelectTab: (tab: Tab) => void;
-  onOpenGridModal: () => void;
   isTimelineMode?: boolean;
   onToggleMode?: () => void;
   completedSteps?: Partial<Record<Tab, boolean>>;
@@ -41,7 +40,6 @@ const CATEGORIES = [
 export function EditorSidebar({
   activeTab,
   onSelectTab,
-  onOpenGridModal,
   isTimelineMode = false,
   onToggleMode,
   completedSteps = {},
@@ -59,7 +57,6 @@ export function EditorSidebar({
         activeTab={activeTab}
         onSelectTab={onSelectTab}
         completedSteps={completedSteps}
-        onOpenGridModal={onOpenGridModal}
         isTimelineMode={true}
         onToggleMode={handleToggleMode}
         collapsed={collapsed}
@@ -78,20 +75,8 @@ export function EditorSidebar({
         collapsed ? 'w-[74px]' : 'w-[250px]'
       }`}
     >
-      {/* Top action: Open 3x5 Grid Modal & Mode switcher */}
+      {/* Top Mode switcher */}
       <div className="p-3 border-b border-outline-variant/30 space-y-2">
-        <button
-          onClick={onOpenGridModal}
-          className={`w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary-container/80 transition-all duration-200 font-bold text-xs shadow-2xs group ${
-            collapsed ? 'px-0' : ''
-          }`}
-          title="Buka Menu Cepat (Grid 3x5)"
-        >
-          <span className="text-primary group-hover:scale-110 transition-transform">
-            <Ic.Grid s={18} />
-          </span>
-          {!collapsed && <span>Semua Menu (3x5)</span>}
-        </button>
 
         {/* Mode Toggle Pill */}
         {!collapsed && (

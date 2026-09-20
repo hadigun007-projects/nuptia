@@ -12,7 +12,6 @@ interface EditorTopBarProps {
   onTogglePreview: () => void;
   onSave: () => void;
   onChangeStatus: () => void;
-  onOpenGridModal?: () => void;
 }
 
 export function EditorTopBar({
@@ -24,7 +23,6 @@ export function EditorTopBar({
   onTogglePreview,
   onSave,
   onChangeStatus,
-  onOpenGridModal,
 }: EditorTopBarProps) {
   const statusMeta = STATUS_STYLES[status] || STATUS_STYLES.Draft;
 
@@ -33,17 +31,17 @@ export function EditorTopBar({
       {/* Back Button */}
       <button
         onClick={onBack}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-on-surface-variant bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 transition-colors mr-1"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors text-xs font-semibold"
         title="Kembali ke Daftar Undangan"
       >
-        <Ic.ArrowLeft s={16} />
+        <Ic.ArrowLeft s={15} />
         <span className="hidden sm:inline">Daftar Undangan</span>
       </button>
 
-      {/* Brand & Invitation Title */}
-      <div className="flex items-center gap-2 mr-auto min-w-0">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center flex-shrink-0 shadow-xs">
-          <Ic.Heart s={14} cls="text-on-primary" />
+      {/* Title & Brand */}
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <div className="w-8 h-8 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 shadow-2xs">
+          <Ic.Heart s={15} cls="text-primary" />
         </div>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
@@ -56,18 +54,6 @@ export function EditorTopBar({
           </p>
         </div>
       </div>
-
-      {/* Quick Menu Launcher (Grid 3x5) */}
-      {onOpenGridModal && (
-        <button
-          onClick={onOpenGridModal}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-primary-container text-on-primary-container hover:bg-primary-container/80 transition-all shadow-2xs"
-          title="Buka Menu 3x5"
-        >
-          <Ic.Grid s={15} />
-          <span className="hidden md:inline">Menu (3x5)</span>
-        </button>
-      )}
 
       {/* Status cycle button */}
       <button

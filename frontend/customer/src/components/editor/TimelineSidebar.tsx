@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tab } from '../../types';
-import { MENU_ITEMS_15, MenuItemDef } from './MenuGridModal';
+import { MENU_ITEMS_15, MenuItemDef } from './menuConstants';
 import { Ic } from '../common/Icons';
 
 export interface TimelineStepDef {
@@ -33,7 +33,6 @@ interface TimelineSidebarProps {
   activeTab: Tab;
   onSelectTab: (tab: Tab) => void;
   completedSteps?: Partial<Record<Tab, boolean>>;
-  onOpenGridModal: () => void;
   isTimelineMode: boolean;
   onToggleMode: () => void;
   collapsed: boolean;
@@ -44,7 +43,6 @@ export function TimelineSidebar({
   activeTab,
   onSelectTab,
   completedSteps = {},
-  onOpenGridModal,
   isTimelineMode,
   onToggleMode,
   collapsed,
@@ -69,19 +67,6 @@ export function TimelineSidebar({
     >
       {/* Top Header & Mode Switcher */}
       <div className="p-3 border-b border-outline-variant/30 space-y-2.5">
-        {/* Quick Grid Modal Button */}
-        <button
-          onClick={onOpenGridModal}
-          className={`w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-primary-container/80 text-on-primary-container hover:bg-primary-container transition-all duration-200 font-bold text-xs shadow-2xs group ${
-            collapsed ? 'px-0' : ''
-          }`}
-          title="Buka Menu Cepat (Grid 3x5)"
-        >
-          <span className="text-primary group-hover:scale-110 transition-transform">
-            <Ic.Grid s={17} />
-          </span>
-          {!collapsed && <span>Semua Menu (3x5)</span>}
-        </button>
 
         {/* Mode Toggle Pill */}
         {!collapsed && (

@@ -1,15 +1,14 @@
 import React from 'react';
 import { Tab } from '../../types';
-import { MENU_ITEMS_15 } from './MenuGridModal';
+import { MENU_ITEMS_15 } from './menuConstants';
 import { Ic } from '../common/Icons';
 
 interface BottomNav15Props {
   activeTab: Tab;
   onSelectTab: (tab: Tab) => void;
-  onOpenGridModal: () => void;
 }
 
-export function BottomNav15({ activeTab, onSelectTab, onOpenGridModal }: BottomNav15Props) {
+export function BottomNav15({ activeTab, onSelectTab }: BottomNav15Props) {
   const currentIndex = MENU_ITEMS_15.findIndex((m) => m.id === activeTab);
   const currentDef = MENU_ITEMS_15[currentIndex] || MENU_ITEMS_15[0];
   const CurrentIcon = currentDef.Icon;
@@ -35,19 +34,13 @@ export function BottomNav15({ activeTab, onSelectTab, onOpenGridModal }: BottomN
         <Ic.ChevronLeft s={20} />
       </button>
 
-      {/* Center "Menu Grid Launcher" button */}
-      <button
-        onClick={onOpenGridModal}
-        className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-primary text-on-primary font-bold text-xs shadow-md active:scale-95 transition-all duration-200"
-      >
+      {/* Center active tab info badge */}
+      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-on-primary font-bold text-xs shadow-md">
         <span className="text-on-primary">
-          <CurrentIcon s={18} />
+          <CurrentIcon s={17} />
         </span>
-        <span className="font-display max-w-[120px] truncate">{currentDef.label}</span>
-        <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">
-          <Ic.Grid s={11} />
-        </span>
-      </button>
+        <span className="font-display max-w-[140px] truncate">{currentDef.label}</span>
+      </div>
 
       {/* Next Tab button */}
       <button

@@ -18,7 +18,6 @@ import { useInvitations } from '../hooks/useInvitations';
 import { EditorTopBar } from '../components/editor/EditorTopBar';
 import { EditorSidebar } from '../components/editor/EditorSidebar';
 import { BottomNav15 } from '../components/editor/BottomNav15';
-import { MenuGridModal } from '../components/editor/MenuGridModal';
 import { PreviewPanel } from '../components/editor/preview/PreviewPanel';
 import { StepNavigationFooter } from '../components/editor/StepNavigationFooter';
 import { Ic } from '../components/common/Icons';
@@ -113,7 +112,6 @@ function EditorViewInner({
   const [status, setStatus] = useState<Status>(invitation.status);
   const [showPreview, setShowPreview] = useState(true);
   const [autoSaving, setAutoSaving] = useState(false);
-  const [isGridModalOpen, setIsGridModalOpen] = useState(false);
 
   // 15 Modules State
   const [event, setEvent] = useState<EventData>(invitation.event);
@@ -291,7 +289,6 @@ function EditorViewInner({
         onBackToDashboard={onBackToDashboard}
         onManualSave={handleManualSave}
         onChangeStatus={cycleStatus}
-        onOpenGridModal={() => setIsGridModalOpen(true)}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -299,7 +296,6 @@ function EditorViewInner({
         <EditorSidebar
           activeTab={activeNormalizedTab}
           onSelectTab={setTab}
-          onOpenGridModal={() => setIsGridModalOpen(true)}
           isTimelineMode={timelineMode}
           onToggleMode={() => setTimelineMode((m) => !m)}
           completedSteps={completedSteps}
@@ -449,19 +445,10 @@ function EditorViewInner({
         </main>
       </div>
 
-      {/* Bottom Nav for Mobile with 3x5 Grid launcher */}
+      {/* Bottom Nav for Mobile */}
       <BottomNav15
         activeTab={activeNormalizedTab}
         onSelectTab={setTab}
-        onOpenGridModal={() => setIsGridModalOpen(true)}
-      />
-
-      {/* 3x5 Reference Grid Modal Launcher */}
-      <MenuGridModal
-        isOpen={isGridModalOpen}
-        activeTab={activeNormalizedTab}
-        onSelectTab={setTab}
-        onClose={() => setIsGridModalOpen(false)}
       />
     </div>
   );
