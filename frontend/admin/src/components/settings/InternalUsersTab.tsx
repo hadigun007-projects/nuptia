@@ -129,49 +129,6 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Banner & Stat Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col">
-          <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
-            Total Tim Internal
-          </span>
-          <div className="flex items-baseline gap-2 mt-1.5">
-            <span className="text-2xl font-black text-on-surface font-display">{metrics.total}</span>
-            <span className="text-[11px] text-emerald-600 font-semibold">{metrics.active} Aktif</span>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col">
-          <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
-            Developer / Super
-          </span>
-          <div className="flex items-baseline gap-2 mt-1.5">
-            <span className="text-2xl font-black text-purple-700 font-display">{metrics.developer}</span>
-            <span className="text-[11px] text-on-surface-variant font-medium">Akses Penuh</span>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col">
-          <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
-            Admin Operasional
-          </span>
-          <div className="flex items-baseline gap-2 mt-1.5">
-            <span className="text-2xl font-black text-primary font-display">{metrics.admin}</span>
-            <span className="text-[11px] text-on-surface-variant font-medium">CRUD Sistem</span>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col">
-          <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
-            Viewer / Audit
-          </span>
-          <div className="flex items-baseline gap-2 mt-1.5">
-            <span className="text-2xl font-black text-amber-700 font-display">{metrics.viewer}</span>
-            <span className="text-[11px] text-on-surface-variant font-medium">Read-Only</span>
-          </div>
-        </div>
-      </div>
-
       {/* Action and Filter Bar */}
       <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -181,19 +138,18 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
             <button
               key={r}
               onClick={() => setRoleFilter(r)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${
-                roleFilter === r
-                  ? 'bg-primary text-on-primary'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${roleFilter === r
+                ? 'bg-primary text-on-primary'
+                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                }`}
             >
               {r === 'all'
                 ? 'Semua'
                 : r === 'developer'
-                ? 'Developer'
-                : r === 'admin'
-                ? 'Admin'
-                : 'Viewer'}
+                  ? 'Developer'
+                  : r === 'admin'
+                    ? 'Admin'
+                    : 'Viewer'}
             </button>
           ))}
 
@@ -205,11 +161,10 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${
-                statusFilter === s
-                  ? 'bg-secondary text-on-secondary'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${statusFilter === s
+                ? 'bg-secondary text-on-secondary'
+                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+                }`}
             >
               {s === 'all' ? 'Semua' : s === 'active' ? 'Aktif' : 'Suspended'}
             </button>
@@ -255,8 +210,8 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-outline-variant/20 bg-surface-container-low/40 text-[11px] font-bold text-on-surface-variant tracking-wider uppercase">
-                <th className="py-3.5 px-5">Anggota Tim</th>
-                <th className="py-3.5 px-4">Role Internal</th>
+                <th className="py-3.5 px-5">Nama</th>
+                <th className="py-3.5 px-4">Role</th>
                 <th className="py-3.5 px-4">Status</th>
                 <th className="py-3.5 px-4">Metode Auth</th>
                 <th className="py-3.5 px-4">Terdaftar</th>
@@ -287,24 +242,18 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                       <td className="py-3.5 px-5">
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
-                              u.role === 'developer'
-                                ? 'bg-purple-100 text-purple-800'
-                                : u.role === 'admin'
+                            className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${u.role === 'developer'
+                              ? 'bg-purple-100 text-purple-800'
+                              : u.role === 'admin'
                                 ? 'bg-primary/10 text-primary'
                                 : 'bg-amber-100 text-amber-800'
-                            }`}
+                              }`}
                           >
                             {u.name.charAt(0).toUpperCase()}
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <p className="font-bold text-on-surface truncate">{u.name}</p>
-                              {isSelf && (
-                                <span className="px-1.5 py-0.2 text-[9px] font-bold rounded-md bg-primary-container text-on-primary-container">
-                                  Anda
-                                </span>
-                              )}
                             </div>
                             <p className="text-[11px] text-on-surface-variant truncate">{u.email}</p>
                           </div>
@@ -315,15 +264,15 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                       <td className="py-3.5 px-4">
                         {u.role === 'developer' ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-100 text-purple-900 border border-purple-200">
-                            ⚡ Developer (Super)
+                            Developer
                           </span>
                         ) : u.role === 'admin' ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container">
-                            🛡️ Admin Operasional
+                            Admin
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
-                            👁️ Viewer (Audit)
+                            Viewer
                           </span>
                         )}
                       </td>
@@ -331,16 +280,14 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                       {/* Status */}
                       <td className="py-3.5 px-4">
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                            u.status === 'active'
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : 'bg-error/10 text-error'
-                          }`}
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${u.status === 'active'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : 'bg-error/10 text-error'
+                            }`}
                         >
                           <span
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              u.status === 'active' ? 'bg-emerald-500' : 'bg-error'
-                            }`}
+                            className={`w-1.5 h-1.5 rounded-full ${u.status === 'active' ? 'bg-emerald-500' : 'bg-error'
+                              }`}
                           />
                           {u.status === 'active' ? 'Aktif' : 'Suspended'}
                         </span>
@@ -349,7 +296,7 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                       {/* Provider */}
                       <td className="py-3.5 px-4">
                         <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-[10px] font-semibold text-on-surface-variant capitalize">
-                          {u.authProvider === 'google' ? '🟢 Google' : '✉️ Password'}
+                          {u.authProvider === 'google' ? '🟢Google' : 'Password'}
                         </span>
                       </td>
 
@@ -380,19 +327,18 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                             onClick={() =>
                               onToggleStatus(u.id, u.status === 'active' ? 'suspended' : 'active')
                             }
-                            className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${
-                              isSelf
-                                ? 'opacity-40 cursor-not-allowed bg-surface-container text-on-surface-variant'
-                                : u.status === 'active'
+                            className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${isSelf
+                              ? 'opacity-40 cursor-not-allowed bg-surface-container text-on-surface-variant'
+                              : u.status === 'active'
                                 ? 'bg-error/10 text-error hover:bg-error/20'
                                 : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                            }`}
+                              }`}
                             title={
                               isSelf
                                 ? 'Tidak bisa mengubah status akun Anda sendiri'
                                 : u.status === 'active'
-                                ? 'Suspend Akun'
-                                : 'Aktifkan Akun'
+                                  ? 'Suspend Akun'
+                                  : 'Aktifkan Akun'
                             }
                           >
                             {u.status === 'active' ? 'Suspend' : 'Aktifkan'}
@@ -402,11 +348,10 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                           <button
                             disabled={isSelf}
                             onClick={() => setDeleteTarget(u)}
-                            className={`p-1 rounded-lg text-[11px] transition-colors ${
-                              isSelf
-                                ? 'opacity-30 cursor-not-allowed text-on-surface-variant'
-                                : 'text-error hover:bg-error/10'
-                            }`}
+                            className={`p-1 rounded-lg text-[11px] transition-colors ${isSelf
+                              ? 'opacity-30 cursor-not-allowed text-on-surface-variant'
+                              : 'text-error hover:bg-error/10'
+                              }`}
                             title={isSelf ? 'Tidak bisa menghapus akun Anda sendiri' : 'Hapus User Internal'}
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -486,11 +431,10 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   <label
-                    className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${
-                      formData.role === 'admin'
-                        ? 'border-primary bg-primary-container/20 text-on-surface font-bold'
-                        : 'border-outline-variant/30 bg-surface-container-low text-on-surface-variant'
-                    }`}
+                    className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${formData.role === 'admin'
+                      ? 'border-primary bg-primary-container/20 text-on-surface font-bold'
+                      : 'border-outline-variant/30 bg-surface-container-low text-on-surface-variant'
+                      }`}
                   >
                     <input
                       type="radio"
@@ -509,11 +453,10 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                   </label>
 
                   <label
-                    className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${
-                      formData.role === 'developer'
-                        ? 'border-purple-600 bg-purple-50 text-on-surface font-bold'
-                        : 'border-outline-variant/30 bg-surface-container-low text-on-surface-variant'
-                    }`}
+                    className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${formData.role === 'developer'
+                      ? 'border-purple-600 bg-purple-50 text-on-surface font-bold'
+                      : 'border-outline-variant/30 bg-surface-container-low text-on-surface-variant'
+                      }`}
                   >
                     <input
                       type="radio"
@@ -532,11 +475,10 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                   </label>
 
                   <label
-                    className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${
-                      formData.role === 'viewer'
-                        ? 'border-amber-600 bg-amber-50 text-on-surface font-bold'
-                        : 'border-outline-variant/30 bg-surface-container-low text-on-surface-variant'
-                    }`}
+                    className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${formData.role === 'viewer'
+                      ? 'border-amber-600 bg-amber-50 text-on-surface font-bold'
+                      : 'border-outline-variant/30 bg-surface-container-low text-on-surface-variant'
+                      }`}
                   >
                     <input
                       type="radio"
@@ -628,18 +570,17 @@ export const InternalUsersTab: React.FC<InternalUsersTabProps> = ({
                     onToggleRole(roleEditTarget.id, r);
                     setRoleEditTarget(null);
                   }}
-                  className={`w-full text-left p-3 rounded-xl border flex items-center justify-between transition-colors ${
-                    roleEditTarget.role === r
-                      ? 'border-primary bg-primary-container/20 font-bold text-on-surface'
-                      : 'border-outline-variant/30 hover:bg-surface-container text-on-surface-variant'
-                  }`}
+                  className={`w-full text-left p-3 rounded-xl border flex items-center justify-between transition-colors ${roleEditTarget.role === r
+                    ? 'border-primary bg-primary-container/20 font-bold text-on-surface'
+                    : 'border-outline-variant/30 hover:bg-surface-container text-on-surface-variant'
+                    }`}
                 >
                   <span className="text-xs capitalize font-semibold">
                     {r === 'developer'
                       ? '⚡ Developer (Super Admin)'
                       : r === 'admin'
-                      ? '🛡️ Admin Operasional'
-                      : '👁️ Viewer (Auditor)'}
+                        ? '🛡️ Admin Operasional'
+                        : '👁️ Viewer (Auditor)'}
                   </span>
                   {roleEditTarget.role === r && (
                     <span className="text-primary text-xs">✓ Aktif</span>
