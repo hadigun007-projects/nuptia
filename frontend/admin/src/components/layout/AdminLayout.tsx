@@ -23,30 +23,30 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-surface flex flex-row w-full">
-      {/* Sidebar */}
-      <AdminSidebar
-        currentRoute={currentRoute}
-        isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
-      />
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <AdminTopBar
+    <div className="min-h-screen bg-surface flex justify-center">
+      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-row relative shadow-none">
+        {/* Sidebar */}
+        <AdminSidebar
           currentRoute={currentRoute}
-          user={user}
-          onLogout={onLogout}
-          searchQuery={searchQuery}
-          onSearchChange={onSearchChange}
-          isSidebarCollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
         />
 
-        <main className="flex-1 p-6 md:p-8 w-full animate-fade-in-up">
-          <div className="max-w-7xl w-full mx-auto">
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <AdminTopBar
+            currentRoute={currentRoute}
+            user={user}
+            onLogout={onLogout}
+            searchQuery={searchQuery}
+            onSearchChange={onSearchChange}
+            isSidebarCollapsed={isSidebarCollapsed}
+          />
+
+          <main className="flex-1 p-6 md:p-8 w-full animate-fade-in-up">
             {children}
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </div>
   );
