@@ -314,7 +314,7 @@ function EditorViewInner({
 
         {/* Main Editor Work Area */}
         <main className="flex-1 overflow-y-auto">
-          <div className={`flex min-h-full ${showPreview ? 'lg:divide-x lg:divide-outline-variant/30' : ''}`}>
+          <div className="flex min-h-full">
             {/* Form Area */}
             <div className={`flex-1 p-4 pb-24 lg:pb-8 ${showPreview ? 'lg:max-w-[calc(100%-360px)]' : ''}`}>
               <div className="max-w-2xl mx-auto">
@@ -438,7 +438,7 @@ function EditorViewInner({
 
             {/* Live Preview Panel for Desktop */}
             {showPreview && (
-              <aside className="hidden lg:block w-[360px] flex-shrink-0 overflow-y-auto bg-surface-container-low/60 border-l border-outline-variant/30">
+              <aside className="hidden lg:block w-[360px] flex-shrink-0 overflow-y-auto bg-surface">
                 <PreviewPanel
                   event={event}
                   media={media}
