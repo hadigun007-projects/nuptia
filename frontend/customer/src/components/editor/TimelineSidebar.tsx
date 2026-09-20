@@ -75,14 +75,16 @@ export function TimelineSidebar({
             const isPast = idx < currentStepIndex;
             const isLastStep = idx === TIMELINE_STEPS.length - 1;
 
+            const isPassed = isPast || isCompleted;
+
             return (
               <div key={step.id} className="relative">
                 {/* Connecting Line between nodes (hidden on the last item to prevent overflow) */}
                 {!isLastStep && (
                   <span
                     aria-hidden="true"
-                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 bg-outline-variant/40 ${collapsed ? 'left-[29px]' : 'left-[21px]'
-                      }`}
+                    className={`absolute w-0.5 pointer-events-none transition-colors z-0 ${isPast ? 'bg-primary/35' : 'bg-outline-variant/40'
+                      } ${collapsed ? 'left-[29px]' : 'left-[21px]'}`}
                     style={{
                       top: '26px',
                       bottom: '-6px',
@@ -96,11 +98,13 @@ export function TimelineSidebar({
                   className={`w-full flex items-center gap-3 p-2 rounded-xl text-xs transition-all duration-200 group text-left relative z-10 hover:bg-surface-container/50 ${collapsed ? 'justify-center p-2.5' : ''
                     }`}
                 >
-                  {/* Step Node Circle on Timeline with Icon: Main color when active, gray when inactive */}
+                  {/* Step Node Circle on Timeline: Main color for active, adjusted main color for passed, gray for unvisited */}
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
                       ? 'bg-primary text-on-primary scale-105 shadow-xs'
-                      : 'bg-surface-container text-on-surface-variant/60 border border-outline-variant/30 group-hover:text-primary group-hover:border-primary/40'
+                      : isPassed
+                        ? 'bg-primary/15 text-primary border border-primary/30'
+                        : 'bg-surface-container text-on-surface-variant/60 border border-outline-variant/30 group-hover:text-primary group-hover:border-primary/40'
                       }`}
                   >
                     <IconComp s={14} />
@@ -113,7 +117,9 @@ export function TimelineSidebar({
                         <span
                           className={`truncate font-display leading-tight ${isActive
                             ? 'font-bold text-primary'
-                            : 'font-medium text-on-surface-variant group-hover:text-on-surface'
+                            : isPassed
+                              ? 'font-semibold text-on-surface'
+                              : 'font-medium text-on-surface-variant/75 group-hover:text-on-surface'
                             }`}
                         >
                           {step.label}
