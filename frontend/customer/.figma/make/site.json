@@ -1,0 +1,10 @@
+{
+  "description": "Manage online invitations seamlessly with a modern dashboard that allows users to customize events, manage guests, and preview changes in real-time.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
