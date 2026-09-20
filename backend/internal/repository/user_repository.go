@@ -114,3 +114,8 @@ func (r *userRepository) Update(user *domain.User) error {
 	return r.db.Save(user).Error
 }
 
+func (r *userRepository) Delete(id uuid.UUID) error {
+	return r.db.Delete(&domain.User{}, id).Error
+}
+
+

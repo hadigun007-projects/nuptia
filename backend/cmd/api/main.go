@@ -88,7 +88,7 @@ func main() {
 	// Admin API v1 group with JWT Auth & RBAC Middleware
 	v1Admin := v1.Group("/admin")
 	v1Admin.Use(middleware.AuthMiddleware(cfg.JWTSecret))
-	v1Admin.Use(middleware.RequireRole("admin"))
+	v1Admin.Use(middleware.RequireRole("admin", "developer", "viewer"))
 	adminHandler.RegisterRoutes(v1Admin)
 
 

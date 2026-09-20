@@ -60,6 +60,14 @@ type AuthResponse struct {
 	User  UserResponse `json:"user"`
 }
 
+// CreateInternalUserRequest payload for creating internal staff/admin/viewer/developer
+type CreateInternalUserRequest struct {
+	Name     string `json:"name" binding:"required,min=2,max=128"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=6"`
+	Role     string `json:"role" binding:"required"`
+}
+
 // UserRepository interface defines data operations on users
 type UserRepository interface {
 	FindByEmail(email string) (*User, error)
@@ -72,5 +80,7 @@ type UserRepository interface {
 	UpdateStatus(id uuid.UUID, isActive bool) error
 	Create(user *User) error
 	Update(user *User) error
+	Delete(id uuid.UUID) error
 }
+
 

@@ -3,11 +3,14 @@ package handler
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"nuptia-backend/internal/domain"
+	"nuptia-backend/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AdminHandler struct {
@@ -25,8 +28,10 @@ func NewAdminHandler(userRepo domain.UserRepository, templateRepo domain.Templat
 func (h *AdminHandler) RegisterRoutes(rg *gin.RouterGroup) {
 	rg.GET("/stats", h.GetStats)
 	rg.GET("/users", h.GetUsers)
+	rg.POST("/internal-users", h.CreateInternalUser)
 	rg.PATCH("/users/:id/role", h.UpdateUserRole)
 	rg.PATCH("/users/:id/status", h.UpdateUserStatus)
+	rg.DELETE("/users/:id", h.DeleteUser)
 	rg.GET("/templates", h.GetTemplates)
 	rg.PATCH("/templates/:id/active", h.ToggleTemplateActive)
 }
@@ -118,6 +123,72 @@ func (h *AdminHandler) GetUsers(c *gin.Context) {
 	})
 }
 
+func (h *AdminHandler) CreateInternalUser(c *gin.Context) {
+	var req domain.CreateInternalUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Data user internal tidak valid: periksa nama, email, password (min 6 karakter), dan role"})
+		return
+	}
+
+	validInternalRoles := map[string]bool{
+		"admin":     true,
+		"developer": true,
+		"viewer":    true,
+	}
+	if !validInternalRoles[req.Role] {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Role internal harus bernilai 'admin', 'developer', atau 'viewer'"})
+		return
+	}
+
+	email := strings.ToLower(strings.TrimSpace(req.Email))
+	existing, err := h.userRepo.FindByEmail(email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": "Gagal memeriksa email pengguna"})
+		return
+	}
+	if existing != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Email sudah terdaftar dalam sistem"})
+		return
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": "Gagal memproses kata sandi"})
+		return
+	}
+
+	newUser := &domain.User{
+		ID:           uuid.New(),
+		Email:        email,
+		PasswordHash: string(hash),
+		Name:         strings.TrimSpace(req.Name),
+		AuthProvider: "email",
+		Role:         req.Role,
+		IsActive:     true,
+	}
+
+	if err := h.userRepo.Create(newUser); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": "Gagal membuat akun user internal"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"success": true,
+		"message": "User internal berhasil ditambahkan",
+		"data": gin.H{
+			"id":              newUser.ID,
+			"name":            newUser.Name,
+			"email":           newUser.Email,
+			"avatarUrl":       newUser.AvatarURL,
+			"authProvider":    newUser.AuthProvider,
+			"role":            newUser.Role,
+			"status":          "active",
+			"createdAt":       newUser.CreatedAt,
+			"invitationCount": 0,
+		},
+	})
+}
+
 type UpdateRolePayload struct {
 	Role string `json:"role" binding:"required"`
 }
@@ -136,8 +207,14 @@ func (h *AdminHandler) UpdateUserRole(c *gin.Context) {
 		return
 	}
 
-	if payload.Role != "customer" && payload.Role != "admin" {
-		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Role harus bernilai 'customer' atau 'admin'"})
+	validRoles := map[string]bool{
+		"customer":  true,
+		"admin":     true,
+		"developer": true,
+		"viewer":    true,
+	}
+	if !validRoles[payload.Role] {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Role harus salah satu dari: customer, admin, developer, viewer"})
 		return
 	}
 
@@ -152,6 +229,34 @@ func (h *AdminHandler) UpdateUserRole(c *gin.Context) {
 		"data": gin.H{
 			"id":   id,
 			"role": payload.Role,
+		},
+	})
+}
+
+func (h *AdminHandler) DeleteUser(c *gin.Context) {
+	idStr := c.Param("id")
+	targetID, err := uuid.Parse(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "ID pengguna tidak valid"})
+		return
+	}
+
+	currentUserID, ok := middleware.GetCurrentUserID(c)
+	if ok && currentUserID == targetID {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Anda tidak dapat menghapus akun Anda sendiri"})
+		return
+	}
+
+	if err := h.userRepo.Delete(targetID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": "Gagal menghapus pengguna"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "Pengguna berhasil dihapus dari sistem",
+		"data": gin.H{
+			"id": targetID,
 		},
 	})
 }
