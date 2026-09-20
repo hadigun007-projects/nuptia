@@ -8,6 +8,7 @@ interface AdminTopBarProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
   isSidebarCollapsed: boolean;
+  onToggleCollapse?: () => void;
 }
 
 const ROUTE_TITLES: Record<AdminRoute, { title: string; subtitle: string }> = {
@@ -153,22 +154,66 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({
   currentRoute,
   user,
   onLogout,
-  searchQuery,
-  onSearchChange,
   isSidebarCollapsed,
+  onToggleCollapse,
 }) => {
   const info = ROUTE_TITLES[currentRoute] || ROUTE_TITLES.dashboard;
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 px-6 md:px-8 flex items-center justify-between">
-      {/* Title & Subtitle */}
-      <div className="flex flex-col justify-center">
-        <h1 className="text-base font-bold text-on-surface leading-tight">{info.title}</h1>
-      </div>
+    <header className="sticky top-0 z-20 w-full h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
+      <div className="max-w-7xl w-full mx-auto h-full flex flex-row items-center">
+        {/* Brand Header matching sidebar width */}
+        <div
+          className={`h-full flex items-center justify-between px-4 transition-all duration-300 flex-shrink-0 ${
+            isSidebarCollapsed ? 'w-20' : 'w-64'
+          }`}
+        >
+          <a href="#/" className="flex items-center gap-2.5 overflow-hidden group">
+            <div className="w-9 h-9 rounded-2xl bg-primary flex items-center justify-center flex-shrink-0 text-on-primary group-hover:scale-105 transition-transform duration-200">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </div>
+            {!isSidebarCollapsed && (
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-extrabold text-lg text-on-surface leading-none font-display">Nuptia</span>
+                  <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container">
+                    ADMIN
+                  </span>
+                </div>
+                <span className="text-[10px] text-on-surface-variant font-medium mt-0.5">Console Manajemen</span>
+              </div>
+            )}
+          </a>
+          {onToggleCollapse && (
+            <button
+              onClick={onToggleCollapse}
+              className="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors cursor-pointer"
+              title={isSidebarCollapsed ? 'Buka Menu' : 'Sembunyikan Menu'}
+            >
+              <svg
+                className={`w-4 h-4 transition-transform duration-200 ${isSidebarCollapsed ? 'rotate-180' : ''}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+        </div>
 
-      {/* Right Toolbar */}
-      <div className="flex items-center gap-3">
-        <AdminAvatarChip user={user} onLogout={onLogout} />
+        {/* Title & Right Toolbar */}
+        <div className="flex-1 h-full px-6 md:px-8 flex items-center justify-between">
+          <div className="flex flex-col justify-center">
+            <h1 className="text-base font-bold text-on-surface leading-tight">{info.title}</h1>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <AdminAvatarChip user={user} onLogout={onLogout} />
+          </div>
+        </div>
       </div>
     </header>
   );

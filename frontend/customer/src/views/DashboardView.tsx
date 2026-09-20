@@ -81,12 +81,12 @@ export function DashboardView({
   };
 
   return (
-    <div className="min-h-screen bg-surface flex justify-center">
-      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-col relative shadow-none">
-        {/* Top Navbar */}
-        <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} onNavigateToLogin={onNavigateToLogin ?? (() => (window.location.hash = '#/login'))} />
+    <div className="min-h-screen bg-surface flex flex-col items-center w-full">
+      {/* Top Navbar */}
+      <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} onNavigateToLogin={onNavigateToLogin ?? (() => (window.location.hash = '#/login'))} />
 
-        {/* Main Content Area */}
+      {/* Main Content Area */}
+      <div className="w-full max-w-7xl flex-1 flex flex-col relative shadow-none">
         <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Welcome & Quick Action Banner */}
         <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-primary-container via-surface-container to-secondary-container/40 p-6 sm:p-8 border border-outline-variant/30">

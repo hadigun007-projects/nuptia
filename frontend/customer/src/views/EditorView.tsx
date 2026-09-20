@@ -293,9 +293,8 @@ function EditorViewInner({
   }, [event, theme, media, loveStory, guests, streaming, social, guestBook, settings, slug, invitation.templateId]);
 
   return (
-    <div className="min-h-screen bg-surface flex justify-center">
-      <div className="w-full max-w-7xl min-h-screen bg-surface flex flex-col relative shadow-none">
-        {/* Top Navbar */}
+    <div className="min-h-screen bg-surface flex flex-col items-center w-full">
+      {/* Top Navbar */}
       <EditorTopBar
         title={invitation.title}
         status={status}
@@ -308,7 +307,8 @@ function EditorViewInner({
         onNavigateToLogin={onNavigateToLogin}
       />
 
-      <div className="flex flex-1 items-start">
+      <div className="w-full max-w-7xl flex-1 flex flex-col relative shadow-none">
+        <div className="flex flex-1 items-start">
         {/* Hierarchical 15-menu Sidebar / Timeline Stepper for Desktop */}
         <EditorSidebar
           activeTab={activeNormalizedTab}

@@ -70,11 +70,10 @@ export function PreviewPanel({
             key={d}
             type="button"
             onClick={() => onDeviceChange(d)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-              device === d
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${device === d
                 ? 'bg-primary text-on-primary'
                 : 'text-on-surface-variant hover:text-on-surface'
-            }`}
+              }`}
           >
             <Icon s={14} />
             <span className="capitalize">{d}</span>
@@ -82,11 +81,6 @@ export function PreviewPanel({
         ))}
       </div>
 
-      {/* Live badge */}
-      <div className="flex items-center gap-1.5 text-xs text-primary font-bold">
-        <span className="w-2 h-2 rounded-full bg-primary animate-pulse-dot" />
-        Live Preview Interaktif
-      </div>
 
       {/* Device frame */}
       <div className={f.outer}>

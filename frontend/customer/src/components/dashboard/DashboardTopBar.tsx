@@ -104,42 +104,44 @@ export function DashboardTopBar({ onOpenCreateModal, onNavigateToLogin }: Dashbo
   const { user, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-30 px-4 sm:px-6 lg:px-8 py-3.5 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between">
-      {/* Brand logo & workspace label */}
-      <div className="flex items-center gap-3">
-        <a href="#/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-2xl bg-primary flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
-            <Ic.Heart s={15} cls="text-on-primary" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-lg font-extrabold text-on-surface leading-none font-display">Nuptia</h1>
-              <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container">
-                Customer Workspace
-              </span>
+    <header className="sticky top-0 z-30 w-full bg-surface/90 backdrop-blur-md border-b border-outline-variant/30">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+        {/* Brand logo & workspace label */}
+        <div className="flex items-center gap-3">
+          <a href="#/" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 rounded-2xl bg-primary flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+              <Ic.Heart s={15} cls="text-on-primary" />
             </div>
-            <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">Kelola Undangan Pernikahanmu</p>
-          </div>
-        </a>
-      </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg font-extrabold text-on-surface leading-none font-display">Nuptia</h1>
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container">
+                  Customer Workspace
+                </span>
+              </div>
+              <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">Kelola Undangan Pernikahanmu</p>
+            </div>
+          </a>
+        </div>
 
-      {/* Right controls */}
-      <div className="flex items-center gap-2.5 sm:gap-3">
-        {/* Create new invitation button */}
-        <button
-          onClick={onOpenCreateModal}
-          className="flex items-center gap-2 px-4 py-2 sm:py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200 hover:bg-primary/95"
-        >
-          <Ic.Plus s={16} />
-          <span className="inline">Buat Undangan Baru</span>
-        </button>
+        {/* Right controls */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Create new invitation button */}
+          <button
+            onClick={onOpenCreateModal}
+            className="flex items-center gap-2 px-4 py-2 sm:py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200 hover:bg-primary/95"
+          >
+            <Ic.Plus s={16} />
+            <span className="inline">Buat Undangan Baru</span>
+          </button>
 
-        {/* Dynamic user avatar + dropdown */}
-        <AvatarChip
-          user={user}
-          onLogout={() => logout()}
-          onLogin={onNavigateToLogin}
-        />
+          {/* Dynamic user avatar + dropdown */}
+          <AvatarChip
+            user={user}
+            onLogout={() => logout()}
+            onLogin={onNavigateToLogin}
+          />
+        </div>
       </div>
     </header>
   );
