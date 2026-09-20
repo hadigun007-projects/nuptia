@@ -37,7 +37,7 @@ func LoadConfig() (*Config, error) {
 	jwtSecret := getEnv("JWT_SECRET", "nuptia-super-secret-jwt-key-2026-wedding-platform")
 	googleClientID := getEnv("GOOGLE_CLIENT_ID", "")
 
-	originsRaw := getEnv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173")
+	originsRaw := getEnv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173,http://localhost:5174")
 	origins := strings.Split(originsRaw, ",")
 	for i := range origins {
 		origins[i] = strings.TrimSpace(origins[i])

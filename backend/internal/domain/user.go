@@ -65,6 +65,12 @@ type UserRepository interface {
 	FindByEmail(email string) (*User, error)
 	FindByGoogleID(googleID string) (*User, error)
 	FindByID(id uuid.UUID) (*User, error)
+	FindAll(search string, role string, limit int, offset int) ([]User, int64, error)
+	Count() (int64, error)
+	CountActive() (int64, error)
+	UpdateRole(id uuid.UUID, role string) error
+	UpdateStatus(id uuid.UUID, isActive bool) error
 	Create(user *User) error
 	Update(user *User) error
 }
+

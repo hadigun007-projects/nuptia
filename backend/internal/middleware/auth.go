@@ -75,3 +75,42 @@ func GetCurrentUserID(c *gin.Context) (uuid.UUID, bool) {
 	id, ok := val.(uuid.UUID)
 	return id, ok
 }
+
+// RequireRole verifies that the authenticated user possesses one of the allowed roles
+func RequireRole(allowedRoles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		val, exists := c.Get("userRole")
+		if !exists {
+			c.JSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"error":   "Akses ditolak: role pengguna tidak ditemukan",
+			})
+			c.Abort()
+			return
+		}
+
+		userRole, ok := val.(string)
+		if !ok {
+			c.JSON(http.StatusForbidden, gin.H{
+				"success": false,
+				"error":   "Akses ditolak: format role tidak valid",
+			})
+			c.Abort()
+			return
+		}
+
+		for _, r := range allowedRoles {
+			if strings.EqualFold(r, userRole) {
+				c.Next()
+				return
+			}
+		}
+
+		c.JSON(http.StatusForbidden, gin.H{
+			"success": false,
+			"error":   "Akses ditolak: Anda tidak memiliki wewenang administrator untuk mengakses fitur ini",
+		})
+		c.Abort()
+	}
+}
+

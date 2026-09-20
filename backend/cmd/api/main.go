@@ -56,6 +56,8 @@ func main() {
 	authService := service.NewAuthService(userRepo, cfg)
 	authHandler := handler.NewAuthHandler(authService)
 
+	adminHandler := handler.NewAdminHandler(userRepo, templateRepo)
+
 	// 5. Setup Gin Router
 	r := gin.New()
 	r.Use(gin.Logger())
@@ -82,6 +84,13 @@ func main() {
 	v1Protected.Use(middleware.AuthMiddleware(cfg.JWTSecret))
 
 	authHandler.RegisterRoutes(v1, v1Protected)
+
+	// Admin API v1 group with JWT Auth & RBAC Middleware
+	v1Admin := v1.Group("/admin")
+	v1Admin.Use(middleware.AuthMiddleware(cfg.JWTSecret))
+	v1Admin.Use(middleware.RequireRole("admin"))
+	adminHandler.RegisterRoutes(v1Admin)
+
 
 	// 6. Graceful HTTP Server
 	serverAddr := fmt.Sprintf(":%s", cfg.Port)
