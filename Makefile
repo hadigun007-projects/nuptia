@@ -25,7 +25,8 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo "  $(GREEN)make dev-admin$(RESET)      Jalankan Admin Dashboard (Vite di port 5174)"
 	@echo "  $(GREEN)make dev-backend$(RESET)    Jalankan Backend REST API (Go + Gin di port 5000)"
 	@echo "  $(GREEN)make dev-template$(RESET)   Jalankan preview standalone template (Wedding Rustic di port 8080)"
-	@echo "  $(GREEN)make seed-backend$(RESET)   Jalankan database seeder untuk template undangan"
+	@echo "  $(GREEN)make seed-backend$(RESET)   Jalankan database seeder lengkap (templates + users)"
+	@echo "  $(GREEN)make seed-users$(RESET)     Jalankan seeder khusus pengguna (idempotent, aman dijalankan ulang)"
 	@echo ""
 	@echo "$(BOLD)Build & Jalankan Produksi:$(RESET)"
 	@echo "  $(GREEN)make prod$(RESET)           Build SEMUA modul lalu langsung jalankan (mode produksi)"
@@ -83,8 +84,12 @@ dev-backend: ## Jalankan hanya backend Go API
 	@echo "$(GREEN)Menjalankan Nuptia Backend REST API (Go + Gin di port 5000)...$(RESET)"
 	@cd backend && go run cmd/api/main.go
 
-seed-backend: ## Jalankan seeder template database
-	@echo "$(CYAN)Menjalankan database seeder template...$(RESET)"
+seed-backend: ## Jalankan seeder lengkap (templates + users)
+	@echo "$(CYAN)Menjalankan database seeder (templates + users)...$(RESET)"
+	@cd backend && go run cmd/seed/main.go
+
+seed-users: ## Jalankan seeder khusus pengguna saja (idempotent)
+	@echo "$(CYAN)Menjalankan database seeder users...$(RESET)"
 	@cd backend && go run cmd/seed/main.go
 
 dev-template: ## Jalankan preview template wedding-rustic
