@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-home dev-customer dev-backend dev-template seed-backend build build-home build-customer clean docker-up docker-down docker-logs
+.PHONY: help install dev dev-home dev-customer dev-backend dev-template seed-backend build build-home build-customer clean kill docker-up docker-down docker-logs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -18,6 +18,7 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo ""
 	@echo "$(BOLD)Perintah Pengembangan (Development):$(RESET)"
 	@echo "  $(GREEN)make dev$(RESET)            Jalankan SEMUA modul (Home, Customer, & Backend API) bersamaan"
+	@echo "  $(GREEN)make kill$(RESET)           Bebaskan port 3000, 5173, 5000 (gunakan jika 'address already in use')"
 	@echo "  $(GREEN)make dev-home$(RESET)       Jalankan aplikasi Landing Page (Next.js di port 3000)"
 	@echo "  $(GREEN)make dev-customer$(RESET)   Jalankan Customer Dashboard (Vite di port 5173)"
 	@echo "  $(GREEN)make dev-backend$(RESET)    Jalankan Backend REST API (Go + Gin di port 5000)"
@@ -46,7 +47,7 @@ install: ## Instal dependensi untuk semua aplikasi
 
 dev: ## Jalankan semua aplikasi secara bersamaan
 	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), & API (port 5000)...$(RESET)"
-	@npx -y concurrently -k -n "HOME,CUSTOMER,API" -c "cyan.bold,magenta.bold,green.bold" \
+	@npx -y concurrently --kill-others-on-fail -n "HOME,CUSTOMER,API" -c "cyan.bold,magenta.bold,green.bold" \
 		"npm --prefix frontend/home run dev" \
 		"npm --prefix frontend/customer run dev" \
 		"cd backend && go run cmd/api/main.go"
@@ -81,6 +82,13 @@ build-home: ## Build frontend/home
 build-customer: ## Build frontend/customer
 	@echo "$(MAGENTA)Building frontend/customer (Vite)...$(RESET)"
 	@npm --prefix frontend/customer run build
+
+kill: ## Bebaskan port yang digunakan (3000, 5173, 5000)
+	@echo "$(YELLOW)Membebaskan port 3000, 5173, 5000...$(RESET)"
+	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
+	@echo "$(GREEN)Port berhasil dibebaskan!$(RESET)"
 
 clean: ## Hapus folder build dan cache
 	@echo "$(YELLOW)Membersihkan file bundle dan cache...$(RESET)"
