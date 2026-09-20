@@ -18,6 +18,8 @@ type Config struct {
 	DBName         string
 	DBSSLMode      string
 	AllowedOrigins []string
+	JWTSecret      string
+	GoogleClientID string
 }
 
 func LoadConfig() (*Config, error) {
@@ -32,6 +34,8 @@ func LoadConfig() (*Config, error) {
 	dbPassword := getEnv("DB_PASSWORD", "")
 	dbName := getEnv("DB_NAME", "nuptia_db")
 	dbSSLMode := getEnv("DB_SSLMODE", "disable")
+	jwtSecret := getEnv("JWT_SECRET", "nuptia-super-secret-jwt-key-2026-wedding-platform")
+	googleClientID := getEnv("GOOGLE_CLIENT_ID", "")
 
 	originsRaw := getEnv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173")
 	origins := strings.Split(originsRaw, ",")
@@ -49,6 +53,8 @@ func LoadConfig() (*Config, error) {
 		DBName:         dbName,
 		DBSSLMode:      dbSSLMode,
 		AllowedOrigins: origins,
+		JWTSecret:      jwtSecret,
+		GoogleClientID: googleClientID,
 	}, nil
 }
 

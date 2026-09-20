@@ -38,12 +38,12 @@ func InitPostgres(cfg *config.Config) (*gorm.DB, error) {
 	sqlDB.SetMaxOpenConns(50)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	// Run AutoMigrate for Template
-	log.Println("[Database] Menjalankan AutoMigrate untuk tabel templates...")
-	if err := db.AutoMigrate(&domain.Template{}); err != nil {
+	// Run AutoMigrate for Template and User
+	log.Println("[Database] Menjalankan AutoMigrate untuk tabel templates dan users...")
+	if err := db.AutoMigrate(&domain.Template{}, &domain.User{}); err != nil {
 		return nil, err
 	}
-	log.Println("[Database] Migrasi tabel templates sukses!")
+	log.Println("[Database] Migrasi tabel templates dan users sukses!")
 
 	return db, nil
 }
