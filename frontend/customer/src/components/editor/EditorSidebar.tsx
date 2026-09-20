@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Tab } from '../../types';
-import { MENU_ITEMS_15, MenuItemDef } from './menuConstants';
+import { MENU_ITEMS_15, MenuItemDef, CATEGORY_STEPS } from './menuConstants';
 import { TimelineSidebar, TIMELINE_STEPS } from './TimelineSidebar';
 import { Ic } from '../common/Icons';
 
@@ -15,28 +15,6 @@ interface EditorSidebarProps {
   visitedTabs?: Set<Tab>;
 }
 
-const CATEGORIES = [
-  {
-    key: 'mempelai',
-    title: 'Mempelai & Acara',
-    items: ['pengantin', 'acara', 'streaming', 'quote', 'kisah-cinta'] as Tab[],
-  },
-  {
-    key: 'media',
-    title: 'Desain & Media',
-    items: ['tema', 'galeri', 'musik', 'story-ig'] as Tab[],
-  },
-  {
-    key: 'tamu',
-    title: 'Tamu & Interaksi',
-    items: ['rsvp', 'buku-tamu', 'ucapan', 'kado'] as Tab[],
-  },
-  {
-    key: 'distribusi',
-    title: 'Distribusi & Pengaturan',
-    items: ['setting', 'kirim'] as Tab[],
-  },
-];
 
 export function EditorSidebar({
   activeTab,
@@ -104,7 +82,7 @@ export function EditorSidebar({
 
       {/* Categories & 15 Menu Items */}
       <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
-        {CATEGORIES.map((cat) => (
+        {CATEGORY_STEPS.map((cat) => (
           <div key={cat.key}>
             {!collapsed && (
               <p className="px-3 pb-1 text-[10px] font-bold tracking-wider text-on-surface-variant/80 uppercase font-display">

@@ -32,3 +32,38 @@ export const MENU_ITEMS_15: MenuItemDef[] = [
   { id: 'setting', label: 'Setting', Icon: Ic.Setting, category: 'distribusi' },
   { id: 'kirim', label: 'Kirim', Icon: Ic.Kirim, accent: '#FACC15', category: 'distribusi' },
 ];
+
+export interface CategoryDef {
+  key: 'mempelai' | 'media' | 'tamu' | 'distribusi';
+  stepNumber: number;
+  title: string;
+  items: Tab[];
+}
+
+export const CATEGORY_STEPS: CategoryDef[] = [
+  {
+    key: 'mempelai',
+    stepNumber: 1,
+    title: 'Mempelai & Acara',
+    items: ['pengantin', 'acara', 'streaming', 'quote', 'kisah-cinta'],
+  },
+  {
+    key: 'media',
+    stepNumber: 2,
+    title: 'Desain & Media',
+    items: ['tema', 'galeri', 'musik', 'story-ig'],
+  },
+  {
+    key: 'tamu',
+    stepNumber: 3,
+    title: 'Tamu & Interaksi',
+    items: ['rsvp', 'buku-tamu', 'ucapan', 'kado'],
+  },
+  {
+    key: 'distribusi',
+    stepNumber: 4,
+    title: 'Distribusi & Pengaturan',
+    items: ['setting', 'kirim'],
+  },
+];
+
