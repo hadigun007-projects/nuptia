@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-home dev-customer dev-template build build-home build-customer clean docker-up docker-down docker-logs
+.PHONY: help install dev dev-home dev-customer dev-backend dev-template seed-backend build build-home build-customer clean docker-up docker-down docker-logs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -17,13 +17,15 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo "Gunakan: $(CYAN)make [target]$(RESET)"
 	@echo ""
 	@echo "$(BOLD)Perintah Pengembangan (Development):$(RESET)"
-	@echo "  $(GREEN)make dev$(RESET)            Jalankan SEMUA aplikasi frontend (Home & Customer) bersamaan"
+	@echo "  $(GREEN)make dev$(RESET)            Jalankan SEMUA modul (Home, Customer, & Backend API) bersamaan"
 	@echo "  $(GREEN)make dev-home$(RESET)       Jalankan aplikasi Landing Page (Next.js di port 3000)"
 	@echo "  $(GREEN)make dev-customer$(RESET)   Jalankan Customer Dashboard (Vite di port 5173)"
+	@echo "  $(GREEN)make dev-backend$(RESET)    Jalankan Backend REST API (Go + Gin di port 5000)"
 	@echo "  $(GREEN)make dev-template$(RESET)   Jalankan preview standalone template (Wedding Rustic di port 8080)"
+	@echo "  $(GREEN)make seed-backend$(RESET)   Jalankan database seeder untuk template undangan"
 	@echo ""
 	@echo "$(BOLD)Instalasi & Build:$(RESET)"
-	@echo "  $(GREEN)make install$(RESET)        Instal dependensi untuk semua modul frontend"
+	@echo "  $(GREEN)make install$(RESET)        Instal dependensi untuk semua modul (frontend & backend)"
 	@echo "  $(GREEN)make build$(RESET)          Build semua aplikasi untuk mode produksi"
 	@echo "  $(GREEN)make clean$(RESET)          Bersihkan file bundle & cache build (dist, .next)"
 	@echo ""
@@ -38,13 +40,16 @@ install: ## Instal dependensi untuk semua aplikasi
 	@npm --prefix frontend/home install
 	@echo "$(CYAN)Menginstal dependensi frontend/customer...$(RESET)"
 	@npm --prefix frontend/customer install
+	@echo "$(CYAN)Mengunduh dependensi backend (Go modules)...$(RESET)"
+	@cd backend && go mod download
 	@echo "$(GREEN)Semua dependensi berhasil diinstal!$(RESET)"
 
 dev: ## Jalankan semua aplikasi secara bersamaan
-	@echo "$(MAGENTA)Menjalankan Home (port 3000) & Customer (port 5173)...$(RESET)"
-	@npx -y concurrently -k -n "HOME,CUSTOMER" -c "cyan.bold,magenta.bold" \
+	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), & API (port 5000)...$(RESET)"
+	@npx -y concurrently -k -n "HOME,CUSTOMER,API" -c "cyan.bold,magenta.bold,green.bold" \
 		"npm --prefix frontend/home run dev" \
-		"npm --prefix frontend/customer run dev"
+		"npm --prefix frontend/customer run dev" \
+		"cd backend && go run cmd/api/main.go"
 
 dev-home: ## Jalankan hanya frontend/home
 	@echo "$(CYAN)Menjalankan Nuptia Home (Next.js 16)...$(RESET)"
@@ -53,6 +58,14 @@ dev-home: ## Jalankan hanya frontend/home
 dev-customer: ## Jalankan hanya frontend/customer
 	@echo "$(MAGENTA)Menjalankan Nuptia Customer Dashboard (React 19 + Vite)...$(RESET)"
 	@npm --prefix frontend/customer run dev
+
+dev-backend: ## Jalankan hanya backend Go API
+	@echo "$(GREEN)Menjalankan Nuptia Backend REST API (Go + Gin di port 5000)...$(RESET)"
+	@cd backend && go run cmd/api/main.go
+
+seed-backend: ## Jalankan seeder template database
+	@echo "$(CYAN)Menjalankan database seeder template...$(RESET)"
+	@cd backend && go run cmd/seed/main.go
 
 dev-template: ## Jalankan preview template wedding-rustic
 	@echo "$(YELLOW)Menjalankan preview template di http://localhost:8080...$(RESET)"
