@@ -64,61 +64,6 @@ export function TimelineSidebar({
       className={`hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/40 transition-all duration-300 flex-shrink-0 z-20 select-none ${collapsed ? 'w-[76px]' : 'w-[264px]'
         }`}
     >
-      {/* Top Header & Mode Switcher */}
-      <div className="p-3 border-b border-outline-variant/30 space-y-2.5">
-
-        {/* Mode Toggle Pill */}
-        {!collapsed && (
-          <div className="flex items-center p-1 rounded-xl bg-surface-container border border-outline-variant/40 text-[11px] font-semibold">
-            <button
-              onClick={() => {
-                if (!isTimelineMode) onToggleMode();
-              }}
-              className={`flex-1 py-1.5 px-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${isTimelineMode
-                ? 'bg-primary text-on-primary shadow-xs font-bold'
-                : 'text-on-surface-variant hover:text-on-surface'
-                }`}
-            >
-              <Ic.Sparkles s={13} />
-              <span>Timeline</span>
-            </button>
-            <button
-              onClick={() => {
-                if (isTimelineMode) onToggleMode();
-              }}
-              className={`flex-1 py-1.5 px-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${!isTimelineMode
-                ? 'bg-primary text-on-primary shadow-xs font-bold'
-                : 'text-on-surface-variant hover:text-on-surface'
-                }`}
-            >
-              <Ic.Check s={13} />
-              <span>Kategori</span>
-            </button>
-          </div>
-        )}
-
-        {/* Progress bar info */}
-        {!collapsed && (
-          <div className="pt-1 px-1 space-y-1.5">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="font-bold text-on-surface font-display">
-                Langkah {currentStepNumber} dari {TIMELINE_STEPS.length}
-              </span>
-              <span className="font-extrabold text-primary font-mono">{progressPercent}%</span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-300 rounded-full"
-                style={{ width: `${Math.max(6, progressPercent)}%` }}
-              />
-            </div>
-            <p className="text-[10px] text-on-surface-variant">
-              {completedCount} dari 15 tahapan selesai diisi
-            </p>
-          </div>
-        )}
-      </div>
-
       {/* Timeline Stepper List */}
       <div className="flex-1 overflow-y-auto py-3 px-2 relative">
         {/* Continuous Vertical Line */}
@@ -184,20 +129,13 @@ export function TimelineSidebar({
                           }`}
                       >
                         {step.label}
+                        {step.isRequired && <span className="text-red-500 font-bold ml-1">*</span>}
                       </span>
 
-                      {/* Status Tag */}
-                      {isCompleted ? (
+                      {/* Status Tag: Checkmark when completed */}
+                      {isCompleted && (
                         <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800 text-[9px] font-bold">
                           ✓
-                        </span>
-                      ) : step.isRequired ? (
-                        <span className="px-1.5 py-0.2 rounded-md bg-amber-100 text-amber-900 text-[9px] font-bold">
-                          Wajib
-                        </span>
-                      ) : (
-                        <span className="px-1.5 py-0.2 rounded-md bg-surface-container-high text-on-surface-variant text-[9px]">
-                          Opsi
                         </span>
                       )}
                     </div>
