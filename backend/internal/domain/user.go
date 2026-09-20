@@ -83,4 +83,31 @@ type UserRepository interface {
 	Delete(id uuid.UUID) error
 }
 
+// PasswordResetToken stores single-use, time-limited password reset tokens
+type PasswordResetToken struct {
+	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
+	UserID    uuid.UUID `gorm:"type:uuid;not null;index"`
+	Token     string    `gorm:"size:128;uniqueIndex;not null"`
+	ExpiresAt time.Time `gorm:"not null"`
+	Used      bool      `gorm:"default:false"`
+	CreatedAt time.Time
+}
 
+// ForgotPasswordRequest payload
+type ForgotPasswordRequest struct {
+	Email string `json:"email" binding:"required,email"`
+}
+
+// ResetPasswordRequest payload
+type ResetPasswordRequest struct {
+	Token    string `json:"token" binding:"required"`
+	Password string `json:"password" binding:"required,min=6"`
+}
+
+// PasswordResetRepository manages password reset tokens
+type PasswordResetRepository interface {
+	Create(token *PasswordResetToken) error
+	FindValid(tokenStr string) (*PasswordResetToken, error)
+	MarkUsed(tokenStr string) error
+	DeleteByUserID(userID uuid.UUID) error
+}
