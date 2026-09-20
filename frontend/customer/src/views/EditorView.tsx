@@ -45,6 +45,7 @@ interface EditorViewProps {
   initialTimelineMode?: boolean;
   onBackToDashboard: () => void;
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
+  onNavigateToLogin?: () => void;
 }
 
 export function EditorView({
@@ -53,6 +54,7 @@ export function EditorView({
   initialTimelineMode = false,
   onBackToDashboard,
   showToast,
+  onNavigateToLogin,
 }: EditorViewProps) {
   const { getInvitation, updateInvitation } = useInvitations();
   const invitation = getInvitation(invitationId);
@@ -88,6 +90,7 @@ export function EditorView({
       onUpdate={(updates) => updateInvitation(invitation.id, updates)}
       onBackToDashboard={onBackToDashboard}
       showToast={showToast}
+      onNavigateToLogin={onNavigateToLogin}
     />
   );
 }
@@ -99,6 +102,7 @@ function EditorViewInner({
   onUpdate,
   onBackToDashboard,
   showToast,
+  onNavigateToLogin,
 }: {
   invitation: NonNullable<ReturnType<ReturnType<typeof useInvitations>['getInvitation']>>;
   isNew?: boolean;
@@ -106,6 +110,7 @@ function EditorViewInner({
   onUpdate: (updates: Partial<typeof invitation>) => void;
   onBackToDashboard: () => void;
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
+  onNavigateToLogin?: () => void;
 }) {
   const [tab, setTab] = useState<Tab>('pengantin');
   const [device, setDevice] = useState<Device>('mobile');
@@ -299,6 +304,7 @@ function EditorViewInner({
         onBackToDashboard={onBackToDashboard}
         onManualSave={handleManualSave}
         onChangeStatus={cycleStatus}
+        onNavigateToLogin={onNavigateToLogin}
       />
 
       <div className="flex flex-1 overflow-hidden">

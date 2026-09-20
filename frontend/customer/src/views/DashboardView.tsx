@@ -16,6 +16,7 @@ interface DashboardViewProps {
   onDeleteInvitation: (id: string) => void;
   onChangeStatus: (id: string, status: Status) => void;
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
+  onNavigateToLogin?: () => void;
 }
 
 export function DashboardView({
@@ -27,6 +28,7 @@ export function DashboardView({
   onDeleteInvitation,
   onChangeStatus,
   showToast,
+  onNavigateToLogin,
 }: DashboardViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'Semua' | Status>('Semua');
@@ -81,7 +83,7 @@ export function DashboardView({
   return (
     <div className="min-h-screen bg-surface flex flex-col">
       {/* Top Navbar */}
-      <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} />
+      <DashboardTopBar onOpenCreateModal={onCreateBlankInvitation} onNavigateToLogin={onNavigateToLogin ?? (() => (window.location.hash = '#/login'))} />
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">

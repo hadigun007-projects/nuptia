@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Toast, CreateInvitationInput } from './types';
 import { useInvitations } from './hooks/useInvitations';
+import { useAuth } from './hooks/useAuth';
 import { DashboardView } from './views/DashboardView';
 import { EditorView } from './views/EditorView';
+import { LoginView } from './views/LoginView';
 import { ToastContainer } from './components/common/UIComponents';
 
 export default function App() {
   const [currentHash, setCurrentHash] = useState(() => window.location.hash || '#/');
   const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const { user } = useAuth();
 
   const {
     invitations,
@@ -30,13 +34,13 @@ export default function App() {
       setCurrentHash(hash);
     }
     window.addEventListener('hashchange', handleHashChange);
-    
+
     // Check initial hash for /editor/new
     if (window.location.hash === '#/editor/new') {
       const blank = createBlankInvitation();
       window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
     }
-    
+
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [createBlankInvitation]);
 
@@ -71,21 +75,29 @@ export default function App() {
     navigateTo(`#/editor/${blank.id}?isNew=true&mode=timeline`);
   }, [createBlankInvitation, navigateTo, showToast]);
 
-  // Parse current route and query params
+  // ── Route resolution ──────────────────────────────────────────────────────
+  const isLoginRoute = currentHash === '#/login' || currentHash === '#/register';
   const editorMatch = currentHash.match(/^#\/editor\/([^/?#]+)/);
   const activeEditorId = editorMatch ? editorMatch[1] : null;
   const isNewInvitation = currentHash.includes('isNew=true');
   const initialTimelineMode = currentHash.includes('mode=timeline') || isNewInvitation;
 
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <>
-      {activeEditorId ? (
+      {isLoginRoute ? (
+        <LoginView
+          onSuccess={() => navigateTo('#/')}
+          onBack={() => navigateTo('#/')}
+        />
+      ) : activeEditorId ? (
         <EditorView
           invitationId={activeEditorId}
           isNew={isNewInvitation}
           initialTimelineMode={initialTimelineMode}
           onBackToDashboard={() => navigateTo('#/')}
           showToast={showToast}
+          onNavigateToLogin={() => navigateTo('#/login')}
         />
       ) : (
         <DashboardView
@@ -97,6 +109,7 @@ export default function App() {
           onDeleteInvitation={deleteInvitation}
           onChangeStatus={updateInvitationStatus}
           showToast={showToast}
+          onNavigateToLogin={() => navigateTo('#/login')}
         />
       )}
 

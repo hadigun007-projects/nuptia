@@ -188,6 +188,23 @@ export interface Toast {
   type: 'success' | 'error' | 'info';
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  authProvider: 'email' | 'google';
+  role: string;
+  createdAt?: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+}
+
 export interface InvitationStats {
   views: number;
   rsvpAttending: number;
