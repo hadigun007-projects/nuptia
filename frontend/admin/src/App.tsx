@@ -3,6 +3,8 @@ import { useAdminAuth } from './hooks/useAdminAuth';
 import { useAdminData } from './hooks/useAdminData';
 import { AccessDenied } from './components/common/AccessDenied';
 import { LoginView } from './views/LoginView';
+import { ForgotPasswordView } from './views/ForgotPasswordView';
+import { ResetPasswordView } from './views/ResetPasswordView';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
 import { UsersView } from './views/UsersView';
@@ -50,11 +52,21 @@ export default function App() {
     );
   }
 
+  // Public routes — accessible without auth
+  const path = currentHash.replace(/^#\/?/, '').split('?')[0];
+  if (path === 'forgot-password') {
+    return <ForgotPasswordView onBack={() => { window.location.hash = '#/'; }} />;
+  }
+  if (path === 'reset-password') {
+    return <ResetPasswordView onSuccess={() => { window.location.hash = '#/'; }} />;
+  }
+
   // Guard 1: Belum terautentikasi → halaman Login
   if (!isAuthenticated) {
     return (
       <LoginView
         onLogin={login}
+        onForgotPassword={() => { window.location.hash = '#/forgot-password'; }}
       />
     );
   }
@@ -72,7 +84,6 @@ export default function App() {
   }
 
   // Derive current route
-  const path = currentHash.replace(/^#\/?/, '').split('?')[0];
   const route: AdminRoute =
     path === 'users' ? 'users' :
     path === 'invitations' ? 'invitations' :

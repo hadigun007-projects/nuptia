@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-home dev-customer dev-admin dev-backend dev-template seed-backend build build-home build-customer build-admin build-backend start prod build-run clean kill docker-up docker-down docker-logs
+.PHONY: help install dev dev-home dev-customer dev-admin dev-backend dev-template mailpit seed-backend build build-home build-customer build-admin build-backend start prod build-run clean kill docker-up docker-down docker-logs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -24,6 +24,7 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo "  $(GREEN)make dev-customer$(RESET)   Jalankan Customer Dashboard (Vite di port 5173)"
 	@echo "  $(GREEN)make dev-admin$(RESET)      Jalankan Admin Dashboard (Vite di port 5174)"
 	@echo "  $(GREEN)make dev-backend$(RESET)    Jalankan Backend REST API (Go + Gin di port 5000)"
+	@echo "  $(GREEN)make mailpit$(RESET)        Jalankan Mailpit email testing server (Web UI: http://localhost:8025)"
 	@echo "  $(GREEN)make dev-template$(RESET)   Jalankan preview standalone template (Wedding Rustic di port 8080)"
 	@echo "  $(GREEN)make seed-backend$(RESET)   Jalankan database seeder lengkap (templates + users)"
 	@echo "  $(GREEN)make seed-users$(RESET)     Jalankan seeder khusus pengguna (idempotent, aman dijalankan ulang)"
@@ -91,6 +92,10 @@ seed-backend: ## Jalankan seeder lengkap (templates + users)
 seed-users: ## Jalankan seeder khusus pengguna saja (idempotent)
 	@echo "$(CYAN)Menjalankan database seeder users...$(RESET)"
 	@cd backend && go run cmd/seed/main.go
+
+mailpit: ## Jalankan Mailpit email testing server (Web UI: http://localhost:8025)
+	@echo "$(CYAN)Menjalankan Mailpit (SMTP: localhost:1025, Web UI: http://localhost:8025)...$(RESET)"
+	@mailpit
 
 dev-template: ## Jalankan preview template wedding-rustic
 	@echo "$(YELLOW)Menjalankan preview template di http://localhost:8080...$(RESET)"

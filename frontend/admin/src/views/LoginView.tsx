@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 interface LoginViewProps {
   onLogin: (email: string, password: string) => Promise<void>;
+  onForgotPassword?: () => void;
 }
 
-export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
+export const LoginView: React.FC<LoginViewProps> = ({ onLogin, onForgotPassword }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -116,9 +117,20 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-semibold text-on-surface-variant mb-1.5">
-                Kata Sandi
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-on-surface-variant">
+                  Kata Sandi
+                </label>
+                {onForgotPassword && (
+                  <button
+                    type="button"
+                    onClick={onForgotPassword}
+                    className="text-[11px] font-semibold text-primary hover:underline"
+                  >
+                    Lupa kata sandi?
+                  </button>
+                )}
+              </div>
               <div className="relative">
                 <input
                   id="admin-password"
