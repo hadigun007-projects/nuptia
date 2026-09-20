@@ -1,10 +1,7 @@
-import React from 'react';
-import { AdminRoute, AdminUser } from '../../types';
+import { AdminRoute } from '../../types';
 
 interface AdminSidebarProps {
   currentRoute: AdminRoute;
-  user: AdminUser | null;
-  onLogout: () => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
 }
@@ -19,8 +16,6 @@ interface NavItem {
 
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   currentRoute,
-  user,
-  onLogout,
   isCollapsed,
   onToggleCollapse,
 }) => {
@@ -171,32 +166,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </svg>
           {!isCollapsed && <span className="truncate">Portal Customer (:5173)</span>}
         </a>
-      </div>
-
-      {/* User Profile / Logout */}
-      <div className="p-3 border-t border-outline-variant/20 bg-surface">
-        <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
-          <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm shrink-0">
-            {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
-          </div>
-          {!isCollapsed && (
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-on-surface truncate">{user?.name || 'Administrator'}</p>
-              <p className="text-[11px] text-on-surface-variant truncate">{user?.email || 'admin@nuptia.id'}</p>
-            </div>
-          )}
-          {!isCollapsed && (
-            <button
-              onClick={onLogout}
-              title="Keluar"
-              className="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors shrink-0"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-            </button>
-          )}
-        </div>
       </div>
     </aside>
   );

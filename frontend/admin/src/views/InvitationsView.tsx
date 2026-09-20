@@ -42,26 +42,6 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Total Undangan</p>
-          <p className="text-xl font-black text-on-surface mt-1">{metrics.total}</p>
-        </div>
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Live (Aktif)</p>
-          <p className="text-xl font-black text-emerald-700 mt-1">{metrics.live}</p>
-        </div>
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Draft / Pending</p>
-          <p className="text-xl font-black text-amber-700 mt-1">{metrics.draft}</p>
-        </div>
-        <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30">
-          <p className="text-xs font-semibold text-on-surface-variant">Total Kunjungan (Views)</p>
-          <p className="text-xl font-black text-primary mt-1">{metrics.totalViews.toLocaleString('id-ID')}</p>
-        </div>
-      </div>
-
       {/* Filter and Search Bar */}
       <div className="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -70,11 +50,10 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
-                statusFilter === s
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${statusFilter === s
                   ? 'bg-primary text-on-primary'
                   : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
+                }`}
             >
               {s === 'all' ? 'Semua' : s}
             </button>
@@ -160,22 +139,20 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
                     {/* Status */}
                     <td className="py-3.5 px-4">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                          inv.status === 'Live'
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${inv.status === 'Live'
                             ? 'bg-emerald-100 text-emerald-800'
                             : inv.status === 'Published'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-amber-100 text-amber-800'
-                        }`}
+                              ? 'bg-blue-100 text-blue-800'
+                              : 'bg-amber-100 text-amber-800'
+                          }`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            inv.status === 'Live'
+                          className={`w-1.5 h-1.5 rounded-full ${inv.status === 'Live'
                               ? 'bg-emerald-500'
                               : inv.status === 'Published'
-                              ? 'bg-blue-500'
-                              : 'bg-amber-500'
-                          }`}
+                                ? 'bg-blue-500'
+                                : 'bg-amber-500'
+                            }`}
                         />
                         {inv.status}
                       </span>
@@ -232,11 +209,10 @@ export const InvitationsView: React.FC<InvitationsViewProps> = ({
                               inv.status === 'Live' ? 'Draft' : 'Live'
                             )
                           }
-                          className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${
-                            inv.status === 'Live'
+                          className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-colors ${inv.status === 'Live'
                               ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
                               : 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                          }`}
+                            }`}
                         >
                           {inv.status === 'Live' ? 'Set Draft' : 'Aktifkan Live'}
                         </button>

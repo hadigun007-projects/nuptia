@@ -27,8 +27,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       {/* Sidebar */}
       <AdminSidebar
         currentRoute={currentRoute}
-        user={user}
-        onLogout={onLogout}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
       />
@@ -41,6 +39,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       >
         <AdminTopBar
           currentRoute={currentRoute}
+          user={user}
+          onLogout={onLogout}
           searchQuery={searchQuery}
           onSearchChange={onSearchChange}
           isSidebarCollapsed={isSidebarCollapsed}

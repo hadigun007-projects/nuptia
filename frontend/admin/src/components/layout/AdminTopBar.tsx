@@ -1,8 +1,10 @@
-import React from 'react';
-import { AdminRoute } from '../../types';
+import React, { useState, useRef, useEffect } from 'react';
+import { AdminRoute, AdminUser } from '../../types';
 
 interface AdminTopBarProps {
   currentRoute: AdminRoute;
+  user: AdminUser | null;
+  onLogout: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   isSidebarCollapsed: boolean;
@@ -35,8 +37,122 @@ const ROUTE_TITLES: Record<AdminRoute, { title: string; subtitle: string }> = {
   },
 };
 
+function AdminAvatarChip({
+  user,
+  onLogout,
+}: {
+  user: AdminUser | null;
+  onLogout: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  if (!user) return null;
+
+  const initials = user.name
+    ? user.name
+      .split(' ')
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase() ?? '')
+      .join('')
+    : 'A';
+
+  return (
+    <div ref={ref} className="relative flex items-center gap-2 pl-3 border-l border-outline-variant/30">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-2 rounded-full hover:bg-surface-container px-2 py-1 transition-colors cursor-pointer"
+      >
+        {user.avatarUrl ? (
+          <img
+            src={user.avatarUrl}
+            alt={user.name}
+            className="w-8 h-8 rounded-full object-cover border border-outline-variant"
+          />
+        ) : (
+          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs border border-primary/20">
+            {initials}
+          </div>
+        )}
+        <div className="hidden md:flex flex-col text-left">
+          <span className="text-xs font-bold text-on-surface leading-tight">
+            {user.name.split(' ')[0]}
+          </span>
+          <span className="text-[10px] text-primary font-semibold capitalize">
+            {user.role}
+          </span>
+        </div>
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          className={`text-on-surface-variant transition-transform duration-200 ${open ? 'rotate-180' : ''
+            }`}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      {/* Dropdown Menu */}
+      {open && (
+        <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-surface-container-lowest border border-outline-variant/60 py-2 z-50 animate-fade-in-up">
+          <div className="px-4 py-2.5 border-b border-outline-variant/30">
+            <p className="text-sm font-bold text-on-surface truncate">{user.name}</p>
+            <p className="text-xs text-on-surface-variant truncate">{user.email}</p>
+            <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary-container text-on-primary-container">
+              Administrator
+            </span>
+          </div>
+
+          <a
+            href="http://localhost:5173"
+            target="_blank"
+            rel="noreferrer"
+            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-on-surface hover:bg-surface-container transition-colors"
+          >
+            <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Buka Portal Customer (:5173)
+          </a>
+
+          <button
+            onClick={() => {
+              setOpen(false);
+              onLogout();
+            }}
+            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-error hover:bg-error/10 transition-colors border-t border-outline-variant/20 cursor-pointer"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" x2="9" y1="12" y2="12" />
+            </svg>
+            Keluar
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export const AdminTopBar: React.FC<AdminTopBarProps> = ({
   currentRoute,
+  user,
+  onLogout,
   searchQuery,
   onSearchChange,
   isSidebarCollapsed,
@@ -45,56 +161,17 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({
 
   return (
     <header
-      className={`sticky top-0 z-20 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 px-6 flex items-center justify-between transition-all duration-300 ${
-        isSidebarCollapsed ? 'left-20' : 'left-64'
-      }`}
+      className={`sticky top-0 z-20 h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 px-6 flex items-center justify-between transition-all duration-300 ${isSidebarCollapsed ? 'left-20' : 'left-64'
+        }`}
     >
       {/* Title & Subtitle */}
       <div className="flex flex-col justify-center">
         <h1 className="text-base font-bold text-on-surface leading-tight">{info.title}</h1>
-        <p className="text-xs text-on-surface-variant leading-tight hidden sm:block">{info.subtitle}</p>
       </div>
 
       {/* Right Toolbar */}
       <div className="flex items-center gap-3">
-        {/* Search Bar */}
-        <div className="relative w-48 sm:w-64">
-          <svg
-            className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Cari cepat..."
-            className="w-full pl-9 pr-3 py-1.5 text-xs bg-surface-container-low rounded-xl border border-outline-variant/30 text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-primary transition-colors"
-          />
-        </div>
-
-        {/* Live Status Pill */}
-        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-dot" />
-          API Online
-        </div>
-
-        {/* Home / Customer Preview button */}
-        <a
-          href="http://localhost:5173"
-          target="_blank"
-          rel="noreferrer"
-          title="Buka Aplikasi Customer"
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors border border-outline-variant/30"
-        >
-          <svg className="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-          Lihat Customer
-        </a>
+        <AdminAvatarChip user={user} onLogout={onLogout} />
       </div>
     </header>
   );
