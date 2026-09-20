@@ -61,7 +61,7 @@ export function EditorView({
   if (!invitation) {
     return (
       <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-3xl bg-error-container text-error flex items-center justify-center mb-4 shadow-sm">
+        <div className="w-16 h-16 rounded-3xl bg-error-container text-error flex items-center justify-center mb-4">
           <Ic.Close s={28} />
         </div>
         <h2 className="text-xl font-bold text-on-surface font-display">Undangan Tidak Ditemukan</h2>
@@ -70,7 +70,7 @@ export function EditorView({
         </p>
         <button
           onClick={onBackToDashboard}
-          className="mt-6 flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-bold shadow hover:shadow-md transition-all"
+          className="mt-6 flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-bold transition-all"
         >
           <Ic.ArrowLeft s={16} />
           <span>Kembali ke Dashboard</span>

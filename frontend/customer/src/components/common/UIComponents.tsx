@@ -52,7 +52,7 @@ export const STATUS_STYLES: Record<Status, { badge: string; dot?: string; label:
     label: 'Published',
   },
   Live: {
-    badge: 'bg-primary-container text-on-primary-container border border-primary/30 shadow-xs',
+    badge: 'bg-primary-container text-on-primary-container border border-primary/30',
     dot: 'bg-primary animate-pulse-dot',
     label: 'Live',
   },
@@ -132,7 +132,7 @@ export function M3Switch({ checked, onChange }: { checked: boolean; onChange: (v
       }`}
     >
       <span
-        className={`absolute w-6 h-6 rounded-full shadow-md transition-all duration-300 ${
+        className={`absolute w-6 h-6 rounded-full transition-all duration-300 ${
           checked ? 'left-7 bg-on-primary' : 'left-1 bg-surface-container-highest'
         }`}
       />
@@ -178,7 +178,7 @@ export function ToastContainer({ toasts, dismiss }: { toasts: Toast[]; dismiss: 
       {toasts.map((t) => (
         <div
           key={t.id}
-          className={`animate-toast pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-full shadow-xl text-sm font-medium ${colors[t.type]}`}
+          className={`animate-toast pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-full border border-outline-variant/30 text-sm font-medium ${colors[t.type]}`}
         >
           <span className="opacity-80">{icons[t.type]}</span>
           <span>{t.msg}</span>

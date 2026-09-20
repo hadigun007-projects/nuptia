@@ -37,17 +37,17 @@ export function PreviewPanel({
 }: PreviewPanelProps) {
   const frameStyles: Record<Device, { outer: string; inner: string; notch: boolean }> = {
     mobile: {
-      outer: 'w-[230px] h-[460px] rounded-[34px] border-[10px] border-inverse-surface shadow-2xl relative',
+      outer: 'w-[230px] h-[460px] rounded-[34px] border-[10px] border-inverse-surface relative',
       inner: 'rounded-[24px] overflow-hidden',
       notch: true,
     },
     tablet: {
-      outer: 'w-[320px] h-[450px] rounded-2xl border-[10px] border-inverse-surface shadow-2xl relative',
+      outer: 'w-[320px] h-[450px] rounded-2xl border-[10px] border-inverse-surface relative',
       inner: 'rounded-xl overflow-hidden',
       notch: false,
     },
     desktop: {
-      outer: 'w-[380px] h-[270px] rounded-xl border-[10px] border-inverse-surface shadow-2xl relative',
+      outer: 'w-[380px] h-[270px] rounded-xl border-[10px] border-inverse-surface relative',
       inner: 'rounded-sm overflow-hidden',
       notch: false,
     },
@@ -58,7 +58,7 @@ export function PreviewPanel({
   return (
     <div className="flex flex-col items-center gap-4 pt-6 pb-8 px-4">
       {/* Device switcher */}
-      <div className="flex items-center gap-1 bg-surface-container rounded-full p-1 shadow-2xs">
+      <div className="flex items-center gap-1 bg-surface-container rounded-full p-1">
         {(
           [
             ['mobile', Ic.Phone],
@@ -72,7 +72,7 @@ export function PreviewPanel({
             onClick={() => onDeviceChange(d)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
               device === d
-                ? 'bg-primary text-on-primary shadow-sm'
+                ? 'bg-primary text-on-primary'
                 : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >

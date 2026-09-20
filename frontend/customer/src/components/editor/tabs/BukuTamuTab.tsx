@@ -116,7 +116,7 @@ export function BukuTamuTab({ entries = [], onChange, showToast }: BukuTamuTabPr
                 onClick={() => setCat(c)}
                 className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                   cat === c
-                    ? 'bg-primary text-on-primary font-bold shadow-xs'
+                    ? 'bg-primary text-on-primary font-bold'
                     : 'bg-surface-container text-on-surface hover:bg-surface-container-high'
                 }`}
               >
@@ -128,7 +128,7 @@ export function BukuTamuTab({ entries = [], onChange, showToast }: BukuTamuTabPr
           <div className="flex justify-end pt-2">
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold shadow-xs hover:shadow transition-all"
+              className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold transition-all"
             >
               <Ic.Plus s={15} />
               <span>Simpan ke Buku Tamu</span>

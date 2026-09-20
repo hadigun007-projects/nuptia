@@ -137,7 +137,7 @@ export function KirimTab({
         />
 
         <div className="space-y-4">
-          <div className="p-4 rounded-2xl bg-[#EFEAE2] border border-[#DDD4CA] font-sans text-xs text-[#111B21] whitespace-pre-line leading-relaxed shadow-2xs">
+          <div className="p-4 rounded-2xl bg-[#EFEAE2] border border-[#DDD4CA] font-sans text-xs text-[#111B21] whitespace-pre-line leading-relaxed">
             {messageText}
           </div>
 
@@ -145,7 +145,7 @@ export function KirimTab({
             <button
               type="button"
               onClick={handleOpenWhatsApp}
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md active:scale-95 transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm active:scale-95 transition-all"
             >
               <Ic.Kirim s={18} cls="text-amber-300" />
               <span>Buka WhatsApp & Kirim</span>

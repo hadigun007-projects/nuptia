@@ -96,7 +96,7 @@ export function GuestManagementTab({ data, onChange, showToast }: GuestManagemen
                 onClick={() => set('ewalletType')(w)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
                   data.ewalletType === w
-                    ? 'bg-primary text-on-primary shadow'
+                    ? 'bg-primary text-on-primary'
                     : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
                 }`}
               >

@@ -40,7 +40,7 @@ export function CreateInvitationModal({ isOpen, onClose, onCreate }: CreateInvit
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fade-in-up">
-      <div className="bg-surface-container-lowest w-full max-w-lg rounded-[28px] shadow-2xl border border-outline-variant/40 overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="bg-surface-container-lowest w-full max-w-lg rounded-[28px] border border-outline-variant/40 overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-outline-variant/30 bg-surface-container-low">
           <div className="flex items-center gap-2.5">
@@ -124,7 +124,7 @@ export function CreateInvitationModal({ isOpen, onClose, onCreate }: CreateInvit
                   >
                     <div className="flex items-center justify-between mb-1.5">
                       <span
-                        className="w-3 h-3 rounded-full shadow-xs"
+                        className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: tpl.color }}
                       />
                       {isSelected && (
@@ -154,7 +154,7 @@ export function CreateInvitationModal({ isOpen, onClose, onCreate }: CreateInvit
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-95 transition-all duration-200"
+              className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200"
             >
               <span>Buat & Buka Editor</span>
               <Ic.ArrowLeft s={15} cls="rotate-180" />

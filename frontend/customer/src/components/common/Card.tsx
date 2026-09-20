@@ -32,9 +32,9 @@ export function Card({
   ...rest
 }: CardProps) {
   const variantStyles: Record<CardVariant, string> = {
-    elevated: 'bg-surface-container-lowest shadow-sm border border-outline-variant/30',
+    elevated: 'bg-surface-container-lowest border border-outline-variant/30',
     outlined: 'bg-transparent border border-outline-variant/60',
-    flat: 'bg-surface-container-low border-0 shadow-none',
+    flat: 'bg-surface-container-low border-0',
     filled: 'bg-surface-container-highest/60 border border-outline-variant/20',
   };
 

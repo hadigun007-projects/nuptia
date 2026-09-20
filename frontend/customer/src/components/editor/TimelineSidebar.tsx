@@ -101,9 +101,9 @@ export function TimelineSidebar({
                   {/* Step Node Circle on Timeline with Icon */}
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all relative ${isActive
-                      ? 'bg-primary text-on-primary shadow-xs scale-105'
+                      ? 'bg-primary text-on-primary scale-105'
                       : isCompleted
-                        ? 'bg-emerald-600 text-white shadow-2xs'
+                        ? 'bg-emerald-600 text-white'
                         : isPast
                           ? 'bg-surface-container-high text-on-surface-variant border border-outline-variant'
                           : 'bg-surface-container text-on-surface-variant/70 border border-outline-variant/40 group-hover:text-primary'

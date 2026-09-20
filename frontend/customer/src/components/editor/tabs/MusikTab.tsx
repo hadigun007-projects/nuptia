@@ -59,7 +59,7 @@ export function MusikTab({ data, onChange, showToast }: MusikTabProps) {
             <button
               type="button"
               onClick={() => onChange({ ...data, musicPlaying: !data.musicPlaying })}
-              className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md hover:shadow-lg active:scale-95 transition-all flex-shrink-0"
+              className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-95 transition-all flex-shrink-0"
               title={data.musicPlaying ? 'Jeda Musik' : 'Putar Musik'}
             >
               {data.musicPlaying ? <Ic.Pause s={22} /> : <Ic.Play s={22} />}

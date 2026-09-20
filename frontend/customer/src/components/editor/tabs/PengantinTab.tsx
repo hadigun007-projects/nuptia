@@ -45,7 +45,7 @@ export function PengantinTab({ data, onChange, showToast }: PengantinTabProps) {
         <div className="flex flex-col sm:flex-row items-center gap-5 mb-5 p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30">
           <div
             onClick={() => groomFileRef.current?.click()}
-            className="relative w-24 h-24 rounded-full overflow-hidden bg-surface-container-high flex-shrink-0 cursor-pointer group border-2 border-primary/40 hover:border-primary transition-all shadow-xs"
+            className="relative w-24 h-24 rounded-full overflow-hidden bg-surface-container-high flex-shrink-0 cursor-pointer group border-2 border-primary/40 hover:border-primary transition-all"
           >
             {data.groomPhoto ? (
               <img src={data.groomPhoto} alt="Groom" className="w-full h-full object-cover" />
@@ -127,7 +127,7 @@ export function PengantinTab({ data, onChange, showToast }: PengantinTabProps) {
         <div className="flex flex-col sm:flex-row items-center gap-5 mb-5 p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30">
           <div
             onClick={() => brideFileRef.current?.click()}
-            className="relative w-24 h-24 rounded-full overflow-hidden bg-surface-container-high flex-shrink-0 cursor-pointer group border-2 border-primary/40 hover:border-primary transition-all shadow-xs"
+            className="relative w-24 h-24 rounded-full overflow-hidden bg-surface-container-high flex-shrink-0 cursor-pointer group border-2 border-primary/40 hover:border-primary transition-all"
           >
             {data.bridePhoto ? (
               <img src={data.bridePhoto} alt="Bride" className="w-full h-full object-cover" />

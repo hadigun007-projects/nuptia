@@ -84,7 +84,7 @@ export function InvitePreview({
               <img
                 src={event.groomPhoto}
                 alt="Groom"
-                className="w-12 h-12 rounded-full mx-auto object-cover border-2 border-primary/30 mb-1 shadow-xs"
+                className="w-12 h-12 rounded-full mx-auto object-cover border-2 border-primary/30 mb-1"
               />
             )}
             <p className="text-[7px] text-on-surface-variant uppercase tracking-widest font-bold">Mempelai Pria</p>
@@ -110,7 +110,7 @@ export function InvitePreview({
               <img
                 src={event.bridePhoto}
                 alt="Bride"
-                className="w-12 h-12 rounded-full mx-auto object-cover border-2 border-primary/30 mb-1 shadow-xs"
+                className="w-12 h-12 rounded-full mx-auto object-cover border-2 border-primary/30 mb-1"
               />
             )}
             <p className="text-[7px] text-on-surface-variant uppercase tracking-widest font-bold">Mempelai Wanita</p>
@@ -167,7 +167,7 @@ export function InvitePreview({
             </p>
             <button
               type="button"
-              className="w-full py-1.5 rounded-full bg-red-600 text-white text-[8px] font-bold shadow-xs hover:bg-red-700 transition-colors"
+              className="w-full py-1.5 rounded-full bg-red-600 text-white text-[8px] font-bold hover:bg-red-700 transition-colors"
             >
               Tonton Siaran Langsung
             </button>
@@ -208,7 +208,7 @@ export function InvitePreview({
                   key={g.id}
                   src={g.url}
                   alt={g.caption}
-                  className="w-full h-16 object-cover rounded-xl shadow-2xs"
+                  className="w-full h-16 object-cover rounded-xl"
                 />
               ))}
             </div>
@@ -256,7 +256,7 @@ export function InvitePreview({
         {/* Tombol Konfirmasi RSVP */}
         <button
           type="button"
-          className="w-full py-2.5 rounded-full bg-primary text-on-primary text-[10px] font-bold tracking-wide shadow hover:opacity-90 active:scale-98 transition-all"
+          className="w-full py-2.5 rounded-full bg-primary text-on-primary text-[10px] font-bold tracking-wide hover:opacity-90 active:scale-98 transition-all"
         >
           Konfirmasi Kehadiran (RSVP)
         </button>

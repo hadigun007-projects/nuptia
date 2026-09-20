@@ -24,7 +24,7 @@ export function BottomNav15({ activeTab, onSelectTab }: BottomNav15Props) {
   };
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 flex items-center justify-between px-3 py-2 bg-surface-container-low/95 backdrop-blur border-t border-outline-variant/40 shadow-lg">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 flex items-center justify-between px-3 py-2 bg-surface-container-low/95 backdrop-blur border-t border-outline-variant/40">
       {/* Previous Tab button */}
       <button
         onClick={handlePrev}
@@ -35,7 +35,7 @@ export function BottomNav15({ activeTab, onSelectTab }: BottomNav15Props) {
       </button>
 
       {/* Center active tab info badge */}
-      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-on-primary font-bold text-xs shadow-md">
+      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-on-primary font-bold text-xs">
         <span className="text-on-primary">
           <CurrentIcon s={17} />
         </span>

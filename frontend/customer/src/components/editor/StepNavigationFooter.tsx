@@ -45,7 +45,7 @@ export function StepNavigationFooter({
         <button
           type="button"
           onClick={handlePrev}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-all text-xs font-bold active:scale-95 shadow-2xs"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-all text-xs font-bold active:scale-95"
         >
           <Ic.ArrowLeft s={15} />
           <span>Sebelumnya: {prevStep.label}</span>
@@ -70,7 +70,7 @@ export function StepNavigationFooter({
         <button
           type="button"
           onClick={handleNext}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-primary text-on-primary hover:bg-primary/95 transition-all text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-95 group"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-primary text-on-primary hover:bg-primary/95 transition-all text-xs sm:text-sm font-bold active:scale-95 group"
         >
           <span>Lanjut ke: {nextStep.label}</span>
           <span className="group-hover:translate-x-1 transition-transform">
@@ -81,7 +81,7 @@ export function StepNavigationFooter({
         <button
           type="button"
           onClick={handleNext}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-all text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-95"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-all text-xs sm:text-sm font-bold active:scale-95"
         >
           <Ic.Check s={16} />
           <span>Selesai & Bagikan Undangan</span>

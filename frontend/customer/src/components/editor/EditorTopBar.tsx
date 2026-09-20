@@ -25,7 +25,7 @@ export function EditorTopBar({
   const statusMeta = STATUS_STYLES[status] || STATUS_STYLES.Draft;
 
   return (
-    <header className="sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2.5 sm:py-3 bg-surface-container-low/95 backdrop-blur-md border-b border-outline-variant/50 shadow-xs">
+    <header className="sticky top-0 z-30 flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2.5 sm:py-3 bg-surface-container-low/95 backdrop-blur-md border-b border-outline-variant/50">
       {/* Back Button */}
       <button
         onClick={onBack}
@@ -38,7 +38,7 @@ export function EditorTopBar({
 
       {/* Title & Brand */}
       <div className="flex items-center gap-2 flex-1 min-w-0">
-        <div className="w-8 h-8 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 shadow-2xs">
+        <div className="w-8 h-8 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0">
           <Ic.Heart s={15} cls="text-primary" />
         </div>
         <div className="min-w-0">
@@ -68,7 +68,7 @@ export function EditorTopBar({
       {/* Save button */}
       <button
         onClick={onSave}
-        className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold shadow-sm hover:shadow-md active:scale-95 transition-all duration-200"
+        className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200"
       >
         <Ic.Save s={15} />
         <span className="hidden sm:inline">Simpan</span>

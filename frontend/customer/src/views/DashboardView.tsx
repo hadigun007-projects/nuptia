@@ -86,9 +86,9 @@ export function DashboardView({
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Welcome & Quick Action Banner */}
-        <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-primary-container via-surface-container to-secondary-container/40 p-6 sm:p-8 border border-outline-variant/30 shadow-xs">
+        <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-primary-container via-surface-container to-secondary-container/40 p-6 sm:p-8 border border-outline-variant/30">
           <div className="relative z-10 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/80 text-primary text-xs font-bold shadow-2xs mb-3 backdrop-blur-xs">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest/80 text-primary text-xs font-bold mb-3 backdrop-blur-xs">
               <Ic.Sparkles s={14} />
               <span>Pusat Kendali Undangan Pernikahan</span>
             </div>
@@ -103,7 +103,7 @@ export function DashboardView({
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <button
                 onClick={onCreateBlankInvitation}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-95 transition-all duration-200"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold active:scale-95 transition-all duration-200"
               >
                 <Ic.Plus s={16} />
                 <span>Buat Undangan Baru</span>
@@ -166,7 +166,7 @@ export function DashboardView({
                       onClick={() => setStatusFilter(filter)}
                       className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                         isActive
-                          ? 'bg-surface-container-lowest text-primary shadow-xs font-bold'
+                          ? 'bg-surface-container-lowest text-primary font-bold'
                           : 'text-on-surface-variant hover:text-on-surface'
                       }`}
                     >
@@ -217,7 +217,7 @@ export function DashboardView({
       {/* Quick Preview Modal */}
       {previewingInv && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="bg-surface-container-lowest rounded-3xl p-5 max-w-sm w-full shadow-2xl border border-outline-variant/40 space-y-4">
+          <div className="bg-surface-container-lowest rounded-3xl p-5 max-w-sm w-full border border-outline-variant/40 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-bold text-on-surface font-display">{previewingInv.title}</h3>
               <button
@@ -241,7 +241,7 @@ export function DashboardView({
                   setPreviewingInv(null);
                   onNavigateToEditor(id);
                 }}
-                className="flex-1 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold text-center shadow"
+                className="flex-1 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold text-center"
               >
                 Buka di Editor Lengkap
               </button>

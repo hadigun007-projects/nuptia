@@ -48,7 +48,7 @@ export function InvitationCard({
   };
 
   return (
-    <div className="group flex flex-col bg-surface-container-lowest rounded-[24px] border border-outline-variant/40 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden">
+    <div className="group flex flex-col bg-surface-container-lowest rounded-[24px] border border-outline-variant/40 transition-all duration-300 overflow-hidden">
       {/* Card Cover Header */}
       <div className="relative h-44 sm:h-48 w-full bg-surface-container overflow-hidden">
         <img
@@ -81,7 +81,7 @@ export function InvitationCard({
 
         {/* Couple Names on Image */}
         <div className="absolute bottom-3 left-3.5 right-3.5 text-white">
-          <h2 className="text-xl sm:text-2xl font-extrabold font-display leading-tight drop-shadow-sm">
+          <h2 className="text-xl sm:text-2xl font-extrabold font-display leading-tight">
             {invitation.title}
           </h2>
           <p className="text-xs text-white/90 truncate mt-0.5">
@@ -132,7 +132,7 @@ export function InvitationCard({
           {/* Primary Edit Button */}
           <button
             onClick={() => onEdit(invitation.id)}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-primary text-on-primary text-xs sm:text-sm font-bold shadow-xs hover:shadow-md hover:bg-primary/95 active:scale-98 transition-all duration-200"
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-primary text-on-primary text-xs sm:text-sm font-bold hover:bg-primary/95 active:scale-98 transition-all duration-200"
           >
             <Ic.Edit s={15} />
             <span>Edit Undangan</span>
@@ -159,7 +159,7 @@ export function InvitationCard({
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 bottom-full mb-2 w-48 py-1.5 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/40 z-30 animate-fade-in-up">
+              <div className="absolute right-0 bottom-full mb-2 w-48 py-1.5 bg-surface-container-lowest rounded-2xl border border-outline-variant/40 z-30 animate-fade-in-up">
                 <button
                   onClick={() => {
                     setMenuOpen(false);

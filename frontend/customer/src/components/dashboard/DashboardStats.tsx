@@ -54,7 +54,7 @@ export function DashboardStats({ invitations }: DashboardStatsProps) {
         return (
           <div
             key={idx}
-            className={`p-4 rounded-[20px] bg-surface-container-lowest border ${st.borderColor} shadow-xs flex flex-col justify-between hover:shadow-sm transition-all duration-200`}
+            className={`p-4 rounded-[20px] bg-surface-container-lowest border ${st.borderColor} flex flex-col justify-between transition-all duration-200`}
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-on-surface-variant">{st.label}</span>

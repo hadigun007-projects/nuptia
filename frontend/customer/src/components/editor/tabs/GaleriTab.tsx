@@ -65,14 +65,14 @@ export function GaleriTab({ data, onChange, showToast }: GaleriTabProps) {
           sub="Foto beresolusi tinggi yang ditampilkan paling pertama saat undangan dibuka"
         />
         <div
-          className="relative rounded-2xl overflow-hidden bg-surface-container-high aspect-video cursor-pointer group shadow-xs border border-outline-variant/30"
+          className="relative rounded-2xl overflow-hidden bg-surface-container-high aspect-video cursor-pointer group border border-outline-variant/30"
           onClick={() => heroFileRef.current?.click()}
         >
           {data.heroUrl ? (
             <>
               <img src={data.heroUrl} alt="Hero cover" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2 bg-black/70 text-white rounded-full px-4 py-2 text-xs font-bold shadow-md">
+                <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2 bg-black/70 text-white rounded-full px-4 py-2 text-xs font-bold">
                   <Ic.Upload s={16} /> Ganti Foto Sampul
                 </span>
               </div>
@@ -98,7 +98,7 @@ export function GaleriTab({ data, onChange, showToast }: GaleriTabProps) {
           <button
             type="button"
             onClick={() => galleryFileRef.current?.click()}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-on-primary text-xs font-bold hover:shadow shadow-xs active:scale-95 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-on-primary text-xs font-bold active:scale-95 transition-all"
           >
             <Ic.Plus s={15} /> Tambah Foto
           </button>
@@ -116,7 +116,7 @@ export function GaleriTab({ data, onChange, showToast }: GaleriTabProps) {
           {data.gallery.map((item) => (
             <div
               key={item.id}
-              className="group relative rounded-2xl overflow-hidden aspect-square bg-surface-container border border-outline-variant/30 shadow-xs"
+              className="group relative rounded-2xl overflow-hidden aspect-square bg-surface-container border border-outline-variant/30"
             >
               {item.loading ? (
                 <Skeleton className="w-full h-full rounded-2xl" />
@@ -135,7 +135,7 @@ export function GaleriTab({ data, onChange, showToast }: GaleriTabProps) {
                   <button
                     type="button"
                     onClick={() => removeGallery(item.id)}
-                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-error text-on-error flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110 active:scale-95 shadow-sm"
+                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-error text-on-error flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110 active:scale-95"
                     title="Hapus Foto"
                   >
                     <Ic.Delete s={14} />
@@ -170,7 +170,7 @@ export function GaleriTab({ data, onChange, showToast }: GaleriTabProps) {
             placeholder="https://youtu.be/..."
           />
           {data.videoUrl && (
-            <div className="w-full aspect-video rounded-2xl bg-inverse-surface flex items-center justify-center text-inverse-on-surface/70 overflow-hidden shadow-xs">
+            <div className="w-full aspect-video rounded-2xl bg-inverse-surface flex items-center justify-center text-inverse-on-surface/70 overflow-hidden">
               <div className="text-center p-4">
                 <Ic.Video s={32} cls="mx-auto mb-2 text-primary" />
                 <p className="text-xs font-mono break-all">{data.videoUrl}</p>

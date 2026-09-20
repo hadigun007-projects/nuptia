@@ -10,7 +10,7 @@ interface EmptyStateProps {
 export function EmptyState({ isSearch, onReset, onCreateNew }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-surface-container-lowest rounded-[28px] border border-dashed border-outline-variant/60 max-w-md mx-auto my-8">
-      <div className="w-16 h-16 rounded-3xl bg-primary-container text-primary flex items-center justify-center mb-4 shadow-sm">
+      <div className="w-16 h-16 rounded-3xl bg-primary-container text-primary flex items-center justify-center mb-4">
         {isSearch ? <Ic.Search s={28} /> : <Ic.Heart s={28} />}
       </div>
       <h3 className="text-base sm:text-lg font-bold text-on-surface font-display">
@@ -33,7 +33,7 @@ export function EmptyState({ isSearch, onReset, onCreateNew }: EmptyStateProps) 
         ) : (
           <button
             onClick={onCreateNew}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-200"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs sm:text-sm font-bold transition-all duration-200"
           >
             <Ic.Plus s={16} />
             <span>Buat Undangan Sekarang</span>

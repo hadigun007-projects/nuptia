@@ -92,7 +92,7 @@ export function KisahCintaTab({ milestones = [], onChange, showToast }: KisahCin
           <div className="flex justify-end">
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-bold shadow-xs hover:shadow transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-bold transition-all"
             >
               <Ic.Plus s={15} />
               <span>Tambah Momen</span>

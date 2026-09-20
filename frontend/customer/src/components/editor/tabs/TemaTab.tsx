@@ -69,7 +69,7 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
                 onClick={() => handleSelectTemplate(tpl)}
                 className={`group cursor-pointer rounded-2xl border overflow-hidden transition-all duration-200 ${
                   isSelected
-                    ? 'border-primary ring-2 ring-primary/40 bg-primary-container/20 shadow-sm'
+                    ? 'border-primary ring-2 ring-primary/40 bg-primary-container/20'
                     : 'border-outline-variant/40 bg-surface-container-low hover:border-primary/50'
                 }`}
               >
@@ -81,7 +81,7 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
                   />
                   <div className="absolute top-2.5 right-2.5">
                     {isSelected ? (
-                      <span className="px-2.5 py-1 rounded-full bg-primary text-on-primary text-[11px] font-bold shadow flex items-center gap-1">
+                      <span className="px-2.5 py-1 rounded-full bg-primary text-on-primary text-[11px] font-bold flex items-center gap-1">
                         <Ic.Check s={12} /> Aktif
                       </span>
                     ) : (
@@ -97,7 +97,7 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
                     <p className="text-[11px] text-on-surface-variant">{tpl.tagline}</p>
                   </div>
                   <span
-                    className="w-5 h-5 rounded-full shadow-xs border border-white"
+                    className="w-5 h-5 rounded-full border border-white"
                     style={{ backgroundColor: tpl.color }}
                   />
                 </div>
@@ -116,7 +116,7 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <span
-              className="w-10 h-10 rounded-2xl shadow-sm border-2 border-white flex-shrink-0"
+              className="w-10 h-10 rounded-2xl border-2 border-white flex-shrink-0"
               style={{ backgroundColor: theme.primaryColor || '#A3158A' }}
             />
             <div>
@@ -139,7 +139,7 @@ export function TemaTab({ theme, onChange, showToast }: TemaTabProps) {
                       : 'border-outline-variant/50 hover:bg-surface-container'
                   }`}
                 >
-                  <span className="w-3.5 h-3.5 rounded-full shadow-xs" style={{ backgroundColor: col.hex }} />
+                  <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: col.hex }} />
                   <span>{col.name}</span>
                 </button>
               );

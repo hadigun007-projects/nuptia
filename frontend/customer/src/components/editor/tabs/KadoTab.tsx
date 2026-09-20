@@ -84,7 +84,7 @@ export function KadoTab({ data, onChange, showToast }: KadoTabProps) {
                 onClick={() => set('ewalletType')(w)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   data.ewalletType === w
-                    ? 'bg-primary text-on-primary shadow-xs'
+                    ? 'bg-primary text-on-primary'
                     : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
                 }`}
               >

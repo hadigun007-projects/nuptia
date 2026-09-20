@@ -103,7 +103,7 @@ export function UcapanTab({
           <div className="flex justify-end">
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-bold shadow-xs hover:shadow transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-bold transition-all"
             >
               <Ic.Plus s={15} />
               <span>Simpan Ucapan</span>
@@ -132,7 +132,7 @@ export function UcapanTab({
                 key={item.id}
                 className={`p-4 rounded-2xl border transition-all ${
                   item.isPinned
-                    ? 'bg-primary-container/20 border-primary/40 shadow-xs'
+                    ? 'bg-primary-container/20 border-primary/40'
                     : 'bg-surface-container-low border-outline-variant/30'
                 }`}
               >
@@ -146,7 +146,7 @@ export function UcapanTab({
                         </span>
                       )}
                       {item.isPinned && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary text-on-primary shadow-2xs">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary text-on-primary">
                           Disematkan
                         </span>
                       )}

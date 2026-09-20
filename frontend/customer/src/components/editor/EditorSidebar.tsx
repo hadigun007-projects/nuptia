@@ -90,7 +90,7 @@ export function EditorSidebar({
             </button>
             <button
               onClick={() => {}}
-              className="flex-1 py-1 px-2 rounded-lg bg-primary text-on-primary shadow-xs font-bold flex items-center justify-center gap-1"
+              className="flex-1 py-1 px-2 rounded-lg bg-primary text-on-primary font-bold flex items-center justify-center gap-1"
             >
               <Ic.Check s={13} />
               <span>Kategori</span>
@@ -122,7 +122,7 @@ export function EditorSidebar({
                     title={def.label}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150 ${
                       isActive
-                        ? 'bg-primary text-on-primary shadow-xs font-bold'
+                        ? 'bg-primary text-on-primary font-bold'
                         : 'text-on-surface hover:bg-surface-container hover:text-primary'
                     } ${collapsed ? 'justify-center px-0' : ''}`}
                   >

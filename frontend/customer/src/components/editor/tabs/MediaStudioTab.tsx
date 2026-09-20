@@ -177,7 +177,7 @@ export function MediaStudioTab({ data, onChange, showToast }: MediaStudioTabProp
         <div className="flex items-center gap-3 p-3 bg-primary-container rounded-2xl">
           <button
             onClick={() => onChange({ ...data, musicPlaying: !data.musicPlaying })}
-            className="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow hover:shadow-md active:scale-95 transition-all duration-200"
+            className="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-95 transition-all duration-200"
           >
             {data.musicPlaying ? <Ic.Pause s={20} /> : <Ic.Play s={20} />}
           </button>
