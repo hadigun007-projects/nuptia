@@ -59,7 +59,9 @@ func (r *userRepository) FindAll(search string, role string, limit int, offset i
 	var users []domain.User
 	var total int64
 
-	query := r.db.Model(&domain.User{})
+	// Hanya tampilkan customer — role internal dikelola lewat endpoint terpisah
+	internalRoles := []string{"developer", "admin", "viewer"}
+	query := r.db.Model(&domain.User{}).Where("role NOT IN ?", internalRoles)
 
 	if strings.TrimSpace(search) != "" {
 		s := "%" + strings.ToLower(strings.TrimSpace(search)) + "%"
@@ -87,13 +89,15 @@ func (r *userRepository) FindAll(search string, role string, limit int, offset i
 
 func (r *userRepository) Count() (int64, error) {
 	var count int64
-	err := r.db.Model(&domain.User{}).Count(&count).Error
+	internalRoles := []string{"developer", "admin", "viewer"}
+	err := r.db.Model(&domain.User{}).Where("role NOT IN ?", internalRoles).Count(&count).Error
 	return count, err
 }
 
 func (r *userRepository) CountActive() (int64, error) {
 	var count int64
-	err := r.db.Model(&domain.User{}).Where("is_active = ?", true).Count(&count).Error
+	internalRoles := []string{"developer", "admin", "viewer"}
+	err := r.db.Model(&domain.User{}).Where("is_active = ? AND role NOT IN ?", true, internalRoles).Count(&count).Error
 	return count, err
 }
 
