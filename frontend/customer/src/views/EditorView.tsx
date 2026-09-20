@@ -292,6 +292,65 @@ function EditorViewInner({
     };
   }, [event, theme, media, loveStory, guests, streaming, social, guestBook, settings, slug, invitation.templateId]);
 
+  const isManualScrollingRef = useRef(false);
+
+  const handleSelectTab = useCallback((targetTab: Tab) => {
+    setTab(targetTab);
+    isManualScrollingRef.current = true;
+    const target = document.getElementById(`section-${targetTab}`);
+    if (target) {
+      const headerOffset = 75;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+    setTimeout(() => {
+      isManualScrollingRef.current = false;
+    }, 700);
+  }, [setTab]);
+
+  // Scroll-Spy using IntersectionObserver
+  useEffect(() => {
+    const sectionIds: Tab[] = [
+      'pengantin', 'acara', 'streaming', 'quote', 'kisah-cinta',
+      'tema', 'galeri', 'musik', 'story-ig',
+      'rsvp', 'buku-tamu', 'ucapan', 'kado',
+      'setting', 'kirim',
+    ];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (isManualScrollingRef.current) return;
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          visible.sort(
+            (a, b) =>
+              Math.abs(a.boundingClientRect.top - 85) - Math.abs(b.boundingClientRect.top - 85)
+          );
+          const activeId = visible[0].target.id.replace('section-', '') as Tab;
+          if (activeId) {
+            setTab(activeId);
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: '-80px 0px -60% 0px',
+        threshold: [0, 0.2],
+      }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(`section-${id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [setTab]);
+
   return (
     <div className="min-h-screen bg-surface flex flex-col items-center w-full">
       {/* Top Navbar */}
@@ -312,7 +371,7 @@ function EditorViewInner({
         {/* Hierarchical 15-menu Sidebar / Timeline Stepper for Desktop */}
         <EditorSidebar
           activeTab={activeNormalizedTab}
-          onSelectTab={setTab}
+          onSelectTab={handleSelectTab}
           isTimelineMode={timelineMode}
           onToggleMode={() => setTimelineMode((m) => !m)}
           completedSteps={completedSteps}
@@ -561,7 +620,7 @@ function EditorViewInner({
       {/* Bottom Nav for Mobile */}
       <BottomNav15
         activeTab={activeNormalizedTab}
-        onSelectTab={setTab}
+        onSelectTab={handleSelectTab}
       />
       </div>
     </div>
