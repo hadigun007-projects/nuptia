@@ -100,6 +100,36 @@ export function useInvitations() {
         ewalletType: 'GoPay',
         ewalletNo: '',
         ewalletName: input.brideNick,
+        physicalGiftEnabled: false,
+      },
+      loveStory: [],
+      streaming: {
+        enabled: false,
+        platform: 'youtube',
+        url: '',
+        scheduleDate: input.weddingDate || '',
+        scheduleTime: '08:00 WIB',
+      },
+      social: {
+        igFilterUrl: '',
+        hashtag: `#${input.groomNick}${input.brideNick}Menikah`,
+        igGroom: '',
+        igBride: '',
+      },
+      guestBook: [],
+      greetingsList: [],
+      settings: {
+        customSlug: slug || `undangan-${Date.now()}`,
+        isPrivate: false,
+        password: '',
+        searchEngineIndex: true,
+        musicAutoplay: true,
+      },
+      theme: {
+        templateId: chosenTemplate.id,
+        templateName: chosenTemplate.name,
+        primaryColor: chosenTemplate.color,
+        fontStyle: 'Nunito & Inter',
       },
     };
 
