@@ -22,35 +22,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Banner / Welcome */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-linear-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20">
-        <div>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-xs font-semibold mb-2">
-            ✨ Panel Kendali Nuptia
-          </span>
-          <h2 className="text-xl sm:text-2xl font-black text-on-surface">
-            Selamat Datang di Nuptia Admin
-          </h2>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-1">
-            Pantau pertumbuhan pengguna, status publikasi undangan, dan katalog tema secara real-time.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => onNavigate('#/users')}
-            className="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-95 transition-opacity"
-          >
-            + Kelola Pengguna
-          </button>
-          <button
-            onClick={() => onNavigate('#/templates')}
-            className="px-4 py-2 rounded-xl bg-surface-container-low text-on-surface text-xs font-semibold hover:bg-surface-container transition-colors border border-outline-variant/30"
-          >
-            Katalog Tema
-          </button>
-        </div>
-      </div>
-
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Total Users */}
@@ -213,11 +184,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      user.role === 'admin'
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${user.role === 'admin'
                         ? 'bg-primary-container text-on-primary-container'
                         : 'bg-surface-container text-on-surface-variant'
-                    }`}
+                      }`}
                   >
                     {user.role}
                   </span>
@@ -256,11 +226,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      inv.status === 'Published' || inv.status === 'Live'
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${inv.status === 'Published' || inv.status === 'Live'
                         ? 'bg-emerald-100 text-emerald-800'
                         : 'bg-amber-100 text-amber-800'
-                    }`}
+                      }`}
                   >
                     {inv.status}
                   </span>
