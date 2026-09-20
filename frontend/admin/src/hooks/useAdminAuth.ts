@@ -71,6 +71,28 @@ export function useAdminAuth() {
     localStorage.removeItem(USER_KEY);
   }, []);
 
+  const login = useCallback(async (email: string, password: string): Promise<void> => {
+    const res = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+    });
+
+    const json = await res.json();
+
+    if (!res.ok || !json.success) {
+      throw new Error(json.error || json.message || 'Email atau kata sandi salah');
+    }
+
+    const { token: newToken, user: userData } = json.data;
+    const enriched: AdminUser = { ...userData, status: userData.status || 'active' };
+
+    localStorage.setItem(TOKEN_KEY, newToken);
+    localStorage.setItem(USER_KEY, JSON.stringify(enriched));
+    setToken(newToken);
+    setUser(enriched);
+  }, []);
+
   // Development convenience: switch or promote current session to admin for local dev
   const devSetAdmin = useCallback(() => {
     const devAdmin: AdminUser = {
@@ -99,6 +121,7 @@ export function useAdminAuth() {
     isAdmin,
     isAuthenticated,
     loading,
+    login,
     logout,
     checkAuth,
     devSetAdmin,
