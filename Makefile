@@ -46,6 +46,11 @@ install: ## Instal dependensi untuk semua aplikasi
 	@echo "$(GREEN)Semua dependensi berhasil diinstal!$(RESET)"
 
 dev: ## Jalankan semua aplikasi secara bersamaan
+	@echo "$(YELLOW)Membebaskan port sebelumnya (3000, 5173, 5000)...$(RESET)"
+	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
+	@sleep 0.5
 	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), & API (port 5000)...$(RESET)"
 	@npx -y concurrently --kill-others-on-fail -n "HOME,CUSTOMER,API" -c "cyan.bold,magenta.bold,green.bold" \
 		"npm --prefix frontend/home run dev" \
