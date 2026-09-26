@@ -26,6 +26,7 @@ type Config struct {
 	SMTPUser    string
 	SMTPPass    string
 	AppBaseURL  string
+	AuthAppURL  string
 }
 
 func LoadConfig() (*Config, error) {
@@ -43,7 +44,7 @@ func LoadConfig() (*Config, error) {
 	jwtSecret := getEnv("JWT_SECRET", "nuptia-super-secret-jwt-key-2026-wedding-platform")
 	googleClientID := getEnv("GOOGLE_CLIENT_ID", "")
 
-	originsRaw := getEnv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173,http://localhost:5174")
+	originsRaw := getEnv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173,http://localhost:5174,http://localhost:5175")
 	origins := strings.Split(originsRaw, ",")
 	for i := range origins {
 		origins[i] = strings.TrimSpace(origins[i])
@@ -66,6 +67,7 @@ func LoadConfig() (*Config, error) {
 		SMTPUser:       getEnv("SMTP_USER", ""),
 		SMTPPass:       getEnv("SMTP_PASS", ""),
 		AppBaseURL:     getEnv("APP_BASE_URL", "http://localhost:5174"),
+		AuthAppURL:     getEnv("AUTH_APP_URL", "http://localhost:5175"),
 	}, nil
 }
 

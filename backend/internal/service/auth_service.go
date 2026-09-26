@@ -319,7 +319,11 @@ func (s *authService) RequestPasswordReset(req domain.ForgotPasswordRequest) err
 		return fmt.Errorf("gagal menyimpan token reset: %w", err)
 	}
 
-	resetURL := fmt.Sprintf("%s/#/reset-password?token=%s", s.cfg.AppBaseURL, tokenStr)
+	baseURL := s.cfg.AuthAppURL
+	if baseURL == "" {
+		baseURL = s.cfg.AppBaseURL
+	}
+	resetURL := fmt.Sprintf("%s/#/reset-password?token=%s", baseURL, tokenStr)
 	return s.emailService.SendPasswordResetEmail(user.Email, user.Name, resetURL)
 }
 
