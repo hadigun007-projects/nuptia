@@ -63,8 +63,8 @@
   - Update target `build`, `start`, `prod`, dan `clean`.
 
 ### Fase 5: Pengujian & Validasi End-to-End
-- [ ] 5.1. Uji Login Akun Admin: pastikan login berhasil dan otomatis teralihkan ke Admin Console (port 5174) dengan sesi aktif.
-- [ ] 5.2. Uji Login Akun Customer: pastikan login berhasil dan otomatis teralihkan ke Customer Dashboard (port 5173) dengan sesi aktif.
-- [ ] 5.3. Uji Registrasi Akun Customer Baru: daftar dari tab Register &rarr; otomatis redirect ke portal customer.
-- [ ] 5.4. Uji Parameter `return_to`: akses URL spesifik admin saat unauthenticated &rarr; login &rarr; kembali ke halaman tujuan.
-- [ ] 5.5. Uji Alur Lupa Password & Reset Password melalui email / Mailpit.
+- [x] 5.1. Uji Login Akun Admin: pastikan login berhasil dan otomatis teralihkan ke Admin Console (port 5174) dengan sesi aktif.
+- [x] 5.2. Uji Login Akun Customer: pastikan login berhasil dan otomatis teralihkan ke Customer Dashboard (port 5173) dengan sesi aktif.
+- [x] 5.3. Uji Registrasi Akun Customer Baru: daftar dari tab Register &rarr; otomatis redirect ke portal customer.
+- [x] 5.4. Uji Parameter `return_to`: akses URL spesifik admin saat unauthenticated &rarr; login &rarr; kembali ke halaman tujuan.
+- [x] 5.5. Uji Alur Lupa Password & Reset Password melalui email / Mailpit.
