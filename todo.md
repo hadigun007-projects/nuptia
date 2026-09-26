@@ -18,30 +18,30 @@
 - [x] 1.3. Perbarui link reset password email di `backend/internal/service/auth_service.go` agar mengarah ke `frontend/auth` (`http://localhost:5175/#/reset-password?token=...`).
 
 ### Fase 2: Inisialisasi & Setup Proyek Baru `frontend/auth`
-- [ ] 2.1. Buat folder proyek `frontend/auth/` beserta file konfigurasi:
+- [x] 2.1. Buat folder proyek `frontend/auth/` beserta file konfigurasi:
   - `package.json` (React 19, Vite, Tailwind CSS v4, TypeScript).
   - `vite.config.ts` (konfigurasi dev server port 5175 & alias `@/`).
   - `tsconfig.json` & `tsconfig.node.json`.
   - `index.html` (Title, viewport, meta tags Nuptia Auth).
   - `src/index.css` (Tailwind v4 tokens, design system nuansa Nuptia, glassmorphism, dan animasi).
-- [ ] 2.2. Buat definisi tipe data di `src/types/index.ts` (User, Role, AuthResponse, RedirectionState).
-- [ ] 2.3. Buat konfigurasi target URL di `src/config/env.ts` (API_URL: 5000, ADMIN_URL: 5174, CUSTOMER_URL: 5173).
-- [ ] 2.4. Buat custom hook & API service di `src/hooks/useAuthService.ts`:
+- [x] 2.2. Buat definisi tipe data di `src/types/index.ts` (User, Role, AuthResponse, RedirectionState).
+- [x] 2.3. Buat konfigurasi target URL di `src/config/env.ts` (API_URL: 5000, ADMIN_URL: 5174, CUSTOMER_URL: 5173).
+- [x] 2.4. Buat custom hook & API service di `src/hooks/useAuthService.ts`:
   - Login (email & password).
   - Register (customer baru).
   - Google Sign-In handler.
   - Forgot Password & Reset Password.
   - Logika evaluasi role (`admin` / `developer` / `viewer` vs `customer`) dan formulasi URL redirect callback.
-- [ ] 2.5. Buat komponen UI:
+- [x] 2.5. Buat komponen UI:
   - `BrandHeader.tsx` (Branding & Logo Nuptia).
   - `GoogleButton.tsx` (Tombol masuk via Google).
   - `RedirectBridge.tsx` (Animasi transisi halus saat proses pengalihan ke dashboard).
-- [ ] 2.6. Buat halaman/views:
+- [x] 2.6. Buat halaman/views:
   - `LoginView.tsx` (Tab Masuk, validasi, toggle password, forgot password link).
   - `RegisterView.tsx` (Tab Pendaftaran akun customer baru).
   - `ForgotPasswordView.tsx` (Form permintaan link reset kata sandi).
   - `ResetPasswordView.tsx` (Form input kata sandi baru berbasis token URL).
-- [ ] 2.7. Hubungkan seluruh views dan router hash di `src/App.tsx` lengkap dengan pembacaan query param `return_to`.
+- [x] 2.7. Hubungkan seluruh views dan router hash di `src/App.tsx` lengkap dengan pembacaan query param `return_to`.
 
 ### Fase 3: Integrasi Token Handoff di `frontend/admin` & `frontend/customer`
 - [ ] 3.1. Penyesuaian `frontend/admin`:

@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #A3158A;
+  --color-primary-hover: #861071;
+  --color-primary-container: #FFD6F5;
+  --color-on-primary: #FFFFFF;
+  --color-on-primary-container: #38002E;
+  
+  --color-secondary: #B45309;
+  --color-secondary-container: #FEF3C7;
+  --color-on-secondary: #FFFFFF;
+  --color-on-secondary-container: #451A03;
+
+  --color-tertiary: #6D28D9;
+  --color-tertiary-container: #EDE9FE;
+  
+  --color-surface: #FBF8FF;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low: #F7F2FA;
+  --color-surface-container: #F3EDF7;
+  --color-surface-container-high: #ECE6F0;
+  --color-surface-container-highest: #E6DFF0;
+  
+  --color-on-surface: #1B1B1F;
+  --color-on-surface-variant: #49454F;
+  
+  --color-outline: #79747E;
+  --color-outline-variant: #CAC4D0;
+  
+  --color-error: #B3261E;
+  --color-error-container: #F9DEDC;
+  --color-on-error: #FFFFFF;
+  
+  --color-success: #15803D;
+  --color-success-container: #DCFCE7;
+
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.03);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.25s ease-out both;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.5s ease-in-out infinite;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #FBF8FF;
+  color: #1B1B1F;
+  -webkit-font-smoothing: antialiased;
+}
