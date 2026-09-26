@@ -62,21 +62,11 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
 
       {/* Main Card */}
       <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/30 p-8 shadow-sm">
-        {/* Navigation Tabs (Masuk vs Daftar) */}
-        <div className="flex bg-surface-container-low p-1 rounded-2xl mb-6">
-          <button
-            type="button"
-            onClick={onSwitchToLogin}
-            className="flex-1 py-2 text-xs font-semibold rounded-xl text-on-surface-variant hover:text-on-surface transition-all"
-          >
-            Masuk
-          </button>
-          <button
-            type="button"
-            className="flex-1 py-2 text-xs font-bold rounded-xl bg-surface-container-lowest text-primary shadow-sm transition-all"
-          >
-            Daftar Akun
-          </button>
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-on-surface">Daftar Akun Baru</h2>
+          <p className="text-xs text-on-surface-variant mt-1">
+            Lengkapi data di bawah ini untuk memulai membuat undangan digital.
+          </p>
         </div>
 
         {/* Error Alert */}
