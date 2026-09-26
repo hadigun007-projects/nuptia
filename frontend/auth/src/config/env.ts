@@ -35,20 +35,27 @@ export function resolveRedirectTarget(
 
   let targetUrl = defaultBaseUrl;
 
-  // Jika ada parameter return_to, periksa apakah valid
+  // Validasi return_to yang ketat berdasarkan peran akun (Role Enforcement):
+  // - Akun Customer HANYA boleh diarahkan ke CUSTOMER_APP_URL (abaikan jika mencoba ke admin)
+  // - Akun Internal Admin boleh ke ADMIN_APP_URL atau CUSTOMER_APP_URL
   if (returnToParam && returnToParam.trim()) {
     try {
       const decoded = decodeURIComponent(returnToParam.trim());
       const parsed = new URL(decoded);
-      
-      // Keamanan: Pastikan return_to berasal dari host admin atau customer (atau relative)
-      const allowedOrigins = [
-        new URL(ADMIN_APP_URL).origin,
-        new URL(CUSTOMER_APP_URL).origin,
-      ];
+      const adminOrigin = new URL(ADMIN_APP_URL).origin;
+      const customerOrigin = new URL(CUSTOMER_APP_URL).origin;
 
-      if (allowedOrigins.includes(parsed.origin)) {
-        targetUrl = decoded;
+      if (isAdmin) {
+        if (parsed.origin === adminOrigin || parsed.origin === customerOrigin) {
+          targetUrl = decoded;
+        }
+      } else {
+        // Customer DILARANG dialihkan ke admin origin
+        if (parsed.origin === customerOrigin) {
+          targetUrl = decoded;
+        } else {
+          targetUrl = CUSTOMER_APP_URL;
+        }
       }
     } catch {
       // Jika bukan URL absolut yang valid, gunakan defaultBaseUrl
