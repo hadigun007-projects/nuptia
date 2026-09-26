@@ -54,8 +54,8 @@
   - Update fungsi `logout` di customer.
 
 ### Fase 4: Integrasi Landing Page (`frontend/home`) & Dev Tooling (`Makefile`)
-- [ ] 4.1. Perbarui tombol "Masuk" dan CTA di `frontend/home/src/components/Navbar.tsx` agar mengarah ke `http://localhost:5175`.
-- [ ] 4.2. Perbarui `Makefile`:
+- [x] 4.1. Perbarui tombol "Masuk" dan CTA di `frontend/home/src/components/Navbar.tsx` agar mengarah ke `http://localhost:5175`.
+- [x] 4.2. Perbarui `Makefile`:
   - Tambah target `dev-auth` (`npm --prefix frontend/auth run dev`).
   - Tambah target `build-auth` (`npm --prefix frontend/auth run build`).
   - Update `make install` agar menginstal node_modules di `frontend/auth`.

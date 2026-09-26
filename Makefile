@@ -1,4 +1,4 @@
-.PHONY: help install dev dev-home dev-customer dev-admin dev-backend dev-template mailpit seed-backend build build-home build-customer build-admin build-backend start prod build-run clean kill docker-up docker-down docker-logs
+.PHONY: help install dev dev-home dev-customer dev-admin dev-auth dev-backend dev-template mailpit seed-backend build build-home build-customer build-admin build-auth build-backend start prod build-run clean kill docker-up docker-down docker-logs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -18,11 +18,12 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo "Gunakan: $(CYAN)make [target]$(RESET)"
 	@echo ""
 	@echo "$(BOLD)Perintah Pengembangan (Development):$(RESET)"
-	@echo "  $(GREEN)make dev$(RESET)            Jalankan SEMUA modul (Home, Customer, Admin, & Backend API) bersamaan"
-	@echo "  $(GREEN)make kill$(RESET)           Bebaskan port 3000, 5173, 5174, 5000 (gunakan jika 'address already in use')"
+	@echo "  $(GREEN)make dev$(RESET)            Jalankan SEMUA modul (Home, Customer, Admin, Auth, & Backend API) bersamaan"
+	@echo "  $(GREEN)make kill$(RESET)           Bebaskan port 3000, 5173, 5174, 5175, 5000 (gunakan jika 'address already in use')"
 	@echo "  $(GREEN)make dev-home$(RESET)       Jalankan aplikasi Landing Page (Next.js di port 3000)"
 	@echo "  $(GREEN)make dev-customer$(RESET)   Jalankan Customer Dashboard (Vite di port 5173)"
 	@echo "  $(GREEN)make dev-admin$(RESET)      Jalankan Admin Dashboard (Vite di port 5174)"
+	@echo "  $(GREEN)make dev-auth$(RESET)       Jalankan Auth Service (Vite di port 5175)"
 	@echo "  $(GREEN)make dev-backend$(RESET)    Jalankan Backend REST API (Go + Gin di port 5000)"
 	@echo "  $(GREEN)make mailpit$(RESET)        Jalankan Mailpit email testing server (Web UI: http://localhost:8025)"
 	@echo "  $(GREEN)make dev-template$(RESET)   Jalankan preview standalone template (Wedding Rustic di port 8080)"
@@ -31,7 +32,7 @@ help: ## Menampilkan panduan penggunaan perintah Makefile
 	@echo ""
 	@echo "$(BOLD)Build & Jalankan Produksi:$(RESET)"
 	@echo "  $(GREEN)make prod$(RESET)           Build SEMUA modul lalu langsung jalankan (mode produksi)"
-	@echo "  $(GREEN)make build-run$(RESET)      Sama dengan 'make prod' (build & jalankan)"
+	@echo "  $(GREEN)make build-run$(RESET)      Sama dengan 'make prod' (build lalu jalankan)"
 	@echo "  $(GREEN)make build$(RESET)          Build semua aplikasi & backend binary untuk produksi"
 	@echo "  $(GREEN)make start$(RESET)          Jalankan semua aplikasi hasil build (mode produksi)"
 	@echo "  $(GREEN)make install$(RESET)        Instal dependensi untuk semua modul (frontend & backend)"
@@ -51,22 +52,26 @@ install: ## Instal dependensi untuk semua aplikasi
 	@npm --prefix frontend/customer install
 	@echo "$(CYAN)Menginstal dependensi frontend/admin...$(RESET)"
 	@npm --prefix frontend/admin install
+	@echo "$(CYAN)Menginstal dependensi frontend/auth...$(RESET)"
+	@npm --prefix frontend/auth install
 	@echo "$(CYAN)Mengunduh dependensi backend (Go modules)...$(RESET)"
 	@cd backend && go mod download
 	@echo "$(GREEN)Semua dependensi berhasil diinstal!$(RESET)"
 
 dev: ## Jalankan semua aplikasi secara bersamaan
-	@echo "$(YELLOW)Membebaskan port sebelumnya (3000, 5173, 5174, 5000)...$(RESET)"
+	@echo "$(YELLOW)Membebaskan port sebelumnya (3000, 5173, 5174, 5175, 5000)...$(RESET)"
 	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5174 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5175 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
 	@sleep 1
-	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), Admin (port 5174), & API (port 5000)...$(RESET)"
-	@npx -y concurrently --kill-others-on-fail --raw -n "HOME,CUSTOMER,ADMIN,API" -c "cyan.bold,magenta.bold,blue.bold,green.bold" \
+	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), Admin (port 5174), Auth (port 5175), & API (port 5000)...$(RESET)"
+	@npx -y concurrently --kill-others-on-fail --raw -n "HOME,CUSTOMER,ADMIN,AUTH,API" -c "cyan.bold,magenta.bold,blue.bold,yellow.bold,green.bold" \
 		"npm --prefix frontend/home run dev" \
 		"npm --prefix frontend/customer run dev" \
 		"npm --prefix frontend/admin run dev" \
+		"npm --prefix frontend/auth run dev" \
 		"cd backend && go run cmd/api/main.go"
 
 dev-home: ## Jalankan hanya frontend/home
@@ -80,6 +85,10 @@ dev-customer: ## Jalankan hanya frontend/customer
 dev-admin: ## Jalankan hanya frontend/admin
 	@echo "$(BLUE)Menjalankan Nuptia Admin Dashboard (React 19 + Vite di port 5174)...$(RESET)"
 	@npm --prefix frontend/admin run dev
+
+dev-auth: ## Jalankan hanya frontend/auth
+	@echo "$(YELLOW)Menjalankan Nuptia Auth Service (React 19 + Vite di port 5175)...$(RESET)"
+	@npm --prefix frontend/auth run dev
 
 dev-backend: ## Jalankan hanya backend Go API
 	@echo "$(GREEN)Menjalankan Nuptia Backend REST API (Go + Gin di port 5000)...$(RESET)"
@@ -101,7 +110,7 @@ dev-template: ## Jalankan preview template wedding-rustic
 	@echo "$(YELLOW)Menjalankan preview template di http://localhost:8080...$(RESET)"
 	@npx -y serve frontend/templates/wedding-rustic -l 8080
 
-build: build-home build-customer build-admin build-backend ## Build semua aplikasi dan backend untuk produksi
+build: build-home build-customer build-admin build-auth build-backend ## Build semua aplikasi dan backend untuk produksi
 	@echo "$(GREEN)Semua aplikasi dan backend binary berhasil di-build!$(RESET)"
 
 build-home: ## Build frontend/home
@@ -116,33 +125,40 @@ build-admin: ## Build frontend/admin
 	@echo "$(BLUE)Building frontend/admin (Vite)...$(RESET)"
 	@npm --prefix frontend/admin run build
 
+build-auth: ## Build frontend/auth
+	@echo "$(YELLOW)Building frontend/auth (Vite)...$(RESET)"
+	@npm --prefix frontend/auth run build
+
 build-backend: ## Build binary backend Go
 	@echo "$(GREEN)Building backend binary (Go)...$(RESET)"
 	@cd backend && go build -o bin/api cmd/api/main.go
 
 start: ## Jalankan semua aplikasi hasil build (mode produksi)
-	@echo "$(YELLOW)Membebaskan port sebelumnya (3000, 5173, 5174, 5000)...$(RESET)"
+	@echo "$(YELLOW)Membebaskan port sebelumnya (3000, 5173, 5174, 5175, 5000)...$(RESET)"
 	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5174 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5175 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
 	@sleep 1
-	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), Admin (port 5174), & API (port 5000) [PRODUKSI]...$(RESET)"
-	@npx -y concurrently --kill-others-on-fail --raw -n "HOME,CUSTOMER,ADMIN,API" -c "cyan.bold,magenta.bold,blue.bold,green.bold" \
+	@echo "$(MAGENTA)Menjalankan Home (port 3000), Customer (port 5173), Admin (port 5174), Auth (port 5175), & API (port 5000) [PRODUKSI]...$(RESET)"
+	@npx -y concurrently --kill-others-on-fail --raw -n "HOME,CUSTOMER,ADMIN,AUTH,API" -c "cyan.bold,magenta.bold,blue.bold,yellow.bold,green.bold" \
 		"npm --prefix frontend/home run start" \
 		"npm --prefix frontend/customer run preview -- --port 5173" \
 		"npm --prefix frontend/admin run preview -- --port 5174" \
+		"npm --prefix frontend/auth run preview -- --port 5175" \
 		"cd backend && ./bin/api"
 
 prod: build start ## Build SEMUA modul lalu langsung jalankan (mode produksi)
 
 build-run: build start ## Alias untuk 'make prod' (build lalu jalankan)
 
-kill: ## Bebaskan port yang digunakan (3000, 5173, 5174, 5000)
-	@echo "$(YELLOW)Membebaskan port 3000, 5173, 5174, 5000...$(RESET)"
+kill: ## Bebaskan port yang digunakan (3000, 5173, 5174, 5175, 5000)
+	@echo "$(YELLOW)Membebaskan port 3000, 5173, 5174, 5175, 5000...$(RESET)"
 	@lsof -ti :3000 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5173 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5174 | xargs kill -9 2>/dev/null || true
+	@lsof -ti :5175 | xargs kill -9 2>/dev/null || true
 	@lsof -ti :5000 | xargs kill -9 2>/dev/null || true
 	@echo "$(GREEN)Port berhasil dibebaskan!$(RESET)"
 
@@ -151,6 +167,7 @@ clean: ## Hapus folder build dan cache
 	@rm -rf frontend/home/.next
 	@rm -rf frontend/customer/dist
 	@rm -rf frontend/admin/dist
+	@rm -rf frontend/auth/dist
 	@rm -rf backend/bin
 	@echo "$(GREEN)Pembersihan selesai!$(RESET)"
 

@@ -85,7 +85,7 @@ export default function Navbar() {
                 {/* Action Buttons */}
                 <div className="hidden md:flex items-center gap-4">
                     <a
-                        href="#masuk"
+                        href={process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:5175'}
                         className="text-sm font-semibold text-slate-700 hover:text-rose-600 px-3 py-2 transition-colors"
                     >
                         Masuk
@@ -154,7 +154,7 @@ export default function Navbar() {
 
                     <div className="pt-4 border-t border-amber-100 flex flex-col gap-3">
                         <a
-                            href="#masuk"
+                            href={process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:5175'}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="text-center py-2.5 text-sm font-semibold text-slate-700 rounded-xl border border-stone-300 hover:bg-stone-50"
                         >
