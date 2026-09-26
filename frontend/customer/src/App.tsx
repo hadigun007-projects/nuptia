@@ -10,7 +10,7 @@ export default function App() {
   const [currentHash, setCurrentHash] = useState(() => window.location.hash || '#/');
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const { user } = useAuth();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
 
   const {
     invitations,
@@ -74,6 +74,35 @@ export default function App() {
     navigateTo(`#/editor/${blank.id}?isNew=true&mode=timeline`);
   }, [createBlankInvitation, navigateTo, showToast]);
 
+  const handleNavigateToLogin = useCallback(() => {
+    const returnTo = encodeURIComponent(window.location.href);
+    const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
+    window.location.href = `${authUrl}/#/login?return_to=${returnTo}`;
+  }, []);
+
+  // ── Authentication Guards ─────────────────────────────────────────────────
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-xs font-medium text-on-surface-variant">Memvalidasi sesi pengguna...</p>
+      </div>
+    );
+  }
+
+  // Guard: Belum terautentikasi → Alihkan ke Portal Auth Nuptia terpusat
+  if (!isAuthenticated) {
+    const returnTo = encodeURIComponent(window.location.href);
+    const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
+    window.location.href = `${authUrl}/#/login?return_to=${returnTo}`;
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-xs font-medium text-on-surface-variant">Mengalihkan ke Portal Autentikasi Nuptia...</p>
+      </div>
+    );
+  }
+
   // ── Route resolution ──────────────────────────────────────────────────────
   const isLoginRoute = currentHash === '#/login' || currentHash === '#/register';
   const editorMatch = currentHash.match(/^#\/editor\/([^/?#]+)/);
@@ -81,28 +110,8 @@ export default function App() {
   const isNewInvitation = currentHash.includes('isNew=true');
   const initialTimelineMode = currentHash.includes('mode=timeline') || isNewInvitation;
 
-  const handleNavigateToLogin = useCallback(() => {
-    const returnTo = encodeURIComponent(window.location.href);
-    const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
-    window.location.href = `${authUrl}/#/login?return_to=${returnTo}`;
-  }, []);
-
-  useEffect(() => {
-    if (isLoginRoute) {
-      const mode = currentHash.includes('register') ? 'register' : 'login';
-      const returnTo = encodeURIComponent(window.location.origin + '/#/');
-      const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
-      window.location.href = `${authUrl}/#/${mode}?return_to=${returnTo}`;
-    }
-  }, [isLoginRoute, currentHash]);
-
   if (isLoginRoute) {
-    return (
-      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
-        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
-        <p className="text-xs font-medium text-on-surface-variant">Mengalihkan ke Portal Autentikasi Nuptia...</p>
-      </div>
-    );
+    navigateTo('#/');
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
