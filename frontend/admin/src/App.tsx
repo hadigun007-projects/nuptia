@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from './hooks/useAdminAuth';
 import { useAdminData } from './hooks/useAdminData';
 import { AccessDenied } from './components/common/AccessDenied';
-import { LoginView } from './views/LoginView';
-import { ForgotPasswordView } from './views/ForgotPasswordView';
-import { ResetPasswordView } from './views/ResetPasswordView';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { DashboardView } from './views/DashboardView';
 import { UsersView } from './views/UsersView';
@@ -15,7 +12,7 @@ import { SettingsView } from './views/SettingsView';
 import { AdminRoute } from './types';
 
 export default function App() {
-  const { user, isAdmin, loading: authLoading, checkAuth, devSetAdmin, logout, login, isAuthenticated } = useAdminAuth();
+  const { user, isAdmin, loading: authLoading, checkAuth, devSetAdmin, logout, isAuthenticated } = useAdminAuth();
   const {
     stats,
     users,
@@ -52,13 +49,17 @@ export default function App() {
     );
   }
 
-  // Public routes — accessible without auth
+  // Delegasikan rute auth publik langsung ke portal frontend/auth
   const path = currentHash.replace(/^#\/?/, '').split('?')[0];
-  if (path === 'forgot-password') {
-    return <ForgotPasswordView onBack={() => { window.location.hash = '#/'; }} />;
-  }
-  if (path === 'reset-password') {
-    return <ResetPasswordView onSuccess={() => { window.location.hash = '#/'; }} />;
+  if (path === 'forgot-password' || path === 'reset-password') {
+    const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
+    window.location.href = `${authUrl}/${window.location.hash}`;
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-xs font-medium text-on-surface-variant">Mengalihkan ke Portal Autentikasi Nuptia...</p>
+      </div>
+    );
   }
 
   // Guard 1: Belum terautentikasi → Alihkan ke Portal Auth Nuptia terpusat

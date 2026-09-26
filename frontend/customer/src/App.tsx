@@ -4,7 +4,6 @@ import { useInvitations } from './hooks/useInvitations';
 import { useAuth } from './hooks/useAuth';
 import { DashboardView } from './views/DashboardView';
 import { EditorView } from './views/EditorView';
-import { LoginView } from './views/LoginView';
 import { ToastContainer } from './components/common/UIComponents';
 
 export default function App() {
