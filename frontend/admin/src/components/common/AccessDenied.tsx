@@ -55,13 +55,13 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({
         {/* Action Buttons */}
         <div className="space-y-3">
           <a
-            href="http://localhost:5173/#/login"
+            href={import.meta.env.VITE_AUTH_URL || 'http://localhost:5175'}
             className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-primary text-on-primary font-semibold text-sm hover:opacity-95 transition-opacity"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
-            Masuk di Portal Nuptia (Port 5173)
+            Ganti Akun di Portal Nuptia Auth
           </a>
 
           <button

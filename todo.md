@@ -44,11 +44,11 @@
 - [x] 2.7. Hubungkan seluruh views dan router hash di `src/App.tsx` lengkap dengan pembacaan query param `return_to`.
 
 ### Fase 3: Integrasi Token Handoff di `frontend/admin` & `frontend/customer`
-- [ ] 3.1. Penyesuaian `frontend/admin`:
+- [x] 3.1. Penyesuaian `frontend/admin`:
   - Perbarui `frontend/admin/src/hooks/useAdminAuth.ts` untuk menangkap `#auth_token=<TOKEN>&return_to=<URL>` saat startup, menyimpannya di `localStorage`, validasi sesi, lalu bersihkan URL hash.
   - Perbarui guard di `frontend/admin/src/App.tsx`: jika `!isAuthenticated`, redirect ke `http://localhost:5175/#/login?return_to=...`.
   - Update tombol `logout` agar mengarah ke `frontend/auth`.
-- [ ] 3.2. Penyesuaian `frontend/customer`:
+- [x] 3.2. Penyesuaian `frontend/customer`:
   - Perbarui `frontend/customer/src/hooks/useAuth.ts` untuk menangkap token callback dari hash URL.
   - Ubah tombol "Masuk" dan rute login di `frontend/customer/src/App.tsx` agar diarahkan ke `http://localhost:5175/#/login?return_to=...`.
   - Update fungsi `logout` di customer.

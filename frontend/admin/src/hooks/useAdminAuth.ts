@@ -2,10 +2,38 @@ import { useState, useEffect, useCallback } from 'react';
 import { AdminUser } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const AUTH_APP_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
 const TOKEN_KEY = 'nuptia_auth_token';
 const USER_KEY = 'nuptia_user';
 
+function getInitialToken(): string | null {
+  try {
+    const hash = window.location.hash;
+    if (hash && hash.includes('auth_token=')) {
+      const cleanHash = hash.replace(/^#\/?/, '');
+      const params = new URLSearchParams(cleanHash.startsWith('?') ? cleanHash.slice(1) : cleanHash);
+      const handoffToken = params.get('auth_token');
+      const targetRedirect = params.get('auth_redirect');
+      if (handoffToken) {
+        localStorage.setItem(TOKEN_KEY, handoffToken);
+        const nextHash = targetRedirect
+          ? targetRedirect.startsWith('/')
+            ? `#${targetRedirect}`
+            : `#/${targetRedirect}`
+          : '#/';
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + nextHash);
+        return handoffToken;
+      }
+    }
+  } catch {
+    // fallback to storage
+  }
+  return localStorage.getItem(TOKEN_KEY) || null;
+}
+
 export function useAdminAuth() {
+  const [token, setToken] = useState<string | null>(getInitialToken);
+
   const [user, setUser] = useState<AdminUser | null>(() => {
     try {
       const saved = localStorage.getItem(USER_KEY);
@@ -13,10 +41,6 @@ export function useAdminAuth() {
     } catch {
       return null;
     }
-  });
-
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem(TOKEN_KEY) || null;
   });
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -69,6 +93,7 @@ export function useAdminAuth() {
     setToken(null);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    window.location.href = `${AUTH_APP_URL}/#/login`;
   }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<void> => {

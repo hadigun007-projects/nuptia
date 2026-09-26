@@ -61,13 +61,16 @@ export default function App() {
     return <ResetPasswordView onSuccess={() => { window.location.hash = '#/'; }} />;
   }
 
-  // Guard 1: Belum terautentikasi → halaman Login
+  // Guard 1: Belum terautentikasi → Alihkan ke Portal Auth Nuptia terpusat
   if (!isAuthenticated) {
+    const returnTo = encodeURIComponent(window.location.href);
+    const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
+    window.location.href = `${authUrl}/#/login?return_to=${returnTo}`;
     return (
-      <LoginView
-        onLogin={login}
-        onForgotPassword={() => { window.location.hash = '#/forgot-password'; }}
-      />
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-xs font-medium text-on-surface-variant">Mengalihkan ke Portal Autentikasi Nuptia...</p>
+      </div>
     );
   }
 

@@ -82,22 +82,41 @@ export default function App() {
   const isNewInvitation = currentHash.includes('isNew=true');
   const initialTimelineMode = currentHash.includes('mode=timeline') || isNewInvitation;
 
+  const handleNavigateToLogin = useCallback(() => {
+    const returnTo = encodeURIComponent(window.location.href);
+    const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
+    window.location.href = `${authUrl}/#/login?return_to=${returnTo}`;
+  }, []);
+
+  useEffect(() => {
+    if (isLoginRoute) {
+      const mode = currentHash.includes('register') ? 'register' : 'login';
+      const returnTo = encodeURIComponent(window.location.origin + '/#/');
+      const authUrl = import.meta.env.VITE_AUTH_URL || 'http://localhost:5175';
+      window.location.href = `${authUrl}/#/${mode}?return_to=${returnTo}`;
+    }
+  }, [isLoginRoute, currentHash]);
+
+  if (isLoginRoute) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-xs font-medium text-on-surface-variant">Mengalihkan ke Portal Autentikasi Nuptia...</p>
+      </div>
+    );
+  }
+
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <>
-      {isLoginRoute ? (
-        <LoginView
-          onSuccess={() => navigateTo('#/')}
-          onBack={() => navigateTo('#/')}
-        />
-      ) : activeEditorId ? (
+      {activeEditorId ? (
         <EditorView
           invitationId={activeEditorId}
           isNew={isNewInvitation}
           initialTimelineMode={initialTimelineMode}
           onBackToDashboard={() => navigateTo('#/')}
           showToast={showToast}
-          onNavigateToLogin={() => navigateTo('#/login')}
+          onNavigateToLogin={handleNavigateToLogin}
         />
       ) : (
         <DashboardView
@@ -109,7 +128,7 @@ export default function App() {
           onDeleteInvitation={deleteInvitation}
           onChangeStatus={updateInvitationStatus}
           showToast={showToast}
-          onNavigateToLogin={() => navigateTo('#/login')}
+          onNavigateToLogin={handleNavigateToLogin}
         />
       )}
 
