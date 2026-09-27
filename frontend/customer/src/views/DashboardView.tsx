@@ -83,28 +83,36 @@ export function DashboardView({
         </section>
 
         {/* Cards Grid */}
-        {invitations.length > 0 ? (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 pb-12">
-            {invitations.map((invitation) => (
-              <InvitationCard
-                key={invitation.id}
-                invitation={invitation}
-                onEdit={onNavigateToEditor}
-                onPreview={(inv) => setPreviewingInv(inv)}
-                onDuplicate={handleDuplicate}
-                onDelete={handleDelete}
-                onChangeStatus={handleStatusChange}
-                onCopyLink={handleCopyLink}
-              />
-            ))}
-          </section>
-        ) : (
-          <EmptyState
-            isSearch={false}
-            onReset={() => {}}
-            onCreateNew={onCreateBlankInvitation}
-          />
-        )}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 pb-12">
+          {/* Card Pertama: Button Buat Undangan Baru */}
+          <button
+            onClick={onCreateBlankInvitation}
+            className="group relative flex flex-col items-center justify-center bg-white rounded-[32px] border border-neutral-200/80 hover:border-neutral-300 transition-all duration-300 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-xl active:scale-[0.98] min-h-[340px] sm:min-h-[360px] h-full p-8"
+          >
+            <div className="w-12 h-12 flex items-center justify-center text-neutral-400 group-hover:text-neutral-600 transition-colors">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </div>
+            <span className="text-base font-medium text-neutral-600 group-hover:text-neutral-900 transition-colors mt-3">
+              Buat baru
+            </span>
+          </button>
+
+          {/* Invitation Cards */}
+          {invitations.map((invitation) => (
+            <InvitationCard
+              key={invitation.id}
+              invitation={invitation}
+              onEdit={onNavigateToEditor}
+              onPreview={(inv) => setPreviewingInv(inv)}
+              onDuplicate={handleDuplicate}
+              onDelete={handleDelete}
+              onChangeStatus={handleStatusChange}
+              onCopyLink={handleCopyLink}
+            />
+          ))}
+        </section>
       </main>
 
       {/* Modal Buat Undangan Baru */}

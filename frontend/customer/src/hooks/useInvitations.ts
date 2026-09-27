@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Invitation, CreateInvitationInput, Status } from '../types';
 import { INITIAL_INVITATIONS, TEMPLATE_OPTIONS } from '../data/seedData';
 
-const STORAGE_KEY = 'nuptia_customer_invitations_v2';
+const STORAGE_KEY = 'nuptia_customer_invitations_v3';
 
 export function useInvitations() {
   const [invitations, setInvitations] = useState<Invitation[]>(() => {
