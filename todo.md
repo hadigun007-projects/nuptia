@@ -107,7 +107,7 @@
   - Logika pembaruan status undangan (`Draft` &rarr; `Published` &rarr; `Live`).
 
 ### Fase 4: REST API Handler & Routing Backend
-- [ ] 4.1. Buat `backend/internal/handler/invitation_handler.go`:
+- [x] 4.1. Buat `backend/internal/handler/invitation_handler.go`:
   - `GetMyInvitations` (`GET /api/v1/invitations`) &rarr; Ambil daftar undangan milik user yang sedang login.
   - `GetInvitationByID` (`GET /api/v1/invitations/:id`) &rarr; Ambil detail 1 undangan.
   - `CreateInvitation` (`POST /api/v1/invitations`) &rarr; Buat undangan baru.
@@ -116,8 +116,8 @@
   - `DuplicateInvitation` (`POST /api/v1/invitations/:id/duplicate`) &rarr; Duplikasi undangan.
   - `UpdateStatus` (`PATCH /api/v1/invitations/:id/status`) &rarr; Ubah status.
   - `GetPublicInvitationBySlug` (`GET /api/v1/invitations/public/:slug`) &rarr; Akses publik website undangan.
-- [ ] 4.2. Daftarkan grup rute `/api/v1/invitations` di `backend/cmd/api/main.go` di bawah `AuthMiddleware(cfg.JWTSecret)`.
-- [ ] 4.3. Uji coba endpoint API backend (jalankan seeder, uji request via curl / unit tests).
+- [x] 4.2. Daftarkan grup rute `/api/v1/invitations` di `backend/cmd/api/main.go` di bawah `AuthMiddleware(cfg.JWTSecret)`.
+- [x] 4.3. Uji coba endpoint API backend (jalankan seeder, uji request via curl / unit tests).
 
 ### Fase 5: Integrasi Frontend Customer (`frontend/customer`)
 - [ ] 5.1. Refaktor `frontend/customer/src/hooks/useInvitations.ts`:

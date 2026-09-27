@@ -64,6 +64,10 @@ func main() {
 	authService := service.NewAuthService(userRepo, resetRepo, emailSvc, cfg)
 	authHandler := handler.NewAuthHandler(authService)
 
+	invitationRepo := repository.NewInvitationRepository(db)
+	invitationService := service.NewInvitationService(invitationRepo, templateRepo)
+	invitationHandler := handler.NewInvitationHandler(invitationService)
+
 	adminHandler := handler.NewAdminHandler(userRepo, templateRepo)
 
 	// 5. Setup Gin Router
@@ -92,6 +96,7 @@ func main() {
 	v1Protected.Use(middleware.AuthMiddleware(cfg.JWTSecret))
 
 	authHandler.RegisterRoutes(v1, v1Protected)
+	invitationHandler.RegisterRoutes(v1, v1Protected)
 
 	// Admin API v1 group with JWT Auth & RBAC Middleware
 	v1Admin := v1.Group("/admin")
