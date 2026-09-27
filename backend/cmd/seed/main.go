@@ -36,6 +36,12 @@ func main() {
 		log.Fatalf("Gagal melakukan seeding users: %v", err)
 	}
 
+	// 3. Seed invitations
+	log.Println("[Seeder CLI] Memulai seeding data undangan...")
+	if err := database.SeedDefaultInvitations(db); err != nil {
+		log.Fatalf("Gagal melakukan seeding undangan: %v", err)
+	}
+
 	log.Println("==================================================")
 	log.Println("[Seeder CLI] Selesai dengan sukses!")
 	log.Println("")

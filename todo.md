@@ -81,15 +81,15 @@
 - [x] 1.2. Daftarkan `&domain.Invitation{}` pada `AutoMigrate` di `backend/internal/database/postgres.go`.
 
 ### Fase 2: Database Seeder Undangan (`backend/internal/database/seeder.go`)
-- [ ] 2.1. Implementasikan fungsi seeder `SeedDefaultInvitations(db *gorm.DB) error` di `backend/internal/database/seeder.go`:
+- [x] 2.1. Implementasikan fungsi seeder `SeedDefaultInvitations(db *gorm.DB) error` di `backend/internal/database/seeder.go`:
   - Siapkan 3 data undangan contoh lengkap (Reza & Hana, Dimas & Riana, Arya & Sarah) dengan 15 modul form detail.
   - Tautkan undangan ke akun customer seeder:
     - `dimas.aditya@gmail.com` &rarr; Undangan "Dimas & Riana" (`status: Published`)
     - `sarah.siti@yahoo.com` &rarr; Undangan "Arya & Sarah" (`status: Draft`)
     - `rian.pratama@gmail.com` &rarr; Undangan "Reza & Hana" (`status: Live`)
   - Terapkan logika idempotensi (cek berdasarkan slug / ID sebelum membuat baru).
-- [ ] 2.2. Daftarkan `SeedDefaultInvitations` ke CLI seeder di `backend/cmd/seed/main.go`.
-- [ ] 2.3. Tambahkan auto-seed undangan di `backend/cmd/api/main.go` saat server pertama kali berjalan dan tabel masih kosong.
+- [x] 2.2. Daftarkan `SeedDefaultInvitations` ke CLI seeder di `backend/cmd/seed/main.go`.
+- [x] 2.3. Tambahkan auto-seed undangan di `backend/cmd/api/main.go` saat server pertama kali berjalan dan tabel masih kosong.
 
 ### Fase 3: Repository & Service Layer Backend
 - [ ] 3.1. Buat `backend/internal/repository/invitation_repository.go`:
