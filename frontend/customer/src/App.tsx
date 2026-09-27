@@ -63,7 +63,7 @@ export default function App() {
     (input: CreateInvitationInput) => {
       const created = createInvitation(input);
       showToast(`Undangan "${created.title}" berhasil dibuat!`, 'success');
-      navigateTo(`#/editor/${created.id}`);
+      navigateTo(`#/editor/${created.id}?isNew=true&mode=timeline`);
     },
     [createInvitation, navigateTo, showToast]
   );
@@ -108,7 +108,7 @@ export default function App() {
   const editorMatch = currentHash.match(/^#\/editor\/([^/?#]+)/);
   const activeEditorId = editorMatch ? editorMatch[1] : null;
   const isNewInvitation = currentHash.includes('isNew=true');
-  const initialTimelineMode = currentHash.includes('mode=timeline') || isNewInvitation;
+  const initialTimelineMode = isNewInvitation && (currentHash.includes('mode=timeline') || true);
 
   if (isLoginRoute) {
     navigateTo('#/');

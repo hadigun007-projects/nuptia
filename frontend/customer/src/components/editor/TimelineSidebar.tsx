@@ -34,8 +34,6 @@ interface TimelineSidebarProps {
   onSelectTab: (tab: Tab) => void;
   completedSteps?: Partial<Record<Tab, boolean>>;
   visitedTabs?: Set<Tab>;
-  isTimelineMode?: boolean;
-  onToggleMode?: () => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
 }
@@ -63,7 +61,7 @@ export function TimelineSidebar({
         }`}
     >
       {/* Main List: 4 Category Nodes with Sub-items */}
-      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4 mt-8">
+      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
         {CATEGORY_STEPS.map((cat, catIdx) => {
           const isCurrentCat = catIdx === safeCatIndex;
           const isPastCat = catIdx < safeCatIndex;

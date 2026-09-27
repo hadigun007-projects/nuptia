@@ -259,7 +259,7 @@ function EditorViewInner({
   const activeNormalizedTab: Tab =
     tab === 'event' ? 'pengantin' : tab === 'media' ? 'galeri' : tab === 'guests' ? 'kado' : tab;
 
-  const [timelineMode, setTimelineMode] = useState<boolean>(initialTimelineMode || isNew);
+  const [timelineMode] = useState<boolean>(Boolean(isNew));
   const [visitedTabs, setVisitedTabs] = useState<Set<Tab>>(() => new Set([activeNormalizedTab]));
 
   useEffect(() => {
@@ -372,7 +372,6 @@ function EditorViewInner({
           activeTab={activeNormalizedTab}
           onSelectTab={handleSelectTab}
           isTimelineMode={timelineMode}
-          onToggleMode={() => setTimelineMode((m) => !m)}
           completedSteps={completedSteps}
           visitedTabs={visitedTabs}
         />

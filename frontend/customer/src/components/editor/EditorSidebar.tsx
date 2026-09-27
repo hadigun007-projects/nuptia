@@ -20,26 +20,18 @@ export function EditorSidebar({
   activeTab,
   onSelectTab,
   isTimelineMode = false,
-  onToggleMode,
   completedSteps = {},
   visitedTabs,
 }: EditorSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const [internalTimelineMode, setInternalTimelineMode] = useState(isTimelineMode);
 
-  // Sync internal state if prop changes
-  const effectiveTimelineMode = onToggleMode ? isTimelineMode : internalTimelineMode;
-  const handleToggleMode = onToggleMode || (() => setInternalTimelineMode((prev) => !prev));
-
-  if (effectiveTimelineMode) {
+  if (isTimelineMode) {
     return (
       <TimelineSidebar
         activeTab={activeTab}
         onSelectTab={onSelectTab}
         completedSteps={completedSteps}
         visitedTabs={visitedTabs}
-        isTimelineMode={true}
-        onToggleMode={handleToggleMode}
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed((c) => !c)}
       />
@@ -56,30 +48,6 @@ export function EditorSidebar({
         collapsed ? 'w-[74px]' : 'w-[250px]'
       }`}
     >
-      {/* Top Mode switcher */}
-      <div className="p-3 border-b border-outline-variant/30 space-y-2">
-
-        {/* Mode Toggle Pill */}
-        {!collapsed && (
-          <div className="flex items-center p-1 rounded-xl bg-surface-container border border-outline-variant/40 text-[11px] font-semibold">
-            <button
-              onClick={handleToggleMode}
-              className="flex-1 py-1 px-2 rounded-lg transition-all flex items-center justify-center gap-1 text-on-surface-variant hover:text-on-surface"
-            >
-              <Ic.Sparkles s={13} />
-              <span>Timeline</span>
-            </button>
-            <button
-              onClick={() => {}}
-              className="flex-1 py-1 px-2 rounded-lg bg-primary text-on-primary font-bold flex items-center justify-center gap-1"
-            >
-              <Ic.Check s={13} />
-              <span>Kategori</span>
-            </button>
-          </div>
-        )}
-      </div>
-
       {/* Categories & 15 Menu Items */}
       <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
         {CATEGORY_STEPS.map((cat) => (
