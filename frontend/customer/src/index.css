@@ -2,11 +2,12 @@
 @import 'tailwindcss';
 
 @theme {
-  /* M3 Expressive — Deep Berry/Rose primary, Amber secondary */
-  --color-primary: #A3158A;
-  --color-primary-container: #FFD6F5;
+  /* Brand colors */
+  --color-primary: #9C177C;
+  --color-primary-hover: #851369;
+  --color-primary-container: #FAE8F3;
   --color-on-primary: #FFFFFF;
-  --color-on-primary-container: #38002E;
+  --color-on-primary-container: #9C177C;
   --color-secondary: #B45309;
   --color-secondary-container: #FEF3C7;
   --color-on-secondary: #FFFFFF;
@@ -95,8 +96,8 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #FBF8FF;
-  color: #1B1B1F;
+  background-color: #FFFFFF;
+  color: #111827;
   -webkit-font-smoothing: antialiased;
 }
 

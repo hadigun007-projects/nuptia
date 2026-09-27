@@ -287,7 +287,7 @@ export const INITIAL_INVITATIONS: Invitation[] = [
       blessing: 'Merupakan kehormatan bagi kami atas kehadiran dan doa restu Bapak/Ibu.',
     },
     media: {
-      heroUrl: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=500&fit=crop&auto=format',
+      heroUrl: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&h=500&fit=crop&auto=format',
       gallery: [
         { id: '1', url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=400&fit=crop', caption: 'Kebersamaan Kami', loading: false },
         { id: '2', url: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?w=400&h=400&fit=crop', caption: 'Detail Bunga', loading: false },

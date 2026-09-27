@@ -71,14 +71,6 @@ export const LoginView: React.FC<LoginViewProps> = ({
           </div>
         )}
 
-        {/* Return To notification badge */}
-        {returnTo && (
-          <div className="mb-4 px-3 py-1.5 rounded-xl bg-secondary-container/40 text-on-secondary-container text-[11px] font-medium flex items-center gap-1.5">
-            <span>↪</span>
-            <span>Anda akan diarahkan kembali ke halaman sebelumnya setelah masuk.</span>
-          </div>
-        )}
-
         {/* Google OAuth Sign-in */}
         <div className="mb-5">
           <GoogleButton
