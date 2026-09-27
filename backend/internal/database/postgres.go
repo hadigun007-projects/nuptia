@@ -39,8 +39,8 @@ func InitPostgres(cfg *config.Config) (*gorm.DB, error) {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	// Run AutoMigrate for all models
-	log.Println("[Database] Menjalankan AutoMigrate untuk tabel templates, users, dan password_reset_tokens...")
-	if err := db.AutoMigrate(&domain.Template{}, &domain.User{}, &domain.PasswordResetToken{}); err != nil {
+	log.Println("[Database] Menjalankan AutoMigrate untuk tabel templates, users, password_reset_tokens, dan invitations...")
+	if err := db.AutoMigrate(&domain.Template{}, &domain.User{}, &domain.PasswordResetToken{}, &domain.Invitation{}); err != nil {
 		return nil, err
 	}
 	log.Println("[Database] Migrasi semua tabel sukses!")

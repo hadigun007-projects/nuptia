@@ -74,11 +74,11 @@
 # TODO: Migrasi Database & Seeder Undangan Customer (Hapus Hardcode & Integrasi API PostgreSQL)
 
 ### Fase 1: Domain Model & Database PostgreSQL (Go Backend)
-- [ ] 1.1. Buat file model `backend/internal/domain/invitation.go`:
+- [x] 1.1. Buat file model `backend/internal/domain/invitation.go`:
   - Definisi struct GORM `Invitation` dengan primary key `id` (VARCHAR), `user_id` (UUID foreign key ke `users.id`), `template_id`, `slug` (unique index), `title`, `status`, dan statistik views/rsvp.
   - Definisi tipe struct modular untuk 15 tab form (`EventData`, `MediaData`, `GuestData`, `LoveStoryMilestone`, `StreamingConfig`, `SocialConfig`, `GuestBookEntry`, `GreetingItem`, `InvitationSettings`, `ThemeConfig`).
   - Implementasikan interface GORM serializer `json` atau `Scan`/`Value` untuk kolom modular agar tersimpan sebagai PostgreSQL `JSONB`.
-- [ ] 1.2. Daftarkan `&domain.Invitation{}` pada `AutoMigrate` di `backend/internal/database/postgres.go`.
+- [x] 1.2. Daftarkan `&domain.Invitation{}` pada `AutoMigrate` di `backend/internal/database/postgres.go`.
 
 ### Fase 2: Database Seeder Undangan (`backend/internal/database/seeder.go`)
 - [ ] 2.1. Implementasikan fungsi seeder `SeedDefaultInvitations(db *gorm.DB) error` di `backend/internal/database/seeder.go`:
