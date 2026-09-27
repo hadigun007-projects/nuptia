@@ -92,7 +92,7 @@
 - [x] 2.3. Tambahkan auto-seed undangan di `backend/cmd/api/main.go` saat server pertama kali berjalan dan tabel masih kosong.
 
 ### Fase 3: Repository & Service Layer Backend
-- [ ] 3.1. Buat `backend/internal/repository/invitation_repository.go`:
+- [x] 3.1. Buat `backend/internal/repository/invitation_repository.go`:
   - `FindByUserID(userID uuid.UUID) ([]domain.Invitation, error)`
   - `FindByID(id string, userID uuid.UUID) (*domain.Invitation, error)`
   - `FindBySlug(slug string) (*domain.Invitation, error)`
@@ -100,7 +100,7 @@
   - `Update(invitation *domain.Invitation) error`
   - `Delete(id string, userID uuid.UUID) error`
   - `CountByUserID(userID uuid.UUID) (int64, error)`
-- [ ] 3.2. Buat `backend/internal/service/invitation_service.go`:
+- [x] 3.2. Buat `backend/internal/service/invitation_service.go`:
   - Validasi kepemilikan undangan berbasis `userID`.
   - Logika pembuatan undangan baru (generate ID dan unique slug).
   - Logika duplikasi undangan (generate slug baru, reset stats).
