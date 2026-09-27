@@ -137,3 +137,9 @@
 - [ ] 6.4. Uji coba alur Buat Undangan Baru & Editor: pastikan data baru dan perubahan form berhasil tersimpan ke database.
 - [ ] 6.5. Uji coba aksi kartu: ubah status, duplikasi, dan hapus undangan.
 - [ ] 6.6. Commit dan push ke repository git (`main`).
+
+
+1. buatkan halaman privacy and policy
+2. buatkan halaman terms and condition
+3. buatkan halaman about us
+4. buatkan halaman contact

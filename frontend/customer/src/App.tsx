@@ -14,6 +14,7 @@ export default function App() {
 
   const {
     invitations,
+    loading: invitationsLoading,
     createInvitation,
     createBlankInvitation,
     duplicateInvitation,
@@ -26,8 +27,11 @@ export default function App() {
     function handleHashChange() {
       const hash = window.location.hash || '#/';
       if (hash === '#/editor/new') {
-        const blank = createBlankInvitation();
-        window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
+        createBlankInvitation().then((blank) => {
+          if (blank) {
+            window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
+          }
+        });
         return;
       }
       setCurrentHash(hash);
@@ -36,8 +40,11 @@ export default function App() {
 
     // Check initial hash for /editor/new
     if (window.location.hash === '#/editor/new') {
-      const blank = createBlankInvitation();
-      window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
+      createBlankInvitation().then((blank) => {
+        if (blank) {
+          window.location.hash = `#/editor/${blank.id}?isNew=true&mode=timeline`;
+        }
+      });
     }
 
     return () => window.removeEventListener('hashchange', handleHashChange);
@@ -60,18 +67,30 @@ export default function App() {
   }, []);
 
   const handleCreateInvitation = useCallback(
-    (input: CreateInvitationInput) => {
-      const created = createInvitation(input);
-      showToast(`Undangan "${created.title}" berhasil dibuat!`, 'success');
-      navigateTo(`#/editor/${created.id}?isNew=true&mode=timeline`);
+    async (input: CreateInvitationInput) => {
+      try {
+        const created = await createInvitation(input);
+        if (created) {
+          showToast(`Undangan "${created.title}" berhasil dibuat!`, 'success');
+          navigateTo(`#/editor/${created.id}?isNew=true&mode=timeline`);
+        }
+      } catch (err: any) {
+        showToast(err.message || 'Gagal membuat undangan', 'error');
+      }
     },
     [createInvitation, navigateTo, showToast]
   );
 
-  const handleCreateBlankInvitation = useCallback(() => {
-    const blank = createBlankInvitation();
+  const handleCreateBlankInvitation = useCallback(async () => {
     showToast('Memulai pembuatan undangan baru...', 'info');
-    navigateTo(`#/editor/${blank.id}?isNew=true&mode=timeline`);
+    try {
+      const blank = await createBlankInvitation();
+      if (blank) {
+        navigateTo(`#/editor/${blank.id}?isNew=true&mode=timeline`);
+      }
+    } catch (err: any) {
+      showToast(err.message || 'Gagal membuat undangan baru', 'error');
+    }
   }, [createBlankInvitation, navigateTo, showToast]);
 
   const handleNavigateToLogin = useCallback(() => {
@@ -129,6 +148,7 @@ export default function App() {
       ) : (
         <DashboardView
           invitations={invitations}
+          loading={invitationsLoading}
           onNavigateToEditor={(id) => navigateTo(`#/editor/${id}`)}
           onCreateInvitation={handleCreateInvitation}
           onCreateBlankInvitation={handleCreateBlankInvitation}

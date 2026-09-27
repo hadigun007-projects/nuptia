@@ -9,6 +9,7 @@ import { useAuth } from '../hooks/useAuth';
 
 interface DashboardViewProps {
   invitations: Invitation[];
+  loading?: boolean;
   onNavigateToEditor: (id: string) => void;
   onCreateInvitation: (input: CreateInvitationInput) => void;
   onCreateBlankInvitation: () => void;
@@ -21,6 +22,7 @@ interface DashboardViewProps {
 
 export function DashboardView({
   invitations,
+  loading = false,
   onNavigateToEditor,
   onCreateInvitation,
   onCreateBlankInvitation,
@@ -99,19 +101,42 @@ export function DashboardView({
             </span>
           </button>
 
+          {/* Skeletons when loading */}
+          {loading && (
+            <>
+              <div className="bg-white rounded-[32px] border border-neutral-200/80 p-6 min-h-[340px] sm:min-h-[360px] animate-pulse flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="aspect-[16/10] bg-neutral-100 rounded-2xl" />
+                  <div className="h-5 bg-neutral-100 rounded-md w-3/4" />
+                  <div className="h-4 bg-neutral-100 rounded-md w-1/2" />
+                </div>
+                <div className="h-8 bg-neutral-100 rounded-xl w-full" />
+              </div>
+              <div className="bg-white rounded-[32px] border border-neutral-200/80 p-6 min-h-[340px] sm:min-h-[360px] animate-pulse flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="aspect-[16/10] bg-neutral-100 rounded-2xl" />
+                  <div className="h-5 bg-neutral-100 rounded-md w-3/4" />
+                  <div className="h-4 bg-neutral-100 rounded-md w-1/2" />
+                </div>
+                <div className="h-8 bg-neutral-100 rounded-xl w-full" />
+              </div>
+            </>
+          )}
+
           {/* Invitation Cards */}
-          {invitations.map((invitation) => (
-            <InvitationCard
-              key={invitation.id}
-              invitation={invitation}
-              onEdit={onNavigateToEditor}
-              onPreview={(inv) => setPreviewingInv(inv)}
-              onDuplicate={handleDuplicate}
-              onDelete={handleDelete}
-              onChangeStatus={handleStatusChange}
-              onCopyLink={handleCopyLink}
-            />
-          ))}
+          {!loading &&
+            invitations.map((invitation) => (
+              <InvitationCard
+                key={invitation.id}
+                invitation={invitation}
+                onEdit={onNavigateToEditor}
+                onPreview={(inv) => setPreviewingInv(inv)}
+                onDuplicate={handleDuplicate}
+                onDelete={handleDelete}
+                onChangeStatus={handleStatusChange}
+                onCopyLink={handleCopyLink}
+              />
+            ))}
         </section>
       </main>
 

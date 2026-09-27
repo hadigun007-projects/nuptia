@@ -55,8 +55,18 @@ export function EditorView({
   showToast,
   onNavigateToLogin,
 }: EditorViewProps) {
-  const { getInvitation, updateInvitation } = useInvitations();
+  const { getInvitation, updateInvitation, loading } = useInvitations();
   const invitation = getInvitation(invitationId);
+
+  // Loading state while fetching from PostgreSQL
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-primary/20 border-t-primary animate-spin" />
+        <p className="text-xs font-medium text-on-surface-variant">Memuat data undangan dari database...</p>
+      </div>
+    );
+  }
 
   // Fallback if invitation not found
   if (!invitation) {
