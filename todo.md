@@ -143,3 +143,10 @@
 2. buatkan halaman terms and condition
 3. buatkan halaman about us
 4. buatkan halaman contact
+5. buatkan halaman help center
+6. buatkan halaman faq
+7. buatkan halaman blog
+8. buatkan halaman paket
+--
+9. buatkan modul SEO di admin untuk manage SEO
+10. 
